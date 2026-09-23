@@ -64,10 +64,6 @@ async function main() {
     throw new Error("Unexpected EIA response.");
   }
 
-  /*
-   * EIA currently exposes the release date directly inside a table cell:
-   * <td ...>Release Date: 9/23/2026</td>
-   */
   const releaseMatch = html.match(
     /Release Date:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i
   );
@@ -77,20 +73,11 @@ async function main() {
     : null;
 
   if (!releaseDate) {
-    throw new Error("EIA release date could not be parsed safely.");
+    throw new Error(
+      "EIA release date could not be parsed safely."
+    );
   }
 
-  /*
-   * Extract table cells in document order.
-   *
-   * The observed EIA structure is:
-   *   2025-Jan
-   *   01/03
-   *   414,642
-   *   01/10
-   *   412,680
-   *   ...
-   */
   const cells = [
     ...html.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)
   ].map((match) => cleanCell(match[1]));
@@ -120,10 +107,6 @@ async function main() {
 
     const [, month, day] = dayMatch;
 
-    /*
-     * Require the MM/DD cell to agree with the active month header.
-     * This prevents accidentally pairing unrelated table cells.
-     */
     if (month !== currentMonth) {
       continue;
     }
@@ -154,11 +137,6 @@ async function main() {
 
   const latest = observations[observations.length - 1];
 
-  /*
-   * Do not invent an intraday AvailableAt timestamp.
-   * We record the official release date as provenance, while promotion
-   * remains disabled until the exact availability rule is established.
-   */
   const output = {
     schemaVersion: "1.0",
     sourceId: SOURCE_ID,
