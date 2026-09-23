@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "availableAtPolicy": "Use only observations that were publicly available at or before the execution timestamp. Never backfill a value as if it had been known earlier.",
+  "sources": [
+    {
+      "id": "eia_wpsr",
+      "name": "EIA Weekly Petroleum Status Report",
+      "domain": "physical_buffer",
+      "status": "ACTIVE",
+      "frequency": "weekly",
+      "availableAtRequired": true
+    },
+    {
+      "id": "eia_petroleum",
+      "name": "EIA Petroleum Data",
+      "domain": "market_physical",
+      "status": "ACTIVE",
+      "availableAtRequired": true
+    },
+    {
+      "id": "cftc_cot",
+      "name": "CFTC Commitments of Traders",
+      "domain": "positioning",
+      "status": "ACTIVE",
+      "frequency": "weekly",
+      "availableAtRequired": true
+    },
+    {
+      "id": "physical_events",
+      "name": "Hormuz Physical and Event Layer",
+      "domain": "physical",
+      "status": "MANUAL_VALIDATION",
+      "availableAtRequired": true
+    }
+  ]
+}
