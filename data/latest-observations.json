@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAt": null,
+  "executionTimestamp": null,
+  "observations": [],
+  "notes": [
+    "Only observations publicly available at or before executionTimestamp may be stored here.",
+    "Never backfill a value as if it had been known earlier.",
+    "If a source has no new usable observation, retain the last available observation with its original date."
+  ]
+}
