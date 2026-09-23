@@ -64,6 +64,12 @@ async function main() {
     throw new Error("Unexpected EIA response.");
   }
 
+  /*
+   * The EIA page exposes the official release date directly
+   * inside a table cell, for example:
+   *
+   * Release Date: 9/23/2026
+   */
   const releaseMatch = html.match(
     /Release Date:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i
   );
@@ -78,17 +84,36 @@ async function main() {
     );
   }
 
+  /*
+   * Extract all TD cells in document order.
+   *
+   * The EIA structure observed in the GitHub Actions response is:
+   *
+   * 2025-Jan
+   * 01/03
+   * 414,642
+   * 01/10
+   * 412,680
+   * ...
+   */
   const cells = [
     ...html.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)
   ].map((match) => cleanCell(match[1]));
 
   let currentYear = null;
   let currentMonth = null;
+
   const observations = [];
 
   for (let i = 0; i < cells.length; i++) {
     const cell = cells[i];
 
+    /*
+     * Detect month headers such as:
+     * 2024-Nov
+     * 2025-Jan
+     * 2026-Sep
+     */
     const monthHeader = cell.match(
       /^(\d{4})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/
     );
@@ -99,6 +124,12 @@ async function main() {
       continue;
     }
 
+    /*
+     * Detect observation dates such as:
+     * 09/04
+     * 09/11
+     * 09/18
+     */
     const dayMatch = cell.match(/^(\d{2})\/(\d{2})$/);
 
     if (!dayMatch || !currentYear || !currentMonth) {
@@ -107,24 +138,34 @@ async function main() {
 
     const [, month, day] = dayMatch;
 
+    /*
+     * Safety check:
+     * the MM/DD cell must agree with the active month header.
+     */
     if (month !== currentMonth) {
       continue;
     }
 
+    /*
+     * In the EIA table the next cell contains the value.
+     */
     const valueCell = cells[i + 1] ?? "";
 
     if (!/^\d{1,3}(?:,\d{3})*$/.test(valueCell)) {
       continue;
     }
 
-    const value = Number(valueCell.replace(/,/g, ""));
+    const value = Number(
+      valueCell.replace(/,/g, "")
+    );
 
     if (!Number.isFinite(value)) {
       continue;
     }
 
     observations.push({
-      observationDate: `${currentYear}-${month}-${day}`,
+      observationDate:
+        `${currentYear}-${month}-${day}`,
       value
     });
   }
@@ -135,23 +176,60 @@ async function main() {
     );
   }
 
-  const latest = observations[observations.length - 1];
+  /*
+   * Because the page is chronological, the final valid
+   * observation is the latest observation available
+   * in the returned EIA document.
+   */
+  const latest =
+    observations[observations.length - 1];
 
+  /*
+   * IMPORTANT ANTI-LEAKAGE RULE
+   *
+   * We have an official release DATE, but we deliberately
+   * do not invent an intraday AvailableAt timestamp.
+   *
+   * Therefore the observation is parsed and recorded in the
+   * intermediate EIA artifact, but it is NOT yet promoted into
+   * latest-observations.json.
+   */
   const output = {
     schemaVersion: "1.0",
+
     sourceId: SOURCE_ID,
     seriesId: SERIES_ID,
+
     executionTimestamp,
-    observationDate: latest.observationDate,
-    value: latest.value,
-    unit: "thousand_barrels",
+
+    observationDate:
+      latest.observationDate,
+
+    value:
+      latest.value,
+
+    unit:
+      "thousand_barrels",
+
     releaseDate,
+
     availableAt: null,
-    availableAtRule: "ENABLED",
-    sourceUrl: EIA_URL,
-    fetchStatus: "SUCCESS",
-    responseValidated: true,
-    observationPromoted: false,
+
+    availableAtRule:
+      "ENABLED",
+
+    sourceUrl:
+      EIA_URL,
+
+    fetchStatus:
+      "SUCCESS",
+
+    responseValidated:
+      true,
+
+    observationPromoted:
+      false,
+
     note:
       "Observation parsed from official EIA source. Promotion remains disabled until an exact defensible AvailableAt timestamp is established."
   };
@@ -162,21 +240,57 @@ async function main() {
     "utf8"
   );
 
-  console.log("EIA WPSR fetch + parse");
-  console.log("----------------------");
-  console.log(`Source: ${SOURCE_ID}`);
-  console.log(`Series: ${SERIES_ID}`);
-  console.log(`Parsed observations: ${observations.length}`);
-  console.log(`Observation date: ${latest.observationDate}`);
-  console.log(`Value: ${latest.value} thousand barrels`);
-  console.log(`Release date: ${releaseDate}`);
-  console.log(`Execution timestamp: ${executionTimestamp}`);
-  console.log("Observation promoted: NO");
-  console.log("AvailableAt protection: ENABLED");
+  console.log(
+    "EIA WPSR fetch + parse"
+  );
+
+  console.log(
+    "----------------------"
+  );
+
+  console.log(
+    `Source: ${SOURCE_ID}`
+  );
+
+  console.log(
+    `Series: ${SERIES_ID}`
+  );
+
+  console.log(
+    `Parsed observations: ${observations.length}`
+  );
+
+  console.log(
+    `Observation date: ${latest.observationDate}`
+  );
+
+  console.log(
+    `Value: ${latest.value} thousand barrels`
+  );
+
+  console.log(
+    `Release date: ${releaseDate}`
+  );
+
+  console.log(
+    `Execution timestamp: ${executionTimestamp}`
+  );
+
+  console.log(
+    "Observation promoted: NO"
+  );
+
+  console.log(
+    "AvailableAt protection: ENABLED"
+  );
 }
 
 main().catch((error) => {
-  console.error("EIA WPSR fetch failed:");
+  console.error(
+    "EIA WPSR fetch failed:"
+  );
+
   console.error(error);
+
   process.exit(1);
 });
