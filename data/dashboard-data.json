@@ -1,0 +1,222 @@
+{
+  "meta": {
+    "version": "Dashboard v0.3",
+    "registry": "Master Feature Registry v1.0",
+    "hsi": "HSI v0.1.1",
+    "dataMode": "structured local data layer"
+  },
+  "hesi": {
+    "asOf": "2026-09-11",
+    "effective": 95.179468,
+    "physical": 100.0,
+    "market": 86.227052,
+    "physicalNote": "Relative maximum in coded sample, not 100% closure",
+    "marketNote": "Momentum · volatility · CFTC WTI proxy"
+  },
+  "hsi": {
+    "neutralReference": 50,
+    "variables": [
+      {
+        "name": "Hormuz disruption",
+        "block": "Physical",
+        "baseline": 50,
+        "weight": 0.22,
+        "sign": 1,
+        "status": "PROXY",
+        "methodClass": "Economic / Scenario",
+        "note": "Normalized disruption stress"
+      },
+      {
+        "name": "Bab el-Mandeb disruption",
+        "block": "Physical",
+        "baseline": 30,
+        "weight": 0.1,
+        "sign": 1,
+        "status": "PROXY",
+        "methodClass": "Economic / Scenario",
+        "note": "Second chokepoint stress"
+      },
+      {
+        "name": "Protected transit",
+        "block": "Physical buffer",
+        "baseline": 50,
+        "weight": 0.06,
+        "sign": -1,
+        "status": "PENDING",
+        "methodClass": "Economic / Scenario",
+        "note": "Escort/protected effective transit"
+      },
+      {
+        "name": "Commercial inventory buffer",
+        "block": "Inventory",
+        "baseline": 50,
+        "weight": 0.1,
+        "sign": -1,
+        "status": "PARTIAL",
+        "methodClass": "Economic / Scenario",
+        "note": "Economic buffer; historical predictive gain not stable"
+      },
+      {
+        "name": "SPR / policy response",
+        "block": "Policy",
+        "baseline": 50,
+        "weight": 0.08,
+        "sign": -1,
+        "status": "PARTIAL",
+        "methodClass": "Economic / Scenario",
+        "note": "Strategic policy buffer"
+      },
+      {
+        "name": "Alternative supply",
+        "block": "Supply buffer",
+        "baseline": 50,
+        "weight": 0.08,
+        "sign": -1,
+        "status": "PENDING",
+        "methodClass": "Economic / Scenario",
+        "note": "Substitute production capacity"
+      },
+      {
+        "name": "Alternative routes",
+        "block": "Route buffer",
+        "baseline": 50,
+        "weight": 0.07,
+        "sign": -1,
+        "status": "PARTIAL",
+        "methodClass": "Economic / Scenario",
+        "note": "Capacity anchors verified; actual throughput incomplete"
+      },
+      {
+        "name": "Saudi bypass effectiveness",
+        "block": "Route buffer",
+        "baseline": 50,
+        "weight": 0.07,
+        "sign": -1,
+        "status": "PARTIAL",
+        "methodClass": "Economic / Scenario",
+        "note": "East-West capacity backed; historical throughput incomplete"
+      },
+      {
+        "name": "Asian exposure",
+        "block": "Exposure",
+        "baseline": 50,
+        "weight": 0.08,
+        "sign": 1,
+        "status": "PROXY",
+        "methodClass": "Economic / Scenario",
+        "note": "True Hormuz HEI/HCI pending"
+      },
+      {
+        "name": "Demand adjustment",
+        "block": "Demand buffer",
+        "baseline": 50,
+        "weight": 0.05,
+        "sign": -1,
+        "status": "PENDING",
+        "methodClass": "Economic / Scenario",
+        "note": "Demand/adaptation response"
+      },
+      {
+        "name": "Regional price stress",
+        "block": "Market",
+        "baseline": 50,
+        "weight": 0.05,
+        "sign": 1,
+        "status": "PROXY",
+        "methodClass": "Economic / Scenario",
+        "note": "Diagnostic; no robust incremental OOS RMSE gain"
+      },
+      {
+        "name": "Financial market stress",
+        "block": "Market",
+        "baseline": 50,
+        "weight": 0.04,
+        "sign": 1,
+        "status": "PROXY",
+        "methodClass": "Economic / Scenario",
+        "note": "Momentum/volatility/positioning"
+      }
+    ]
+  },
+  "experiments": [
+    {
+      "horizon": "+3d",
+      "marketRF": "8.95%",
+      "marketEventRF": "8.76%",
+      "scope": "2026 daily pilot",
+      "artifact": "v0.8"
+    },
+    {
+      "horizon": "+1w",
+      "marketRF": "13.27%",
+      "marketEventRF": "13.34%",
+      "scope": "2026 daily pilot",
+      "artifact": "v0.8"
+    },
+    {
+      "horizon": "+4w",
+      "marketRF": "37.32%",
+      "marketEventRF": "36.18%",
+      "scope": "2026 daily pilot",
+      "artifact": "v0.8"
+    }
+  ],
+  "registry": [
+    {
+      "feature": "Return / momentum / volatility",
+      "domain": "Market",
+      "class": "Predictive Core",
+      "status": "ACTIVE",
+      "evidence": "Retained in forecasting information set"
+    },
+    {
+      "feature": "Hormuz / Bab physical stress",
+      "domain": "Physical",
+      "class": "Economic / Scenario",
+      "status": "PROXY",
+      "evidence": "Mechanism + HESI; historical ablation pending"
+    },
+    {
+      "feature": "Commercial inventory / SPR",
+      "domain": "Buffers",
+      "class": "Economic / Scenario",
+      "status": "PARTIAL",
+      "evidence": "2026 gains did not persist in long weekly robustness"
+    },
+    {
+      "feature": "Asian exposure",
+      "domain": "Exposure",
+      "class": "Economic / Scenario",
+      "status": "PROXY",
+      "evidence": "HEI/HCI still pending"
+    },
+    {
+      "feature": "Alternative routes / Saudi bypass",
+      "domain": "Routes",
+      "class": "Economic / Scenario",
+      "status": "PARTIAL",
+      "evidence": "Capacity verified; actual throughput incomplete"
+    },
+    {
+      "feature": "Regional Price Stress",
+      "domain": "Regional prices",
+      "class": "Economic / Scenario",
+      "status": "PROXY",
+      "evidence": "No robust incremental RMSE gain in v0.8.8"
+    },
+    {
+      "feature": "TOCI",
+      "domain": "Communications",
+      "class": "Excluded / Robustness",
+      "status": "PARTIAL",
+      "evidence": "Worsened OOS in simple and conditional tests"
+    },
+    {
+      "feature": "Polymarket",
+      "domain": "External benchmark",
+      "class": "Excluded / Robustness",
+      "status": "ACTIVE",
+      "evidence": "Benchmark only; never an HESI/HSI input"
+    }
+  ]
+}
