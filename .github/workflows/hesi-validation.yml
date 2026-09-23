@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "24"
+      - name: Fetch EIA WPSR
+        run: node scripts/fetch-eia-wpsr.mjs
 
       - name: Refresh observations
         run: node scripts/refresh-observations.mjs
