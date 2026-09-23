@@ -2,6 +2,10 @@ import { readFile } from "node:fs/promises";
 
 const DATA_FILE = new URL("../data/dashboard-data.json", import.meta.url);
 const SOURCES_FILE = new URL("../data/sources.json", import.meta.url);
+const OBSERVATIONS_FILE = new URL(
+  "../data/latest-observations.json",
+  import.meta.url
+);
 
 async function readJson(file, label) {
   const raw = await readFile(file, "utf8");
@@ -16,6 +20,10 @@ async function readJson(file, label) {
 async function main() {
   const data = await readJson(DATA_FILE, "dashboard-data.json");
   const sourceRegistry = await readJson(SOURCES_FILE, "sources.json");
+  const latestObservations = await readJson(
+    OBSERVATIONS_FILE,
+    "latest-observations.json"
+  );
 
   // Validate HESI dashboard data
   if (!data.hesi) {
@@ -70,6 +78,48 @@ async function main() {
     }
   }
 
+  // Validate latest observations
+  if (!Array.isArray(latestObservations.observations)) {
+    throw new Error(
+      "Missing observations array in latest-observations.json"
+    );
+  }
+
+  if (
+    latestObservations.executionTimestamp !== null &&
+    typeof latestObservations.executionTimestamp !== "string"
+  ) {
+    throw new Error("Invalid executionTimestamp");
+  }
+
+  for (const observation of latestObservations.observations) {
+    if (!observation.sourceId) {
+      throw new Error("Observation missing sourceId");
+    }
+
+    if (!ids.has(observation.sourceId)) {
+      throw new Error(
+        `Observation uses unknown source: ${observation.sourceId}`
+      );
+    }
+
+    if (!observation.observationDate || !observation.availableAt) {
+      throw new Error(
+        `Observation missing date metadata: ${observation.sourceId}`
+      );
+    }
+
+    if (
+      latestObservations.executionTimestamp &&
+      new Date(observation.availableAt) >
+        new Date(latestObservations.executionTimestamp)
+    ) {
+      throw new Error(
+        `AvailableAt violation for source: ${observation.sourceId}`
+      );
+    }
+  }
+
   console.log("HESI pipeline validation");
   console.log("------------------------");
   console.log(`Available checkpoint: ${data.hesi.asOf}`);
@@ -77,6 +127,9 @@ async function main() {
   console.log(`Physical Stress: ${data.hesi.physical}`);
   console.log(`Market Stress: ${data.hesi.market}`);
   console.log(`Registered sources: ${sourceRegistry.sources.length}`);
+  console.log(
+    `Validated observations: ${latestObservations.observations.length}`
+  );
   console.log("AvailableAt protection: ENABLED");
   console.log("");
   console.log("Validation passed.");
