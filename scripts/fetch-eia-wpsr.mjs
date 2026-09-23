@@ -11,6 +11,28 @@ const SERIES_ID = "WCESTUS1";
 const EIA_URL =
   "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=W&n=PET&s=WCESTUS1";
 
+const MONTHS = {
+  Jan: "01",
+  Feb: "02",
+  Mar: "03",
+  Apr: "04",
+  May: "05",
+  Jun: "06",
+  Jul: "07",
+  Aug: "08",
+  Sep: "09",
+  Oct: "10",
+  Nov: "11",
+  Dec: "12"
+};
+
+function cleanCell(text) {
+  return text
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/gi, "")
+    .trim();
+}
+
 function parseUsDate(text) {
   const match = text.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
 
@@ -37,63 +59,113 @@ async function main() {
   }
 
   const html = await response.text();
-console.log("EIA HTML diagnostic");
-console.log(html.slice(-12000));
+
   if (!html.includes("Weekly U.S. Ending Stocks")) {
     throw new Error("Unexpected EIA response.");
   }
 
+  /*
+   * EIA currently exposes the release date directly inside a table cell:
+   * <td ...>Release Date: 9/23/2026</td>
+   */
   const releaseMatch = html.match(
-    /Release Date:\s*<\/[^>]+>\s*([^<]+)/i
+    /Release Date:\s*(\d{1,2}\/\d{1,2}\/\d{4})/i
   );
 
   const releaseDate = releaseMatch
     ? parseUsDate(releaseMatch[1])
     : null;
 
-  const rowMatches = [
-    ...html.matchAll(
-      /(\d{2}\/\d{2}\/\d{2})[\s\S]{0,500}?([\d,]+)\s*<\/td>/gi
-    )
-  ];
+  if (!releaseDate) {
+    throw new Error("EIA release date could not be parsed safely.");
+  }
 
-  if (rowMatches.length === 0) {
+  /*
+   * Extract table cells in document order.
+   *
+   * The observed EIA structure is:
+   *   2025-Jan
+   *   01/03
+   *   414,642
+   *   01/10
+   *   412,680
+   *   ...
+   */
+  const cells = [
+    ...html.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)
+  ].map((match) => cleanCell(match[1]));
+
+  let currentYear = null;
+  let currentMonth = null;
+  const observations = [];
+
+  for (let i = 0; i < cells.length; i++) {
+    const cell = cells[i];
+
+    const monthHeader = cell.match(
+      /^(\d{4})-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/
+    );
+
+    if (monthHeader) {
+      currentYear = monthHeader[1];
+      currentMonth = MONTHS[monthHeader[2]];
+      continue;
+    }
+
+    const dayMatch = cell.match(/^(\d{2})\/(\d{2})$/);
+
+    if (!dayMatch || !currentYear || !currentMonth) {
+      continue;
+    }
+
+    const [, month, day] = dayMatch;
+
+    /*
+     * Require the MM/DD cell to agree with the active month header.
+     * This prevents accidentally pairing unrelated table cells.
+     */
+    if (month !== currentMonth) {
+      continue;
+    }
+
+    const valueCell = cells[i + 1] ?? "";
+
+    if (!/^\d{1,3}(?:,\d{3})*$/.test(valueCell)) {
+      continue;
+    }
+
+    const value = Number(valueCell.replace(/,/g, ""));
+
+    if (!Number.isFinite(value)) {
+      continue;
+    }
+
+    observations.push({
+      observationDate: `${currentYear}-${month}-${day}`,
+      value
+    });
+  }
+
+  if (observations.length === 0) {
     throw new Error(
       "No EIA weekly observations could be parsed safely."
     );
   }
 
-  const latest = rowMatches[rowMatches.length - 1];
-
-  const shortDate = latest[1];
-  const valueText = latest[2].replace(/,/g, "");
-
-  const [month, day, shortYear] = shortDate.split("/");
-  const observationDate =
-    `20${shortYear}-${month}-${day}`;
-
-  const value = Number(valueText);
-
-  if (!Number.isFinite(value)) {
-    throw new Error("Parsed EIA value is not numeric.");
-  }
+  const latest = observations[observations.length - 1];
 
   /*
-   * IMPORTANT:
-   * releaseDate is recorded as provenance, but we deliberately
-   * do not invent an intraday release timestamp.
-   *
-   * Promotion into latest-observations.json remains disabled
-   * until AvailableAt can be represented without ambiguity.
+   * Do not invent an intraday AvailableAt timestamp.
+   * We record the official release date as provenance, while promotion
+   * remains disabled until the exact availability rule is established.
    */
-
   const output = {
     schemaVersion: "1.0",
     sourceId: SOURCE_ID,
     seriesId: SERIES_ID,
     executionTimestamp,
-    observationDate,
-    value,
+    observationDate: latest.observationDate,
+    value: latest.value,
     unit: "thousand_barrels",
     releaseDate,
     availableAt: null,
@@ -116,9 +188,10 @@ console.log(html.slice(-12000));
   console.log("----------------------");
   console.log(`Source: ${SOURCE_ID}`);
   console.log(`Series: ${SERIES_ID}`);
-  console.log(`Observation date: ${observationDate}`);
-  console.log(`Value: ${value} thousand barrels`);
-  console.log(`Release date: ${releaseDate ?? "NOT PARSED"}`);
+  console.log(`Parsed observations: ${observations.length}`);
+  console.log(`Observation date: ${latest.observationDate}`);
+  console.log(`Value: ${latest.value} thousand barrels`);
+  console.log(`Release date: ${releaseDate}`);
   console.log(`Execution timestamp: ${executionTimestamp}`);
   console.log("Observation promoted: NO");
   console.log("AvailableAt protection: ENABLED");
