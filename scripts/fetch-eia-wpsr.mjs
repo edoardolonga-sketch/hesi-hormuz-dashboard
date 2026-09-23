@@ -11,6 +11,16 @@ const SERIES_ID = "WCESTUS1";
 const EIA_URL =
   "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=W&n=PET&s=WCESTUS1";
 
+function parseUsDate(text) {
+  const match = text.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+
+  if (!match) return null;
+
+  const [, month, day, year] = match;
+
+  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+}
+
 async function main() {
   const executionTimestamp = new Date().toISOString();
 
@@ -28,32 +38,71 @@ async function main() {
 
   const html = await response.text();
 
-  /*
-   * This first adapter deliberately stores the official EIA response
-   * metadata without guessing or backfilling an observation.
-   *
-   * Parsing and promotion into latest-observations.json will be added
-   * only after the returned EIA document has been validated.
-   */
-
   if (!html.includes("Weekly U.S. Ending Stocks")) {
+    throw new Error("Unexpected EIA response.");
+  }
+
+  const releaseMatch = html.match(
+    /Release Date:\s*<\/[^>]+>\s*([^<]+)/i
+  );
+
+  const releaseDate = releaseMatch
+    ? parseUsDate(releaseMatch[1])
+    : null;
+
+  const rowMatches = [
+    ...html.matchAll(
+      /(\d{2}\/\d{2}\/\d{2})[\s\S]{0,500}?([\d,]+)\s*<\/td>/gi
+    )
+  ];
+
+  if (rowMatches.length === 0) {
     throw new Error(
-      "Unexpected EIA response. Expected weekly crude-oil stocks page."
+      "No EIA weekly observations could be parsed safely."
     );
   }
+
+  const latest = rowMatches[rowMatches.length - 1];
+
+  const shortDate = latest[1];
+  const valueText = latest[2].replace(/,/g, "");
+
+  const [month, day, shortYear] = shortDate.split("/");
+  const observationDate =
+    `20${shortYear}-${month}-${day}`;
+
+  const value = Number(valueText);
+
+  if (!Number.isFinite(value)) {
+    throw new Error("Parsed EIA value is not numeric.");
+  }
+
+  /*
+   * IMPORTANT:
+   * releaseDate is recorded as provenance, but we deliberately
+   * do not invent an intraday release timestamp.
+   *
+   * Promotion into latest-observations.json remains disabled
+   * until AvailableAt can be represented without ambiguity.
+   */
 
   const output = {
     schemaVersion: "1.0",
     sourceId: SOURCE_ID,
     seriesId: SERIES_ID,
     executionTimestamp,
+    observationDate,
+    value,
+    unit: "thousand_barrels",
+    releaseDate,
+    availableAt: null,
     availableAtRule: "ENABLED",
     sourceUrl: EIA_URL,
     fetchStatus: "SUCCESS",
     responseValidated: true,
     observationPromoted: false,
     note:
-      "Official EIA source fetched successfully. No observation is promoted until parsing and AvailableAt validation are complete."
+      "Observation parsed from official EIA source. Promotion remains disabled until an exact defensible AvailableAt timestamp is established."
   };
 
   await writeFile(
@@ -62,12 +111,14 @@ async function main() {
     "utf8"
   );
 
-  console.log("EIA WPSR fetch");
-  console.log("--------------");
+  console.log("EIA WPSR fetch + parse");
+  console.log("----------------------");
   console.log(`Source: ${SOURCE_ID}`);
   console.log(`Series: ${SERIES_ID}`);
+  console.log(`Observation date: ${observationDate}`);
+  console.log(`Value: ${value} thousand barrels`);
+  console.log(`Release date: ${releaseDate ?? "NOT PARSED"}`);
   console.log(`Execution timestamp: ${executionTimestamp}`);
-  console.log("Official EIA response: VALIDATED");
   console.log("Observation promoted: NO");
   console.log("AvailableAt protection: ENABLED");
 }
