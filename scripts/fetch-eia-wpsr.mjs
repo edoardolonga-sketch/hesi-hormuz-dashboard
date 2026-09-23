@@ -37,7 +37,8 @@ async function main() {
   }
 
   const html = await response.text();
-
+console.log("EIA HTML diagnostic");
+console.log(html.slice(-12000));
   if (!html.includes("Weekly U.S. Ending Stocks")) {
     throw new Error("Unexpected EIA response.");
   }
