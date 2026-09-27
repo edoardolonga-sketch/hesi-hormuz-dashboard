@@ -18,6 +18,13 @@
       "availableAtRequired": true
     },
     {
+      "id": "brent_market",
+      "name": "Brent Crude Oil Market Data",
+      "domain": "market",
+      "status": "ACTIVE",
+      "frequency": "daily",
+      "availableAtRequired": true
+    },
       "id": "cftc_cot",
       "name": "CFTC Commitments of Traders",
       "domain": "positioning",
