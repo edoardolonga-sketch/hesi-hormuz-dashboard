@@ -1,8 +1,18 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": null,
-  "executionTimestamp": null,
-  "observations": [],
+  "updatedAt": "2026-09-27T13:26:52.692Z",
+  "executionTimestamp": "2026-09-27T13:26:52.692Z",
+  "observations": [
+    {
+      "sourceId": "eia_wpsr",
+      "seriesId": "WCESTUS1",
+      "observationDate": "2026-09-18",
+      "availableAt": "2026-09-27T13:26:48.200Z",
+      "value": 426398,
+      "unit": "thousand_barrels",
+      "releaseDate": "2026-09-23"
+    }
+  ],
   "notes": [
     "Only observations publicly available at or before executionTimestamp may be stored here.",
     "Never backfill a value as if it had been known earlier.",
