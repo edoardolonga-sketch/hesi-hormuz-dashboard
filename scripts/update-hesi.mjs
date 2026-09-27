@@ -25,6 +25,11 @@ const PHYSICAL_EVENTS_FILE = new URL(
   import.meta.url
 );
 
+const HISTORICAL_FILE = new URL(
+  "../data/historical-observations.json",
+  import.meta.url
+);
+
 async function readJson(file, label) {
   const raw = await readFile(file, "utf8");
 
@@ -70,6 +75,11 @@ async function main() {
   const physicalEvents = await readJson(
     PHYSICAL_EVENTS_FILE,
     "physical-events.json"
+  );
+
+  const historical = await readJson(
+    HISTORICAL_FILE,
+    "historical-observations.json"
   );
 
   /*
@@ -339,6 +349,115 @@ async function main() {
   }
 
   /*
+   * Validate leakage-safe historical store
+   */
+  if (
+    historical.schemaVersion !== "1.0"
+  ) {
+    throw new Error(
+      "Invalid historical-observations schemaVersion."
+    );
+  }
+
+  if (
+    historical.status !==
+    "HISTORICAL_STORE_INITIALIZED"
+  ) {
+    throw new Error(
+      "Unexpected historical-observations status."
+    );
+  }
+
+  if (!historical.availableAtPolicy) {
+    throw new Error(
+      "Missing historical AvailableAt policy."
+    );
+  }
+
+  if (!Array.isArray(historical.observations)) {
+    throw new Error(
+      "historical-observations.json must contain an observations array."
+    );
+  }
+
+  /*
+   * An empty historical store is valid.
+   *
+   * It means no historical observation has
+   * yet passed the leakage-safe admission
+   * rules. It must not be filled with
+   * reconstructed AvailableAt timestamps.
+   */
+  const historicalKeys = new Set();
+
+  for (const observation of historical.observations) {
+    if (
+      !observation.sourceId ||
+      !observation.seriesId ||
+      !observation.observationDate ||
+      !observation.availableAt ||
+      !isFiniteNumber(observation.value)
+    ) {
+      throw new Error(
+        "Incomplete historical observation."
+      );
+    }
+
+    if (!ids.has(observation.sourceId)) {
+      throw new Error(
+        `Historical observation uses unknown source: ${observation.sourceId}`
+      );
+    }
+
+    const observationDate =
+      new Date(
+        `${observation.observationDate}T00:00:00Z`
+      ).getTime();
+
+    const availableAt =
+      new Date(
+        observation.availableAt
+      ).getTime();
+
+    if (
+      !Number.isFinite(observationDate) ||
+      !Number.isFinite(availableAt)
+    ) {
+      throw new Error(
+        `Invalid historical date metadata: ${observation.sourceId}`
+      );
+    }
+
+    /*
+     * Historical information cannot be
+     * treated as available before the date
+     * associated with the observation.
+     */
+    if (availableAt < observationDate) {
+      throw new Error(
+        `Historical AvailableAt precedes observationDate: ${observation.sourceId}`
+      );
+    }
+
+    /*
+     * Prevent accidental duplicate records
+     * for the same source, series and date.
+     */
+    const historicalKey =
+      `${observation.sourceId}|` +
+      `${observation.seriesId}|` +
+      `${observation.observationDate}`;
+
+    if (historicalKeys.has(historicalKey)) {
+      throw new Error(
+        `Duplicate historical observation: ${historicalKey}`
+      );
+    }
+
+    historicalKeys.add(historicalKey);
+  }
+
+  /*
    * Validate physical event layer
    */
   if (
@@ -416,20 +535,12 @@ async function main() {
       );
     }
 
-    /*
-     * Information cannot be treated as
-     * available before the underlying event.
-     */
     if (eventAvailableTime < eventTime) {
       throw new Error(
         `Physical event AvailableAt precedes eventTime: ${event.id}`
       );
     }
 
-    /*
-     * If an observation checkpoint exists,
-     * reject future information relative to it.
-     */
     if (
       executionTime !== null &&
       eventAvailableTime > executionTime
@@ -654,6 +765,9 @@ async function main() {
     `Validated observations: ${latestObservations.observations.length}`
   );
   console.log(
+    `Leakage-safe historical observations: ${historical.observations.length}`
+  );
+  console.log(
     `Validated physical events: ${physicalEvents.events.length}`
   );
   console.log(
@@ -664,6 +778,9 @@ async function main() {
   );
   console.log(
     "CFTC validation: ENABLED"
+  );
+  console.log(
+    "Historical store validation: ENABLED"
   );
   console.log(
     "Physical event validation: ENABLED"
