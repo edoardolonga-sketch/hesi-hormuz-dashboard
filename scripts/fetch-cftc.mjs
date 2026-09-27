@@ -21,11 +21,22 @@ function cleanText(html) {
 }
 
 function parseNumber(value) {
-  return Number(value.replace(/,/g, ""));
+  const number = Number(
+    value.replace(/,/g, "").trim()
+  );
+
+  if (!Number.isFinite(number)) {
+    throw new Error(
+      `Invalid CFTC numeric value: ${value}`
+    );
+  }
+
+  return number;
 }
 
 async function main() {
-  const executionTimestamp = new Date().toISOString();
+  const executionTimestamp =
+    new Date().toISOString();
 
   const response = await fetch(CFTC_URL, {
     headers: {
@@ -42,18 +53,78 @@ async function main() {
   const html = await response.text();
   const text = cleanText(html);
 
-  const sectionMatch = text.match(
-    /WTI-PHYSICAL\s*-\s*NEW YORK MERCANTILE EXCHANGE[\s\S]*?CFTC Code #067651[\s\S]*?Positions\s*:\s*([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)/
+  /*
+   * Locate WTI-PHYSICAL using the unique CFTC market code.
+   * Then isolate only that market section.
+   */
+  const codeMarker = `CFTC Code #${MARKET_CODE}`;
+  const codeIndex = text.indexOf(codeMarker);
+
+  if (codeIndex === -1) {
+    throw new Error(
+      `CFTC market code ${MARKET_CODE} not found.`
+    );
+  }
+
+  const sectionStart = Math.max(
+    0,
+    text.lastIndexOf(
+      "WTI-PHYSICAL",
+      codeIndex
+    )
   );
 
-  if (!sectionMatch) {
+  const nextReportIndex = text.indexOf(
+    "Disaggregated Commitments of Traders",
+    codeIndex + codeMarker.length
+  );
+
+  const sectionEnd =
+    nextReportIndex === -1
+      ? text.length
+      : nextReportIndex;
+
+  const section = text.slice(
+    sectionStart,
+    sectionEnd
+  );
+
+  if (
+    !section.includes("WTI-PHYSICAL") ||
+    !section.includes(codeMarker)
+  ) {
     throw new Error(
-      "WTI Physical CFTC positions could not be parsed safely."
+      "WTI-PHYSICAL CFTC section could not be isolated safely."
+    );
+  }
+
+  /*
+   * CFTC column order:
+   *
+   * Producer Long
+   * Producer Short
+   * Swap Long
+   * Swap Short
+   * Swap Spreading
+   * Managed Money Long
+   * Managed Money Short
+   * Managed Money Spreading
+   * Other Long
+   * Other Short
+   * Other Spreading
+   */
+  const positionsMatch = section.match(
+    /Positions\s*:\s*([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)/
+  );
+
+  if (!positionsMatch) {
+    throw new Error(
+      "WTI-PHYSICAL position row could not be parsed safely."
     );
   }
 
   const reportDateMatch = text.match(
-    /Positions as of ([A-Za-z]+ \d{1,2}, \d{4})/
+    /Positions as of\s+([A-Za-z]+\s+\d{1,2},\s+\d{4})/i
   );
 
   if (!reportDateMatch) {
@@ -67,20 +138,22 @@ async function main() {
   );
 
   if (Number.isNaN(reportDate.getTime())) {
-    throw new Error("Invalid CFTC report date.");
+    throw new Error(
+      "Invalid CFTC report date."
+    );
   }
 
   const observationDate =
     reportDate.toISOString().slice(0, 10);
 
   const managedMoneyLong =
-    parseNumber(sectionMatch[6]);
+    parseNumber(positionsMatch[6]);
 
   const managedMoneyShort =
-    parseNumber(sectionMatch[7]);
+    parseNumber(positionsMatch[7]);
 
   const managedMoneySpreading =
-    parseNumber(sectionMatch[8]);
+    parseNumber(positionsMatch[8]);
 
   const managedMoneyNet =
     managedMoneyLong - managedMoneyShort;
@@ -89,7 +162,8 @@ async function main() {
     schemaVersion: "1.0",
 
     sourceId: SOURCE_ID,
-    seriesId: "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+    seriesId:
+      "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
 
     marketCode: MARKET_CODE,
 
@@ -97,7 +171,8 @@ async function main() {
 
     observationDate,
 
-    availableAt: executionTimestamp,
+    availableAt:
+      executionTimestamp,
 
     managedMoneyLong,
     managedMoneyShort,
@@ -105,7 +180,6 @@ async function main() {
     managedMoneyNet,
 
     unit: "contracts",
-
     frequency: "weekly",
 
     source:
@@ -114,7 +188,6 @@ async function main() {
     sourceUrl: CFTC_URL,
 
     fetchStatus: "SUCCESS",
-
     responseValidated: true,
 
     availableAtRule:
@@ -127,15 +200,26 @@ async function main() {
     "utf8"
   );
 
-  console.log("CFTC WTI positioning fetch");
-  console.log("--------------------------");
-  console.log(`Market code: ${MARKET_CODE}`);
-  console.log(`Observation date: ${observationDate}`);
+  console.log(
+    "CFTC WTI positioning fetch"
+  );
+  console.log(
+    "--------------------------"
+  );
+  console.log(
+    `Market code: ${MARKET_CODE}`
+  );
+  console.log(
+    `Observation date: ${observationDate}`
+  );
   console.log(
     `Managed Money Long: ${managedMoneyLong}`
   );
   console.log(
     `Managed Money Short: ${managedMoneyShort}`
+  );
+  console.log(
+    `Managed Money Spreading: ${managedMoneySpreading}`
   );
   console.log(
     `Managed Money Net: ${managedMoneyNet}`
