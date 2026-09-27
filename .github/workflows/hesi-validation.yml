@@ -28,10 +28,13 @@ jobs:
 
       - name: Fetch EIA WPSR
         run: node scripts/fetch-eia-wpsr.mjs
-      
+
       - name: Fetch Brent market data
         run: node scripts/fetch-brent.mjs
-      
+
+      - name: Fetch CFTC WTI positioning
+        run: node scripts/fetch-cftc.mjs
+
       - name: Refresh observations
         run: node scripts/refresh-observations.mjs
 
