@@ -213,7 +213,7 @@ async function main() {
 
     releaseDate,
 
-    availableAt: null,
+    availableAt: executionTimestamp,
 
     availableAtRule:
       "ENABLED",
