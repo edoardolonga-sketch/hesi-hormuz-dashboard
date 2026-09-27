@@ -20,6 +20,11 @@ const BRENT_FILE = new URL(
   import.meta.url
 );
 
+const CFTC_FILE = new URL(
+  "../data/cftc-latest.json",
+  import.meta.url
+);
+
 async function readJson(file, label) {
   const raw = await readFile(file, "utf8");
 
@@ -30,29 +35,48 @@ async function readJson(file, label) {
   }
 }
 
-function validateAvailableAt(observation, executionTimestamp) {
+function validateAvailableAt(
+  observation,
+  executionTimestamp
+) {
   if (!observation.availableAt) {
     throw new Error(
       `${observation.sourceId} observation has no AvailableAt timestamp.`
     );
   }
 
+  const availableAt =
+    new Date(observation.availableAt).getTime();
+
+  const executionTime =
+    new Date(executionTimestamp).getTime();
+
   if (
-    new Date(observation.availableAt).getTime() >
-    new Date(executionTimestamp).getTime()
+    !Number.isFinite(availableAt) ||
+    !Number.isFinite(executionTime)
   ) {
+    throw new Error(
+      `${observation.sourceId} has an invalid AvailableAt timestamp.`
+    );
+  }
+
+  if (availableAt > executionTime) {
     throw new Error(
       `${observation.sourceId} observation is not yet available.`
     );
   }
 }
 
-function preserveFirstAvailableAt(candidate, currentObservations) {
+function preserveFirstAvailableAt(
+  candidate,
+  currentObservations
+) {
   const previous = currentObservations.find(
     (observation) =>
       observation.sourceId === candidate.sourceId &&
       observation.seriesId === candidate.seriesId &&
-      observation.observationDate === candidate.observationDate &&
+      observation.observationDate ===
+        candidate.observationDate &&
       observation.value === candidate.value
   );
 
@@ -67,7 +91,8 @@ function preserveFirstAvailableAt(candidate, currentObservations) {
 }
 
 async function main() {
-  const executionTimestamp = new Date().toISOString();
+  const executionTimestamp =
+    new Date().toISOString();
 
   const sourceRegistry = await readJson(
     SOURCES_FILE,
@@ -89,51 +114,145 @@ async function main() {
     "brent-latest.json"
   );
 
+  const cftc = await readJson(
+    CFTC_FILE,
+    "cftc-latest.json"
+  );
+
   if (!Array.isArray(sourceRegistry.sources)) {
-    throw new Error("No source registry found.");
+    throw new Error(
+      "No source registry found."
+    );
   }
 
   if (!Array.isArray(current.observations)) {
-    throw new Error("Invalid observations array.");
+    throw new Error(
+      "Invalid observations array."
+    );
   }
 
-  validateAvailableAt(eiaWpsr, executionTimestamp);
-  validateAvailableAt(brent, executionTimestamp);
-
-  const eiaCandidate = preserveFirstAvailableAt(
-    {
-      sourceId: eiaWpsr.sourceId,
-      seriesId: eiaWpsr.seriesId,
-      observationDate: eiaWpsr.observationDate,
-      availableAt: eiaWpsr.availableAt,
-      value: eiaWpsr.value,
-      unit: eiaWpsr.unit,
-      releaseDate: eiaWpsr.releaseDate
-    },
-    current.observations
+  const registeredSourceIds = new Set(
+    sourceRegistry.sources.map(
+      (source) => source.id
+    )
   );
 
-  const brentCandidate = preserveFirstAvailableAt(
-    {
-      sourceId: brent.sourceId,
-      seriesId: brent.seriesId,
-      observationDate: brent.observationDate,
-      availableAt: brent.availableAt,
-      value: brent.value,
-      unit: brent.unit,
-      frequency: brent.frequency
-    },
-    current.observations
+  for (const sourceId of [
+    eiaWpsr.sourceId,
+    brent.sourceId,
+    cftc.sourceId
+  ]) {
+    if (!registeredSourceIds.has(sourceId)) {
+      throw new Error(
+        `Observation source is not registered: ${sourceId}`
+      );
+    }
+  }
+
+  validateAvailableAt(
+    eiaWpsr,
+    executionTimestamp
   );
+
+  validateAvailableAt(
+    brent,
+    executionTimestamp
+  );
+
+  validateAvailableAt(
+    cftc,
+    executionTimestamp
+  );
+
+  const eiaCandidate =
+    preserveFirstAvailableAt(
+      {
+        sourceId: eiaWpsr.sourceId,
+        seriesId: eiaWpsr.seriesId,
+        observationDate:
+          eiaWpsr.observationDate,
+        availableAt:
+          eiaWpsr.availableAt,
+        value:
+          eiaWpsr.value,
+        unit:
+          eiaWpsr.unit,
+        releaseDate:
+          eiaWpsr.releaseDate
+      },
+      current.observations
+    );
+
+  const brentCandidate =
+    preserveFirstAvailableAt(
+      {
+        sourceId: brent.sourceId,
+        seriesId: brent.seriesId,
+        observationDate:
+          brent.observationDate,
+        availableAt:
+          brent.availableAt,
+        value:
+          brent.value,
+        unit:
+          brent.unit,
+        frequency:
+          brent.frequency
+      },
+      current.observations
+    );
+
+  /*
+   * For CFTC, value = Managed Money Net.
+   * This lets the same preservation logic retain
+   * the original AvailableAt when the weekly
+   * observation has not changed.
+   */
+  const cftcCandidate =
+    preserveFirstAvailableAt(
+      {
+        sourceId: cftc.sourceId,
+        seriesId: cftc.seriesId,
+        marketCode:
+          cftc.marketCode,
+        observationDate:
+          cftc.observationDate,
+        availableAt:
+          cftc.availableAt,
+        value:
+          cftc.managedMoneyNet,
+        managedMoneyLong:
+          cftc.managedMoneyLong,
+        managedMoneyShort:
+          cftc.managedMoneyShort,
+        managedMoneySpreading:
+          cftc.managedMoneySpreading,
+        managedMoneyNet:
+          cftc.managedMoneyNet,
+        unit:
+          cftc.unit,
+        frequency:
+          cftc.frequency
+      },
+      current.observations
+    );
+
+  const managedSourceIds = new Set([
+    eiaCandidate.sourceId,
+    brentCandidate.sourceId,
+    cftcCandidate.sourceId
+  ]);
 
   const newObservations = [
     ...current.observations.filter(
       (observation) =>
-        observation.sourceId !== eiaCandidate.sourceId &&
-        observation.sourceId !== brentCandidate.sourceId
+        !managedSourceIds.has(
+          observation.sourceId
+        )
     ),
     eiaCandidate,
-    brentCandidate
+    brentCandidate,
+    cftcCandidate
   ];
 
   const observationsChanged =
@@ -141,20 +260,33 @@ async function main() {
     JSON.stringify(newObservations);
 
   if (!observationsChanged) {
-    console.log("HESI observation refresh");
-    console.log("------------------------");
-    console.log("No new usable observations.");
-    console.log("Existing observations retained unchanged.");
-    console.log("Original AvailableAt timestamps preserved.");
+    console.log(
+      "HESI observation refresh"
+    );
+    console.log(
+      "------------------------"
+    );
+    console.log(
+      "No new usable observations."
+    );
+    console.log(
+      "Existing observations retained unchanged."
+    );
+    console.log(
+      "Original AvailableAt timestamps preserved."
+    );
     return;
   }
 
   const output = {
     ...current,
-    updatedAt: executionTimestamp,
+    updatedAt:
+      executionTimestamp,
     executionTimestamp,
-    observations: newObservations,
-    notes: current.notes
+    observations:
+      newObservations,
+    notes:
+      current.notes
   };
 
   await writeFile(
@@ -163,22 +295,39 @@ async function main() {
     "utf8"
   );
 
-  console.log("HESI observation refresh");
-  console.log("------------------------");
-  console.log(`Execution timestamp: ${executionTimestamp}`);
+  console.log(
+    "HESI observation refresh"
+  );
+  console.log(
+    "------------------------"
+  );
+  console.log(
+    `Execution timestamp: ${executionTimestamp}`
+  );
   console.log(
     `Registered sources: ${sourceRegistry.sources.length}`
   );
   console.log(
     `Stored observations: ${output.observations.length}`
   );
-  console.log("AvailableAt rule: ENABLED");
-  console.log("Original AvailableAt preserved for unchanged data.");
-  console.log("No observations were invented or backfilled.");
+  console.log(
+    "AvailableAt rule: ENABLED"
+  );
+  console.log(
+    "Original AvailableAt preserved for unchanged data."
+  );
+  console.log(
+    "CFTC Managed Money positioning included."
+  );
+  console.log(
+    "No observations were invented or backfilled."
+  );
 }
 
 main().catch((error) => {
-  console.error("Observation refresh failed:");
+  console.error(
+    "Observation refresh failed:"
+  );
   console.error(error);
   process.exit(1);
 });
