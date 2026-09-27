@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-09-27T14:01:54.371Z",
-  "executionTimestamp": "2026-09-27T14:01:54.371Z",
+  "updatedAt": "2026-09-27T14:04:48.409Z",
+  "executionTimestamp": "2026-09-27T14:04:48.409Z",
   "observations": [
     {
       "sourceId": "eia_wpsr",
@@ -11,6 +11,15 @@
       "value": 426398,
       "unit": "thousand_barrels",
       "releaseDate": "2026-09-23"
+    },
+    {
+      "sourceId": "brent_market",
+      "seriesId": "DCOILBRENTEU",
+      "observationDate": "2026-09-22",
+      "availableAt": "2026-09-27T14:04:48.025Z",
+      "value": 114.89,
+      "unit": "usd_per_barrel",
+      "frequency": "daily"
     }
   ],
   "notes": [
