@@ -25,6 +25,7 @@
       "frequency": "daily",
       "availableAtRequired": true
     },
+    {
       "id": "cftc_cot",
       "name": "CFTC Commitments of Traders",
       "domain": "positioning",
