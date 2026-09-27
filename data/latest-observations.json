@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-09-27T13:33:49.116Z",
-  "executionTimestamp": "2026-09-27T13:33:49.116Z",
+  "updatedAt": "2026-09-27T14:01:54.371Z",
+  "executionTimestamp": "2026-09-27T14:01:54.371Z",
   "observations": [
     {
       "sourceId": "eia_wpsr",
       "seriesId": "WCESTUS1",
       "observationDate": "2026-09-18",
-      "availableAt": "2026-09-27T13:33:45.880Z",
+      "availableAt": "2026-09-27T14:01:42.458Z",
       "value": 426398,
       "unit": "thousand_barrels",
       "releaseDate": "2026-09-23"
