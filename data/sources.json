@@ -14,7 +14,7 @@
       "id": "eia_petroleum",
       "name": "EIA Petroleum Data",
       "domain": "market_physical",
-      "status": "ACTIVE",
+      "status": "PLANNED",
       "availableAtRequired": true
     },
     {
