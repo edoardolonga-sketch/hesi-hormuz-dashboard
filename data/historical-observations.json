@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0",
+  "status": "HISTORICAL_STORE_INITIALIZED",
+  "availableAtPolicy": "Historical observations may be used for calibration or backtesting only when their AvailableAt timestamp is known and is not later than the simulated execution timestamp. Never reconstruct historical knowledge using information that became available later.",
+  "observations": [],
+  "notes": [
+    "This file is the leakage-safe historical observation store for HESI calibration and backtesting.",
+    "observationDate represents the date associated with the measured value.",
+    "availableAt represents when that observation became usable by the HESI pipeline.",
+    "observationDate and availableAt must never be treated as interchangeable.",
+    "Historical observations must not be backfilled with artificial AvailableAt timestamps.",
+    "An empty observations array means that no leakage-safe historical dataset has yet been admitted.",
+    "This store must not modify the official dashboard HESI until historical calibration and out-of-sample validation are completed."
+  ]
+}
