@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "executionTimestamp": "2026-09-27T19:17:31.031Z",
+  "executionTimestamp": "2026-09-27T19:20:10.399Z",
   "asOf": "2026-09-22",
   "status": "EXPERIMENTAL_NOT_PROMOTED",
   "availableAtProtection": "ENABLED",
@@ -19,6 +19,10 @@
       "managedMoneySpreading": 276269,
       "managedMoneyNet": 101828,
       "unit": "contracts"
+    },
+    "physicalEvents": {
+      "status": "EXPERIMENTAL_MANUAL_VALIDATION",
+      "validatedEventCount": 0
     }
   },
   "components": {
@@ -26,6 +30,12 @@
     "cftcPositioningStress": 75.457
   },
   "marketStressExperimental": 68.0601,
+  "physicalStress": {
+    "status": "NOT_COMPUTABLE_NO_VALIDATED_EVENTS",
+    "validatedEventCount": 0,
+    "physicalStressExperimental": null
+  },
+  "hesiEffectiveExperimental": null,
   "weights": {
     "brent": 0.7,
     "cftc": 0.3
@@ -34,5 +44,5 @@
     "dashboardUpdated": false,
     "officialHesiUpdated": false
   },
-  "methodologyNote": "Experimental market-stress calculation. Scaling anchors and weights are provisional and have not yet been fitted or validated out-of-sample. Result must not replace the official dashboard HESI until historical leakage-safe calibration is completed."
+  "methodologyNote": "Experimental HESI computation. Market Stress uses provisional scaling anchors and weights that have not yet been historically calibrated out-of-sample. Physical Stress remains non-computable until validated physical events and a defensible scoring methodology are available. Missing physical events must never be interpreted as zero physical stress. No experimental result may replace the official dashboard HESI until leakage-safe historical validation is completed."
 }
