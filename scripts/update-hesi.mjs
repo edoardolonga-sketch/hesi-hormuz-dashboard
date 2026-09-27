@@ -20,6 +20,11 @@ const COMPUTED_FILE = new URL(
   import.meta.url
 );
 
+const PHYSICAL_EVENTS_FILE = new URL(
+  "../data/physical-events.json",
+  import.meta.url
+);
+
 async function readJson(file, label) {
   const raw = await readFile(file, "utf8");
 
@@ -60,6 +65,11 @@ async function main() {
   const computed = await readJson(
     COMPUTED_FILE,
     "hesi-computed.json"
+  );
+
+  const physicalEvents = await readJson(
+    PHYSICAL_EVENTS_FILE,
+    "physical-events.json"
   );
 
   /*
@@ -329,6 +339,108 @@ async function main() {
   }
 
   /*
+   * Validate physical event layer
+   */
+  if (
+    physicalEvents.schemaVersion !== "1.0"
+  ) {
+    throw new Error(
+      "Invalid physical-events schemaVersion."
+    );
+  }
+
+  if (
+    physicalEvents.status !==
+    "EXPERIMENTAL_MANUAL_VALIDATION"
+  ) {
+    throw new Error(
+      "Unexpected physical-events status."
+    );
+  }
+
+  if (!physicalEvents.availableAtPolicy) {
+    throw new Error(
+      "Missing physical-events AvailableAt policy."
+    );
+  }
+
+  if (!Array.isArray(physicalEvents.events)) {
+    throw new Error(
+      "physical-events.json must contain an events array."
+    );
+  }
+
+  /*
+   * Empty is valid.
+   *
+   * It means no validated physical event has
+   * been entered. It MUST NOT be interpreted
+   * as Physical Stress = 0.
+   */
+  for (const event of physicalEvents.events) {
+    if (
+      !event.id ||
+      !event.location ||
+      !event.eventType ||
+      !event.eventTime ||
+      !event.availableAt ||
+      !event.sourceName ||
+      !event.sourceUrl
+    ) {
+      throw new Error(
+        "Incomplete physical event."
+      );
+    }
+
+    if (
+      event.location !== "HORMUZ" &&
+      event.location !== "BAB_EL_MANDEB"
+    ) {
+      throw new Error(
+        `Unsupported physical event location: ${event.location}`
+      );
+    }
+
+    const eventTime =
+      new Date(event.eventTime).getTime();
+
+    const eventAvailableTime =
+      new Date(event.availableAt).getTime();
+
+    if (
+      !Number.isFinite(eventTime) ||
+      !Number.isFinite(eventAvailableTime)
+    ) {
+      throw new Error(
+        `Invalid physical event timestamp: ${event.id}`
+      );
+    }
+
+    /*
+     * Information cannot be treated as
+     * available before the underlying event.
+     */
+    if (eventAvailableTime < eventTime) {
+      throw new Error(
+        `Physical event AvailableAt precedes eventTime: ${event.id}`
+      );
+    }
+
+    /*
+     * If an observation checkpoint exists,
+     * reject future information relative to it.
+     */
+    if (
+      executionTime !== null &&
+      eventAvailableTime > executionTime
+    ) {
+      throw new Error(
+        `Physical event AvailableAt violation: ${event.id}`
+      );
+    }
+  }
+
+  /*
    * Validate experimental HESI computation
    */
   if (
@@ -431,8 +543,8 @@ async function main() {
   }
 
   /*
-   * Verify computed inputs match the accepted
-   * observations used by the pipeline.
+   * Verify computed inputs match accepted
+   * observations.
    */
   const brentObservation =
     latestObservations.observations.find(
@@ -542,6 +654,9 @@ async function main() {
     `Validated observations: ${latestObservations.observations.length}`
   );
   console.log(
+    `Validated physical events: ${physicalEvents.events.length}`
+  );
+  console.log(
     "EIA validation: ENABLED"
   );
   console.log(
@@ -549,6 +664,9 @@ async function main() {
   );
   console.log(
     "CFTC validation: ENABLED"
+  );
+  console.log(
+    "Physical event validation: ENABLED"
   );
   console.log(
     "Computed HESI validation: ENABLED"
