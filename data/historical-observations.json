@@ -2,7 +2,40 @@
   "schemaVersion": "1.0",
   "status": "HISTORICAL_STORE_INITIALIZED",
   "availableAtPolicy": "Historical observations may be used for calibration or backtesting only when their AvailableAt timestamp is known and is not later than the simulated execution timestamp. Never reconstruct historical knowledge using information that became available later.",
-  "observations": [],
+  "observations": [
+    {
+      "sourceId": "eia_wpsr",
+      "seriesId": "WCESTUS1",
+      "observationDate": "2026-09-18",
+      "availableAt": "2026-09-27T14:01:42.458Z",
+      "value": 426398,
+      "unit": "thousand_barrels",
+      "releaseDate": "2026-09-23"
+    },
+    {
+      "sourceId": "brent_market",
+      "seriesId": "DCOILBRENTEU",
+      "observationDate": "2026-09-22",
+      "availableAt": "2026-09-27T14:04:48.025Z",
+      "value": 114.89,
+      "unit": "usd_per_barrel",
+      "frequency": "daily"
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2026-09-22",
+      "availableAt": "2026-09-27T14:29:33.117Z",
+      "value": 101828,
+      "managedMoneyLong": 223190,
+      "managedMoneyShort": 121362,
+      "managedMoneySpreading": 276269,
+      "managedMoneyNet": 101828,
+      "unit": "contracts",
+      "frequency": "weekly"
+    }
+  ],
   "notes": [
     "This file is the leakage-safe historical observation store for HESI calibration and backtesting.",
     "observationDate represents the date associated with the measured value.",
