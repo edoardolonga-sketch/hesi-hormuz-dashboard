@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0",
+  "executionTimestamp": "2026-09-27T19:01:19.969Z",
+  "asOf": "2026-09-22",
+  "status": "EXPERIMENTAL_NOT_PROMOTED",
+  "availableAtProtection": "ENABLED",
+  "inputs": {
+    "brent": {
+      "observationDate": "2026-09-22",
+      "availableAt": "2026-09-27T14:04:48.025Z",
+      "value": 114.89,
+      "unit": "usd_per_barrel"
+    },
+    "cftc": {
+      "observationDate": "2026-09-22",
+      "availableAt": "2026-09-27T14:29:33.117Z",
+      "managedMoneyLong": 223190,
+      "managedMoneyShort": 121362,
+      "managedMoneySpreading": 276269,
+      "managedMoneyNet": 101828,
+      "unit": "contracts"
+    }
+  },
+  "components": {
+    "brentStress": 64.89,
+    "cftcPositioningStress": 75.457
+  },
+  "marketStressExperimental": 68.0601,
+  "weights": {
+    "brent": 0.7,
+    "cftc": 0.3
+  },
+  "promotion": {
+    "dashboardUpdated": false,
+    "officialHesiUpdated": false
+  },
+  "methodologyNote": "Experimental market-stress calculation. Scaling anchors and weights are provisional and have not yet been fitted or validated out-of-sample. Result must not replace the official dashboard HESI until historical leakage-safe calibration is completed."
+}
