@@ -2,6 +2,10 @@ name: HESI Validation
 
 on:
   workflow_dispatch:
+
+  schedule:
+    - cron: "15 6 * * *"
+
   push:
     branches:
       - main
