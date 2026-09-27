@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0",
+  "status": "EXPERIMENTAL_MANUAL_VALIDATION",
+  "availableAtPolicy": "An event may affect HESI only if it was publicly known at or before its AvailableAt timestamp. Never backfill an event as if it had been known earlier.",
+  "events": [],
+  "notes": [
+    "This file is the auditable physical-event layer for Hormuz and Bab el-Mandeb.",
+    "No event is added automatically unless its source, event time and AvailableAt can be defended.",
+    "An empty events array means no validated physical event has yet been entered; it does not mean physical stress is zero.",
+    "This experimental layer must not modify the official dashboard HESI until the physical methodology has been validated."
+  ]
+}
