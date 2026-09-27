@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-09-27T14:04:48.409Z",
-  "executionTimestamp": "2026-09-27T14:04:48.409Z",
+  "updatedAt": "2026-09-27T14:29:33.327Z",
+  "executionTimestamp": "2026-09-27T14:29:33.327Z",
   "observations": [
     {
       "sourceId": "eia_wpsr",
@@ -20,6 +20,20 @@
       "value": 114.89,
       "unit": "usd_per_barrel",
       "frequency": "daily"
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2026-09-22",
+      "availableAt": "2026-09-27T14:29:33.117Z",
+      "value": 101828,
+      "managedMoneyLong": 223190,
+      "managedMoneyShort": 121362,
+      "managedMoneySpreading": 276269,
+      "managedMoneyNet": 101828,
+      "unit": "contracts",
+      "frequency": "weekly"
     }
   ],
   "notes": [
