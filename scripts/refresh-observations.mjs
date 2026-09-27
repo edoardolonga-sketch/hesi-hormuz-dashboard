@@ -5,7 +5,10 @@ const OBSERVATIONS_FILE = new URL(
   "../data/latest-observations.json",
   import.meta.url
 );
-
+const EIA_WPSR_FILE = new URL(
+  "../data/eia-wpsr-latest.json",
+  import.meta.url
+);
 async function readJson(file, label) {
   const raw = await readFile(file, "utf8");
 
@@ -24,7 +27,10 @@ async function main() {
     OBSERVATIONS_FILE,
     "latest-observations.json"
   );
-
+const eiaWpsr = await readJson(
+  EIA_WPSR_FILE,
+  "eia-wpsr-latest.json"
+);
   if (!Array.isArray(sourceRegistry.sources)) {
     throw new Error("No source registry found.");
   }
@@ -32,7 +38,16 @@ async function main() {
   if (!Array.isArray(current.observations)) {
     throw new Error("Invalid observations array.");
   }
+if (!eiaWpsr.availableAt) {
+  throw new Error("EIA WPSR observation has no AvailableAt timestamp.");
+}
 
+if (
+  new Date(eiaWpsr.availableAt).getTime() >
+  new Date(executionTimestamp).getTime()
+) {
+  throw new Error("EIA WPSR observation is not yet available.");
+}
   /*
    * IMPORTANT
    * ---------
@@ -58,7 +73,20 @@ async function main() {
     ...current,
     updatedAt: executionTimestamp,
     executionTimestamp,
-    observations: current.observations,
+   observations: [
+  ...current.observations.filter(
+    (observation) => observation.sourceId !== eiaWpsr.sourceId
+  ),
+  {
+    sourceId: eiaWpsr.sourceId,
+    seriesId: eiaWpsr.seriesId,
+    observationDate: eiaWpsr.observationDate,
+    availableAt: eiaWpsr.availableAt,
+    value: eiaWpsr.value,
+    unit: eiaWpsr.unit,
+    releaseDate: eiaWpsr.releaseDate
+  }
+],
     notes: current.notes
   };
 
@@ -72,7 +100,7 @@ async function main() {
   console.log("------------------------");
   console.log(`Execution timestamp: ${executionTimestamp}`);
   console.log(`Registered sources: ${sourceRegistry.sources.length}`);
-  console.log(`Retained observations: ${current.observations.length}`);
+ console.log(`Stored observations: ${output.observations.length}`);
   console.log("AvailableAt rule: ENABLED");
   console.log("No observations were invented or backfilled.");
 }
