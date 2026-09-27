@@ -5,6 +5,11 @@ const OBSERVATIONS_FILE = new URL(
   import.meta.url
 );
 
+const PHYSICAL_EVENTS_FILE = new URL(
+  "../data/physical-events.json",
+  import.meta.url
+);
+
 const OUTPUT_FILE = new URL(
   "../data/hesi-computed.json",
   import.meta.url
@@ -64,9 +69,20 @@ async function main() {
     "latest-observations.json"
   );
 
+  const physicalEvents = await readJson(
+    PHYSICAL_EVENTS_FILE,
+    "physical-events.json"
+  );
+
   if (!Array.isArray(latest.observations)) {
     throw new Error(
       "Invalid observations array."
+    );
+  }
+
+  if (!Array.isArray(physicalEvents.events)) {
+    throw new Error(
+      "Invalid physical events array."
     );
   }
 
@@ -103,10 +119,10 @@ async function main() {
   }
 
   /*
-   * EXPERIMENTAL NORMALIZATION
+   * EXPERIMENTAL MARKET NORMALIZATION
    *
-   * These are transparent scaling anchors,
-   * not trained model parameters.
+   * Transparent provisional anchors.
+   * These are NOT trained model parameters.
    *
    * Brent:
    *   50 USD/bbl -> stress 0
@@ -115,10 +131,6 @@ async function main() {
    * CFTC Managed Money Net:
    *   -200,000 -> stress 0
    *   +200,000 -> stress 100
-   *
-   * These anchors are provisional and must
-   * later be replaced by historically fitted,
-   * leakage-safe transformations.
    */
 
   const brentStress = clamp(
@@ -132,13 +144,12 @@ async function main() {
   );
 
   /*
-   * Experimental Market Stress:
+   * Experimental Market Stress
    *
-   * 70% Brent level
+   * 70% Brent
    * 30% CFTC positioning
    *
-   * This is NOT promoted to the official
-   * dashboard HESI yet.
+   * NOT promoted to official HESI.
    */
 
   const marketStressExperimental =
@@ -147,9 +158,44 @@ async function main() {
       0.3 * cftcStress
     );
 
+  /*
+   * EXPERIMENTAL PHYSICAL LAYER
+   *
+   * IMPORTANT:
+   *
+   * No validated events DOES NOT mean
+   * Physical Stress = 0.
+   *
+   * Until validated physical events exist
+   * and a defensible scoring methodology
+   * has been established, Physical Stress
+   * remains explicitly non-computable.
+   */
+
+  const validatedPhysicalEventCount =
+    physicalEvents.events.length;
+
+  const physicalStressStatus =
+    validatedPhysicalEventCount === 0
+      ? "NOT_COMPUTABLE_NO_VALIDATED_EVENTS"
+      : "NOT_COMPUTABLE_SCORING_NOT_CALIBRATED";
+
+  const physicalStressExperimental = null;
+
+  /*
+   * Effective HESI cannot be calculated
+   * safely until both Market Stress and
+   * Physical Stress have validated,
+   * leakage-safe methodologies.
+   */
+
+  const hesiEffectiveExperimental = null;
+
   const asOf =
-    [brent.observationDate,
-     cftc.observationDate]
+    [
+      brent.observationDate,
+      cftc.observationDate
+    ]
       .sort()
       .at(-1);
 
@@ -193,6 +239,13 @@ async function main() {
           cftc.managedMoneyNet,
         unit:
           cftc.unit
+      },
+
+      physicalEvents: {
+        status:
+          physicalEvents.status,
+        validatedEventCount:
+          validatedPhysicalEventCount
       }
     },
 
@@ -209,6 +262,20 @@ async function main() {
         marketStressExperimental
       ),
 
+    physicalStress: {
+      status:
+        physicalStressStatus,
+
+      validatedEventCount:
+        validatedPhysicalEventCount,
+
+      physicalStressExperimental:
+        physicalStressExperimental
+    },
+
+    hesiEffectiveExperimental:
+      hesiEffectiveExperimental,
+
     weights: {
       brent: 0.7,
       cftc: 0.3
@@ -220,7 +287,7 @@ async function main() {
     },
 
     methodologyNote:
-      "Experimental market-stress calculation. Scaling anchors and weights are provisional and have not yet been fitted or validated out-of-sample. Result must not replace the official dashboard HESI until historical leakage-safe calibration is completed."
+      "Experimental HESI computation. Market Stress uses provisional scaling anchors and weights that have not yet been historically calibrated out-of-sample. Physical Stress remains non-computable until validated physical events and a defensible scoring methodology are available. Missing physical events must never be interpreted as zero physical stress. No experimental result may replace the official dashboard HESI until leakage-safe historical validation is completed."
   };
 
   await writeFile(
@@ -260,6 +327,22 @@ async function main() {
     `Experimental Market Stress: ${round(
       marketStressExperimental
     )}`
+  );
+
+  console.log(
+    `Validated physical events: ${validatedPhysicalEventCount}`
+  );
+
+  console.log(
+    `Physical Stress status: ${physicalStressStatus}`
+  );
+
+  console.log(
+    "Experimental Physical Stress: NOT COMPUTED"
+  );
+
+  console.log(
+    "Experimental HESI Effective: NOT COMPUTED"
   );
 
   console.log(
