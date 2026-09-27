@@ -10,8 +10,11 @@ on:
       - "scripts/**"
       - ".github/workflows/hesi-validation.yml"
 
+permissions:
+    contents: write 
+
 jobs:
-  validate:
+    validate:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +33,14 @@ jobs:
 
       - name: Validate HESI data
         run: node scripts/update-hesi.mjs
+      - name: Persist observations
+        run: |
+          if git diff --quiet -- data/latest-observations.json; then
+            echo "No observation changes to persist."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/latest-observations.json
+          git commit -m "Update latest observations"
+          git push
