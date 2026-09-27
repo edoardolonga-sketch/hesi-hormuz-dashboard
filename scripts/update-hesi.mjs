@@ -102,7 +102,17 @@ async function main() {
         `Observation uses unknown source: ${observation.sourceId}`
       );
     }
-
+if (
+  observation.sourceId === "eia_wpsr" &&
+  (
+    observation.seriesId !== "WCESTUS1" ||
+    typeof observation.value !== "number" ||
+    observation.unit !== "thousand_barrels" ||
+    !observation.releaseDate
+  )
+) {
+  throw new Error("Invalid EIA WPSR observation.");
+}
     if (!observation.observationDate || !observation.availableAt) {
       throw new Error(
         `Observation missing date metadata: ${observation.sourceId}`
