@@ -10,6 +10,11 @@ const OBSERVATIONS_FILE = new URL(
   import.meta.url
 );
 
+const HISTORICAL_FILE = new URL(
+  "../data/historical-observations.json",
+  import.meta.url
+);
+
 const EIA_WPSR_FILE = new URL(
   "../data/eia-wpsr-latest.json",
   import.meta.url
@@ -90,6 +95,52 @@ function preserveFirstAvailableAt(
   };
 }
 
+function historicalKey(observation) {
+  return (
+    `${observation.sourceId}|` +
+    `${observation.seriesId}|` +
+    `${observation.observationDate}`
+  );
+}
+
+function appendHistoricalObservations(
+  historicalObservations,
+  candidates
+) {
+  const existingKeys = new Set(
+    historicalObservations.map(
+      historicalKey
+    )
+  );
+
+  const output = [
+    ...historicalObservations
+  ];
+
+  let added = 0;
+
+  for (const candidate of candidates) {
+    const key =
+      historicalKey(candidate);
+
+    if (existingKeys.has(key)) {
+      continue;
+    }
+
+    output.push({
+      ...candidate
+    });
+
+    existingKeys.add(key);
+    added += 1;
+  }
+
+  return {
+    observations: output,
+    added
+  };
+}
+
 async function main() {
   const executionTimestamp =
     new Date().toISOString();
@@ -102,6 +153,11 @@ async function main() {
   const current = await readJson(
     OBSERVATIONS_FILE,
     "latest-observations.json"
+  );
+
+  const historical = await readJson(
+    HISTORICAL_FILE,
+    "historical-observations.json"
   );
 
   const eiaWpsr = await readJson(
@@ -128,6 +184,12 @@ async function main() {
   if (!Array.isArray(current.observations)) {
     throw new Error(
       "Invalid observations array."
+    );
+  }
+
+  if (!Array.isArray(historical.observations)) {
+    throw new Error(
+      "Invalid historical observations array."
     );
   }
 
@@ -204,9 +266,8 @@ async function main() {
 
   /*
    * For CFTC, value = Managed Money Net.
-   * This lets the same preservation logic retain
-   * the original AvailableAt when the weekly
-   * observation has not changed.
+   * This preserves the first AvailableAt
+   * when the weekly observation is unchanged.
    */
   const cftcCandidate =
     preserveFirstAvailableAt(
@@ -237,11 +298,29 @@ async function main() {
       current.observations
     );
 
-  const managedSourceIds = new Set([
-    eiaCandidate.sourceId,
-    brentCandidate.sourceId,
-    cftcCandidate.sourceId
-  ]);
+  const candidates = [
+    eiaCandidate,
+    brentCandidate,
+    cftcCandidate
+  ];
+
+  /*
+   * Revalidate the final candidates after
+   * first-observed AvailableAt preservation.
+   */
+  for (const candidate of candidates) {
+    validateAvailableAt(
+      candidate,
+      executionTimestamp
+    );
+  }
+
+  const managedSourceIds = new Set(
+    candidates.map(
+      (candidate) =>
+        candidate.sourceId
+    )
+  );
 
   const newObservations = [
     ...current.observations.filter(
@@ -250,50 +329,76 @@ async function main() {
           observation.sourceId
         )
     ),
-    eiaCandidate,
-    brentCandidate,
-    cftcCandidate
+    ...candidates
   ];
 
   const observationsChanged =
-    JSON.stringify(current.observations) !==
-    JSON.stringify(newObservations);
+    JSON.stringify(
+      current.observations
+    ) !==
+    JSON.stringify(
+      newObservations
+    );
 
-  if (!observationsChanged) {
-    console.log(
-      "HESI observation refresh"
+  /*
+   * Append only observations genuinely
+   * admitted by this pipeline.
+   *
+   * Existing source/series/date keys are
+   * never duplicated.
+   *
+   * We retain the original AvailableAt
+   * already preserved above.
+   */
+  const historicalResult =
+    appendHistoricalObservations(
+      historical.observations,
+      candidates
     );
-    console.log(
-      "------------------------"
+
+  const historicalChanged =
+    historicalResult.added > 0;
+
+  if (observationsChanged) {
+    const output = {
+      ...current,
+      updatedAt:
+        executionTimestamp,
+      executionTimestamp,
+      observations:
+        newObservations,
+      notes:
+        current.notes
+    };
+
+    await writeFile(
+      OBSERVATIONS_FILE,
+      `${JSON.stringify(
+        output,
+        null,
+        2
+      )}\n`,
+      "utf8"
     );
-    console.log(
-      "No new usable observations."
-    );
-    console.log(
-      "Existing observations retained unchanged."
-    );
-    console.log(
-      "Original AvailableAt timestamps preserved."
-    );
-    return;
   }
 
-  const output = {
-    ...current,
-    updatedAt:
-      executionTimestamp,
-    executionTimestamp,
-    observations:
-      newObservations,
-    notes:
-      current.notes
-  };
+  if (historicalChanged) {
+    const historicalOutput = {
+      ...historical,
+      observations:
+        historicalResult.observations
+    };
 
-  await writeFile(
-    OBSERVATIONS_FILE,
-    `${JSON.stringify(output, null, 2)}\n`,
-    "utf8"
-  );
+    await writeFile(
+      HISTORICAL_FILE,
+      `${JSON.stringify(
+        historicalOutput,
+        null,
+        2
+      )}\n`,
+      "utf8"
+    );
+  }
 
   console.log(
     "HESI observation refresh"
@@ -301,24 +406,51 @@ async function main() {
   console.log(
     "------------------------"
   );
+
   console.log(
     `Execution timestamp: ${executionTimestamp}`
   );
+
   console.log(
     `Registered sources: ${sourceRegistry.sources.length}`
   );
+
   console.log(
-    `Stored observations: ${output.observations.length}`
+    `Latest observations: ${newObservations.length}`
   );
+
+  console.log(
+    `Historical observations: ${historicalResult.observations.length}`
+  );
+
+  console.log(
+    `New historical observations added: ${historicalResult.added}`
+  );
+
+  if (!observationsChanged) {
+    console.log(
+      "No new latest observation changes."
+    );
+  }
+
+  if (!historicalChanged) {
+    console.log(
+      "No new historical observations to append."
+    );
+  }
+
+  console.log(
+    "Original AvailableAt timestamps preserved."
+  );
+
+  console.log(
+    "Historical duplicate protection: ENABLED"
+  );
+
   console.log(
     "AvailableAt rule: ENABLED"
   );
-  console.log(
-    "Original AvailableAt preserved for unchanged data."
-  );
-  console.log(
-    "CFTC Managed Money positioning included."
-  );
+
   console.log(
     "No observations were invented or backfilled."
   );
