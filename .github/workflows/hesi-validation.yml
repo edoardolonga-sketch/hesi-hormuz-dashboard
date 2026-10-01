@@ -45,6 +45,9 @@ jobs:
       - name: Import historical Brent to quarantine
         run: node scripts/import-historical-brent.mjs
 
+      - name: Validate historical admission
+        run: node scripts/validate-historical-admission.mjs
+
       - name: Build leakage-safe historical dataset
         run: node scripts/build-historical-dataset.mjs
 
@@ -59,7 +62,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/brent-historical-quarantine.json data/hesi-computed.json
+          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/brent-historical-quarantine.json data/historical-admission-report.json data/hesi-computed.json
 
           if git diff --cached --quiet; then
             echo "No pipeline output changes to persist."
