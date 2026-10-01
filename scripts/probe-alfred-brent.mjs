@@ -1,11 +1,49 @@
 const SERIES_ID = "DCOILBRENTEU";
 
+const RAW_API_KEY =
+  process.env.FRED_API_KEY ?? "";
+
 const API_KEY =
-  process.env.FRED_API_KEY;
+  RAW_API_KEY.trim();
+
+console.log(
+  "FRED_API_KEY diagnostic"
+);
+
+console.log(
+  "-----------------------"
+);
+
+console.log(
+  `Secret present: ${RAW_API_KEY.length > 0 ? "YES" : "NO"}`
+);
+
+console.log(
+  `Raw length: ${RAW_API_KEY.length}`
+);
+
+console.log(
+  `Trimmed length: ${API_KEY.length}`
+);
+
+console.log(
+  `Valid FRED format: ${
+    /^[a-z0-9]{32}$/.test(API_KEY)
+      ? "YES"
+      : "NO"
+  }`
+);
 
 if (!API_KEY) {
   console.error(
     "Missing FRED_API_KEY environment variable."
+  );
+  process.exit(1);
+}
+
+if (!/^[a-z0-9]{32}$/.test(API_KEY)) {
+  console.error(
+    "FRED_API_KEY does not have the expected 32-character lowercase alphanumeric format."
   );
   process.exit(1);
 }
@@ -44,6 +82,7 @@ async function fetchJson(url, params) {
 }
 
 async function main() {
+  console.log("");
   console.log(
     "ALFRED Brent historical-availability probe"
   );
@@ -55,12 +94,6 @@ async function main() {
   console.log(
     `Series: ${SERIES_ID}`
   );
-
-  /*
-   * STEP 1
-   * Retrieve the historical vintage dates
-   * recorded by FRED/ALFRED for Brent.
-   */
 
   const vintageData =
     await fetchJson(
@@ -104,17 +137,6 @@ async function main() {
       "No ALFRED vintage dates were returned."
     );
   }
-
-  /*
-   * STEP 2
-   * Ask FRED/ALFRED for initial-release
-   * observations only.
-   *
-   * output_type=4 means Initial Release Only.
-   *
-   * This is a research probe only.
-   * Nothing is written to the HESI datasets.
-   */
 
   const initialReleaseData =
     await fetchJson(
