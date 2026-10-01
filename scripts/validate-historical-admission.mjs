@@ -5,6 +5,11 @@ const QUARANTINE_FILE = new URL(
   import.meta.url
 );
 
+const ALFRED_CANDIDATES_FILE = new URL(
+  "../data/brent-alfred-candidates.json",
+  import.meta.url
+);
+
 const OUTPUT_FILE = new URL(
   "../data/historical-admission-report.json",
   import.meta.url
@@ -16,7 +21,9 @@ async function readJson(file, label) {
   try {
     return JSON.parse(raw);
   } catch {
-    throw new Error(`Invalid JSON in ${label}`);
+    throw new Error(
+      `Invalid JSON in ${label}`
+    );
   }
 }
 
@@ -30,26 +37,37 @@ function validTimestamp(value) {
   );
 }
 
-function evaluateObservation(observation) {
+function evaluateObservation(
+  observation,
+  dataset
+) {
   const reasons = [];
 
   if (!observation.sourceId) {
-    reasons.push("MISSING_SOURCE_ID");
+    reasons.push(
+      "MISSING_SOURCE_ID"
+    );
   }
 
   if (!observation.seriesId) {
-    reasons.push("MISSING_SERIES_ID");
+    reasons.push(
+      "MISSING_SERIES_ID"
+    );
   }
 
   if (!observation.observationDate) {
-    reasons.push("MISSING_OBSERVATION_DATE");
+    reasons.push(
+      "MISSING_OBSERVATION_DATE"
+    );
   }
 
   if (
     typeof observation.value !== "number" ||
     !Number.isFinite(observation.value)
   ) {
-    reasons.push("INVALID_VALUE");
+    reasons.push(
+      "INVALID_VALUE"
+    );
   }
 
   if (!observation.availableAt) {
@@ -57,40 +75,49 @@ function evaluateObservation(observation) {
       "AVAILABLE_AT_NOT_VERIFIED"
     );
   } else if (
-    !validTimestamp(observation.availableAt)
+    !validTimestamp(
+      observation.availableAt
+    )
   ) {
     reasons.push(
       "INVALID_AVAILABLE_AT"
     );
   }
 
-  /*
-   * IMPORTANT:
-   *
-   * Even a syntactically valid AvailableAt is
-   * not enough for historical admission.
-   *
-   * A historical observation must also carry
-   * explicit evidence describing where the
-   * availability timestamp came from.
-   */
-
-  if (!observation.availableAtEvidence) {
+  if (
+    !observation.availableAtEvidence
+  ) {
     reasons.push(
       "AVAILABLE_AT_EVIDENCE_MISSING"
     );
   }
 
-  if (!observation.availableAtMethod) {
+  if (
+    !observation.availableAtMethod
+  ) {
     reasons.push(
       "AVAILABLE_AT_METHOD_MISSING"
     );
   }
 
-  const admitted =
+  /*
+   * ALFRED candidates require an additional
+   * methodological check.
+   *
+   * Structural validity does NOT mean that
+   * the observation is automatically approved
+   * for the leakage-safe historical store.
+   */
+
+  const structuralPass =
     reasons.length === 0;
 
+  const methodReviewRequired =
+    dataset === "alfred_candidates";
+
   return {
+    dataset,
+
     sourceId:
       observation.sourceId ?? null,
 
@@ -106,10 +133,32 @@ function evaluateObservation(observation) {
     availableAt:
       observation.availableAt ?? null,
 
-    admitted,
+    availableAtMethod:
+      observation.availableAtMethod ?? null,
+
+    structuralPass,
+
+    methodReviewRequired,
+
+    admitted:
+      structuralPass &&
+      !methodReviewRequired,
 
     reasons
   };
+}
+
+function countReasons(results) {
+  const reasonCounts = {};
+
+  for (const result of results) {
+    for (const reason of result.reasons) {
+      reasonCounts[reason] =
+        (reasonCounts[reason] || 0) + 1;
+    }
+  }
+
+  return reasonCounts;
 }
 
 async function main() {
@@ -121,38 +170,82 @@ async function main() {
     "brent-historical-quarantine.json"
   );
 
-  if (!Array.isArray(quarantine.observations)) {
+  const alfredCandidates =
+    await readJson(
+      ALFRED_CANDIDATES_FILE,
+      "brent-alfred-candidates.json"
+    );
+
+  if (
+    !Array.isArray(
+      quarantine.observations
+    )
+  ) {
     throw new Error(
       "Quarantine observations array is missing."
     );
   }
 
-  const results =
+  if (
+    !Array.isArray(
+      alfredCandidates.candidates
+    )
+  ) {
+    throw new Error(
+      "ALFRED candidates array is missing."
+    );
+  }
+
+  const quarantineResults =
     quarantine.observations.map(
-      evaluateObservation
+      (observation) =>
+        evaluateObservation(
+          observation,
+          "quarantine"
+        )
+    );
+
+  const alfredResults =
+    alfredCandidates.candidates.map(
+      (observation) =>
+        evaluateObservation(
+          observation,
+          "alfred_candidates"
+        )
+    );
+
+  const allResults = [
+    ...quarantineResults,
+    ...alfredResults
+  ];
+
+  const structuralPass =
+    allResults.filter(
+      (result) =>
+        result.structuralPass
+    );
+
+  const structuralFail =
+    allResults.filter(
+      (result) =>
+        !result.structuralPass
+    );
+
+  const methodReviewRequired =
+    allResults.filter(
+      (result) =>
+        result.methodReviewRequired &&
+        result.structuralPass
     );
 
   const admitted =
-    results.filter(
-      (result) => result.admitted
+    allResults.filter(
+      (result) =>
+        result.admitted
     );
-
-  const rejected =
-    results.filter(
-      (result) => !result.admitted
-    );
-
-  const reasonCounts = {};
-
-  for (const result of rejected) {
-    for (const reason of result.reasons) {
-      reasonCounts[reason] =
-        (reasonCounts[reason] || 0) + 1;
-    }
-  }
 
   const output = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
 
     status:
       admitted.length === 0
@@ -161,23 +254,65 @@ async function main() {
 
     validationTimestamp,
 
-    sourceDataset:
+    sourceDatasets: [
       "brent-historical-quarantine.json",
+      "brent-alfred-candidates.json"
+    ],
 
     policy:
-      "Historical observations may be admitted only when AvailableAt is present, valid, and supported by explicit evidence and a documented availability method. observationDate alone is never sufficient.",
+      "Historical observations require valid AvailableAt, explicit availability evidence, and a documented availability method. Structural passage does not authorize automatic promotion. ALFRED candidates remain subject to explicit methodological review.",
 
     summary: {
       evaluated:
-        results.length,
+        allResults.length,
+
+      structuralPass:
+        structuralPass.length,
+
+      structuralFail:
+        structuralFail.length,
+
+      methodReviewRequired:
+        methodReviewRequired.length,
 
       admitted:
         admitted.length,
 
-      rejected:
-        rejected.length,
+      reasonCounts:
+        countReasons(
+          structuralFail
+        )
+    },
 
-      reasonCounts
+    datasets: {
+      quarantine: {
+        evaluated:
+          quarantineResults.length,
+
+        structuralPass:
+          quarantineResults.filter(
+            (result) =>
+              result.structuralPass
+          ).length
+      },
+
+      alfredCandidates: {
+        evaluated:
+          alfredResults.length,
+
+        structuralPass:
+          alfredResults.filter(
+            (result) =>
+              result.structuralPass
+          ).length,
+
+        methodReviewRequired:
+          alfredResults.filter(
+            (result) =>
+              result.structuralPass &&
+              result.methodReviewRequired
+          ).length
+      }
     },
 
     admittedObservations:
@@ -198,11 +333,12 @@ async function main() {
     },
 
     notes: [
-      "This report is an admission gate, not a historical-data reconstruction mechanism.",
-      "A valid price and observationDate do not establish historical availability.",
-      "Missing AvailableAt must never be replaced automatically with observationDate.",
-      "Historical availability evidence must be documented before admission.",
-      "Passing this structural gate does not by itself authorize automatic promotion; methodological review remains required."
+      "This report evaluates both the original Brent quarantine and the ALFRED historical candidates.",
+      "Structural passage means required availability fields and evidence are present and syntactically valid.",
+      "Structural passage is not equivalent to methodological approval.",
+      "ALFRED candidates remain blocked from automatic admission even when they pass structural validation.",
+      "No observation is written to historical-observations.json by this validator.",
+      "No calibration dataset or official HESI value is modified."
     ]
   };
 
@@ -225,15 +361,23 @@ async function main() {
   );
 
   console.log(
-    `Evaluated: ${results.length}`
+    `Total evaluated: ${allResults.length}`
+  );
+
+  console.log(
+    `Structural pass: ${structuralPass.length}`
+  );
+
+  console.log(
+    `Structural fail: ${structuralFail.length}`
+  );
+
+  console.log(
+    `Method review required: ${methodReviewRequired.length}`
   );
 
   console.log(
     `Admitted: ${admitted.length}`
-  );
-
-  console.log(
-    `Rejected: ${rejected.length}`
   );
 
   console.log(
