@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "status": "NO_HISTORICAL_OBSERVATIONS_ADMITTED",
-  "validationTimestamp": "2026-10-01T07:49:56.097Z",
+  "validationTimestamp": "2026-10-01T07:52:40.828Z",
   "sourceDataset": "brent-historical-quarantine.json",
   "policy": "Historical observations may be admitted only when AvailableAt is present, valid, and supported by explicit evidence and a documented availability method. observationDate alone is never sufficient.",
   "summary": {
