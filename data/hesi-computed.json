@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.0",
-  "executionTimestamp": "2026-09-30T06:32:57.073Z",
-  "asOf": "2026-09-22",
+  "executionTimestamp": "2026-10-01T06:34:39.000Z",
+  "asOf": "2026-09-29",
   "status": "EXPERIMENTAL_NOT_PROMOTED",
   "availableAtProtection": "ENABLED",
   "inputs": {
     "brent": {
-      "observationDate": "2026-09-22",
-      "availableAt": "2026-09-27T14:04:48.025Z",
-      "value": 114.89,
+      "observationDate": "2026-09-29",
+      "availableAt": "2026-10-01T06:34:38.177Z",
+      "value": 113.96,
       "unit": "usd_per_barrel"
     },
     "cftc": {
@@ -26,10 +26,10 @@
     }
   },
   "components": {
-    "brentStress": 64.89,
+    "brentStress": 63.96,
     "cftcPositioningStress": 75.457
   },
-  "marketStressExperimental": 68.0601,
+  "marketStressExperimental": 67.4091,
   "physicalStress": {
     "status": "NOT_COMPUTABLE_NO_VALIDATED_EVENTS",
     "validatedEventCount": 0,

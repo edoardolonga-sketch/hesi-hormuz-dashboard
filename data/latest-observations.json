@@ -1,23 +1,23 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-09-27T14:29:33.327Z",
-  "executionTimestamp": "2026-09-27T14:29:33.327Z",
+  "updatedAt": "2026-10-01T06:34:38.952Z",
+  "executionTimestamp": "2026-10-01T06:34:38.952Z",
   "observations": [
     {
       "sourceId": "eia_wpsr",
       "seriesId": "WCESTUS1",
-      "observationDate": "2026-09-18",
-      "availableAt": "2026-09-27T14:01:42.458Z",
-      "value": 426398,
+      "observationDate": "2026-09-25",
+      "availableAt": "2026-10-01T06:34:36.433Z",
+      "value": 427320,
       "unit": "thousand_barrels",
-      "releaseDate": "2026-09-23"
+      "releaseDate": "2026-09-30"
     },
     {
       "sourceId": "brent_market",
       "seriesId": "DCOILBRENTEU",
-      "observationDate": "2026-09-22",
-      "availableAt": "2026-09-27T14:04:48.025Z",
-      "value": 114.89,
+      "observationDate": "2026-09-29",
+      "availableAt": "2026-10-01T06:34:38.177Z",
+      "value": 113.96,
       "unit": "usd_per_barrel",
       "frequency": "daily"
     },
