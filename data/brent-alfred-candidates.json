@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "status": "ALFRED_HISTORICAL_CANDIDATES_NOT_ADMITTED",
-  "buildTimestamp": "2026-10-01T08:38:16.554Z",
+  "buildTimestamp": "2026-10-01T08:40:05.191Z",
   "sourceId": "brent_market",
   "seriesId": "DCOILBRENTEU",
   "vintageCoverage": {
