@@ -42,6 +42,9 @@ jobs:
       - name: Refresh observations
         run: node scripts/refresh-observations.mjs
 
+      - name: Build leakage-safe historical dataset
+        run: node scripts/build-historical-dataset.mjs
+
       - name: Compute experimental HESI
         run: node scripts/compute-hesi.mjs
 
@@ -53,7 +56,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/latest-observations.json data/historical-observations.json data/hesi-computed.json
+          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/hesi-computed.json
 
           if git diff --cached --quiet; then
             echo "No pipeline output changes to persist."
