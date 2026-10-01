@@ -45,6 +45,11 @@ jobs:
       - name: Import historical Brent to quarantine
         run: node scripts/import-historical-brent.mjs
 
+      - name: Probe ALFRED Brent historical availability
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: node scripts/probe-alfred-brent.mjs
+
       - name: Validate historical admission
         run: node scripts/validate-historical-admission.mjs
 
