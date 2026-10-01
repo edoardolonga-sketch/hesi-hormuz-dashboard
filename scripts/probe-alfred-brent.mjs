@@ -6,34 +6,6 @@ const RAW_API_KEY =
 const API_KEY =
   RAW_API_KEY.trim();
 
-console.log(
-  "FRED_API_KEY diagnostic"
-);
-
-console.log(
-  "-----------------------"
-);
-
-console.log(
-  `Secret present: ${RAW_API_KEY.length > 0 ? "YES" : "NO"}`
-);
-
-console.log(
-  `Raw length: ${RAW_API_KEY.length}`
-);
-
-console.log(
-  `Trimmed length: ${API_KEY.length}`
-);
-
-console.log(
-  `Valid FRED format: ${
-    /^[a-z0-9]{32}$/.test(API_KEY)
-      ? "YES"
-      : "NO"
-  }`
-);
-
 if (!API_KEY) {
   console.error(
     "Missing FRED_API_KEY environment variable."
@@ -82,7 +54,6 @@ async function fetchJson(url, params) {
 }
 
 async function main() {
-  console.log("");
   console.log(
     "ALFRED Brent historical-availability probe"
   );
@@ -94,6 +65,12 @@ async function main() {
   console.log(
     `Series: ${SERIES_ID}`
   );
+
+  /*
+   * STEP 1
+   * Retrieve all historical vintage dates
+   * recorded by FRED/ALFRED for Brent.
+   */
 
   const vintageData =
     await fetchJson(
@@ -114,29 +91,42 @@ async function main() {
       ? vintageData.vintage_dates
       : [];
 
-  console.log(
-    `Vintage dates returned: ${vintageDates.length}`
-  );
-
-  console.log(
-    `First vintage date: ${
-      vintageDates[0] ?? "NONE"
-    }`
-  );
-
-  console.log(
-    `Last vintage date: ${
-      vintageDates[
-        vintageDates.length - 1
-      ] ?? "NONE"
-    }`
-  );
-
   if (vintageDates.length === 0) {
     throw new Error(
       "No ALFRED vintage dates were returned."
     );
   }
+
+  const firstVintageDate =
+    vintageDates[0];
+
+  const lastVintageDate =
+    vintageDates[
+      vintageDates.length - 1
+    ];
+
+  console.log(
+    `Vintage dates returned: ${vintageDates.length}`
+  );
+
+  console.log(
+    `First vintage date: ${firstVintageDate}`
+  );
+
+  console.log(
+    `Last vintage date: ${lastVintageDate}`
+  );
+
+  /*
+   * STEP 2
+   * Query initial-release observations
+   * using the actual ALFRED real-time range.
+   *
+   * This avoids asking ALFRED for a real-time
+   * date newer than its latest available vintage.
+   *
+   * output_type=4 = Initial Release Only.
+   */
 
   const initialReleaseData =
     await fetchJson(
@@ -145,10 +135,20 @@ async function main() {
         series_id: SERIES_ID,
         api_key: API_KEY,
         file_type: "json",
+
+        realtime_start:
+          firstVintageDate,
+
+        realtime_end:
+          lastVintageDate,
+
         output_type: 4,
+
         observation_start:
           "1987-01-01",
+
         sort_order: "asc",
+
         limit: 100000
       }
     );
