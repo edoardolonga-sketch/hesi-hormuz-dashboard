@@ -88,11 +88,8 @@ function reviewCandidate(candidate) {
   }
 
   if (
-    typeof candidate.value !==
-      "number" ||
-    !Number.isFinite(
-      candidate.value
-    ) ||
+    typeof candidate.value !== "number" ||
+    !Number.isFinite(candidate.value) ||
     candidate.value <= 0
   ) {
     reasons.push(
@@ -230,11 +227,25 @@ function reviewCandidate(candidate) {
     value:
       candidate.value ?? null,
 
-    method:
+    unit:
+      candidate.unit ?? null,
+
+    frequency:
+      candidate.frequency ?? null,
+
+    availableAtEvidence:
+      candidate.availableAtEvidence ?? null,
+
+    availableAtMethod:
       candidate.availableAtMethod ?? null,
 
     passesMethodChecks:
       reasons.length === 0,
+
+    admissionStatus:
+      reasons.length === 0
+        ? "METHOD_CHECKS_PASSED_NOT_ADMITTED"
+        : "METHOD_CHECKS_FAILED",
 
     reasons
   };
@@ -293,12 +304,12 @@ async function main() {
     );
 
   const output = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
 
     status:
       failed.length === 0
         ? "METHOD_CHECKS_PASSED_REVIEW_STILL_REQUIRED"
-        : "METHOD_CHECKS_FAILED",
+        : "METHOD_CHECKS_PARTIAL_PASS_REVIEW_REQUIRED",
 
     reviewTimestamp,
 
@@ -312,8 +323,11 @@ async function main() {
       EXPECTED_METHOD,
 
     methodologyDecision: {
-      automatedChecksPassed:
+      automatedChecksPassedForAll:
         failed.length === 0,
+
+      automatedChecksPassedForEligibleSubset:
+        passed.length > 0,
 
       humanMethodologicalApproval:
         false,
@@ -322,7 +336,7 @@ async function main() {
         false,
 
       rationale:
-        "Automated checks verify internal consistency of the conservative ALFRED AvailableAt convention. They do not by themselves establish that the convention is scientifically sufficient for calibration."
+        "Records passing the automated methodology checks are retained as reviewed candidates only. Automated consistency checks do not constitute scientific approval or authorize historical admission."
     },
 
     summary: {
@@ -335,14 +349,26 @@ async function main() {
       failedMethodChecks:
         failed.length,
 
+      reviewedCandidatesNotAdmitted:
+        passed.length,
+
+      admittedObservations:
+        0,
+
       reasonCounts:
         countReasons(failed)
     },
+
+    reviewedCandidates:
+      passed,
 
     failedObservations:
       failed,
 
     promotion: {
+      automaticAdmission:
+        false,
+
       historicalStoreUpdated:
         false,
 
@@ -354,11 +380,13 @@ async function main() {
     },
 
     notes: [
-      "This review checks consistency between ALFRED realtime_start and the conservative end-of-day UTC AvailableAt convention.",
-      "The script does not promote observations.",
-      "A successful automated review is necessary but not sufficient for methodological approval.",
-      "Historical admission remains disabled until an explicit methodological decision is documented.",
-      "Official HESI remains unchanged."
+      "reviewedCandidates contains observations that passed the automated consistency checks but are not admitted observations.",
+      "The ALFRED realtime_start evidence and conservative end-of-day UTC AvailableAt convention are retained with each reviewed candidate.",
+      "The anomalous observation whose AvailableAt precedes its observationDate remains excluded from the reviewed-candidate subset.",
+      "No failed observation is corrected, shifted or reconstructed automatically.",
+      "Human methodological approval remains false.",
+      "No observation is written to historical-observations.json by this script.",
+      "Calibration and official HESI remain unchanged."
     ]
   };
 
@@ -390,6 +418,14 @@ async function main() {
 
   console.log(
     `Failed method checks: ${failed.length}`
+  );
+
+  console.log(
+    `Reviewed candidates not admitted: ${passed.length}`
+  );
+
+  console.log(
+    "Admitted observations: 0"
   );
 
   console.log(
