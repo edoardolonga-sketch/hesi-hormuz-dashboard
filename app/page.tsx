@@ -174,10 +174,117 @@ export default function Page() {
 
       {tab === 'overview' && (
         <>
+          <section className="panel">
+            <p className="eyebrow">
+              EXPERIMENTAL LIVE · NOT VALIDATED
+            </p>
+
+            <h2>
+              Experimental Live Market Stress
+            </h2>
+
+            <div className="kpis">
+              <article>
+                <span>
+                  LIVE MARKET STRESS
+                </span>
+
+                <strong>
+                  {liveMarketStress.toFixed(2)}
+                </strong>
+
+                <small>
+                  Experimental index · 0–100
+                </small>
+              </article>
+
+              <article>
+                <span>
+                  DATA AS-OF
+                </span>
+
+                <strong
+                  style={{
+                    fontSize: '1.45rem'
+                  }}
+                >
+                  {computed.asOf}
+                </strong>
+
+                <small>
+                  Latest pipeline information set
+                </small>
+              </article>
+
+              <article>
+                <span>
+                  BRENT
+                </span>
+
+                <strong>
+                  ${brentValue.toFixed(2)}
+                </strong>
+
+                <small>
+                  Observation ·{' '}
+                  {
+                    computed.inputs.brent
+                      .observationDate
+                  }
+                </small>
+              </article>
+
+              <article>
+                <span>
+                  CFTC MM NET
+                </span>
+
+                <strong>
+                  {cftcNet.toLocaleString()}
+                </strong>
+
+                <small>
+                  contracts ·{' '}
+                  {
+                    computed.inputs.cftc
+                      .observationDate
+                  }
+                </small>
+              </article>
+            </div>
+
+            <div className="notice">
+              <b>
+                LIVE EXPERIMENTAL INDICATOR — NOT
+                OFFICIAL HESI.
+              </b>{' '}
+              Automatically refreshed from the
+              leakage-protected pipeline. The value
+              can change when new admissible market
+              observations become available.
+              AvailableAt protection:{' '}
+              <b>
+                {computed.availableAtProtection}
+              </b>.
+            </div>
+
+            <p className="foot">
+              Pipeline computed:{' '}
+              {formatTimestamp(
+                computed.executionTimestamp
+              )}
+              . This indicator currently represents
+              the experimental market layer only.
+              It must not be interpreted as the
+              complete HESI Effective while the
+              physical layer remains unvalidated.
+            </p>
+          </section>
+
           <section className="kpis">
             <article>
               <span>
-                HESI Effective
+                Official HESI Effective
               </span>
 
               <strong>
@@ -185,14 +292,14 @@ export default function Page() {
               </strong>
 
               <small>
-                Last reproducible weekly checkpoint ·{' '}
+                Frozen validated reference ·{' '}
                 {data.hesi.asOf}
               </small>
             </article>
 
             <article>
               <span>
-                Physical Stress
+                Official Physical Stress
               </span>
 
               <strong>
@@ -206,7 +313,7 @@ export default function Page() {
 
             <article>
               <span>
-                Market Stress
+                Official Market Stress
               </span>
 
               <strong>
@@ -235,93 +342,47 @@ export default function Page() {
 
           <div className="notice">
             <b>
-              Two-layer architecture.
+              Official vs experimental.
             </b>{' '}
-            HESI is observed/data-derived stress;
-            HSI is a hypothetical scenario index.
-            Neither is a causal Brent-price
-            elasticity estimate.
+            The official HESI checkpoint remains
+            frozen at {data.hesi.asOf}. The live
+            experimental market indicator above is
+            updated separately and is not promoted
+            automatically to official HESI.
           </div>
 
           <section className="grid overview">
             <div className="panel">
               <h2>
-                Experimental Live Market Stress
+                Experimental methodology
               </h2>
 
               <p className="sub">
                 Automatically refreshed,
                 leakage-protected experimental
-                market layer. This value is not
-                yet promoted to the official HESI.
+                market layer.
               </p>
-
-              <div className="kpis">
-                <article>
-                  <span>
-                    Live Market Stress
-                  </span>
-
-                  <strong>
-                    {liveMarketStress.toFixed(2)}
-                  </strong>
-
-                  <small>
-                    Experimental · 0–100
-                  </small>
-                </article>
-
-                <article>
-                  <span>
-                    Brent input
-                  </span>
-
-                  <strong>
-                    ${brentValue.toFixed(2)}
-                  </strong>
-
-                  <small>
-                    Observation ·{' '}
-                    {
-                      computed.inputs.brent
-                        .observationDate
-                    }
-                  </small>
-                </article>
-
-                <article>
-                  <span>
-                    CFTC MM Net
-                  </span>
-
-                  <strong>
-                    {cftcNet.toLocaleString()}
-                  </strong>
-
-                  <small>
-                    contracts ·{' '}
-                    {
-                      computed.inputs.cftc
-                        .observationDate
-                    }
-                  </small>
-                </article>
-              </div>
 
               <div className="notice">
                 <b>
                   Status:{' '}
                   {computed.status}
                 </b>
+
                 <br />
+
                 AvailableAt protection:{' '}
                 {
                   computed.availableAtProtection
                 }
+
                 <br />
+
                 Pipeline as-of:{' '}
                 {computed.asOf}
+
                 <br />
+
                 Computed:{' '}
                 {formatTimestamp(
                   computed.executionTimestamp
@@ -342,9 +403,9 @@ export default function Page() {
                 }{' '}
                 × 30%. These anchors and weights
                 remain provisional until
-                leakage-safe historical
-                calibration and out-of-sample
-                validation are completed.
+                leakage-safe historical calibration
+                and out-of-sample validation are
+                completed.
               </p>
             </div>
 
