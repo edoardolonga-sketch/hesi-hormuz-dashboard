@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "status": "NO_HISTORICAL_OBSERVATIONS_ADMITTED",
+  "validationTimestamp": "2026-10-01T07:05:45.841Z",
+  "sourceDataset": "brent-historical-quarantine.json",
+  "policy": "Historical observations may be admitted only when AvailableAt is present, valid, and supported by explicit evidence and a documented availability method. observationDate alone is never sufficient.",
+  "summary": {
+    "evaluated": 9097,
+    "admitted": 0,
+    "rejected": 9097,
+    "reasonCounts": {
+      "AVAILABLE_AT_NOT_VERIFIED": 9097,
+      "AVAILABLE_AT_EVIDENCE_MISSING": 9097,
+      "AVAILABLE_AT_METHOD_MISSING": 9097
+    }
+  },
+  "admittedObservations": [],
+  "promotion": {
+    "automaticAdmission": false,
+    "historicalStoreUpdated": false,
+    "calibrationDatasetUpdated": false,
+    "officialHesiUpdated": false
+  },
+  "notes": [
+    "This report is an admission gate, not a historical-data reconstruction mechanism.",
+    "A valid price and observationDate do not establish historical availability.",
+    "Missing AvailableAt must never be replaced automatically with observationDate.",
+    "Historical availability evidence must be documented before admission.",
+    "Passing this structural gate does not by itself authorize automatic promotion; methodological review remains required."
+  ]
+}
