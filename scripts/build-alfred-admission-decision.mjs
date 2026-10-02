@@ -46,19 +46,6 @@ function requireCondition(condition, message) {
   }
 }
 
-function firstFiniteNumber(...values) {
-  for (const value of values) {
-    if (
-      typeof value === "number" &&
-      Number.isFinite(value)
-    ) {
-      return value;
-    }
-  }
-
-  return null;
-}
-
 async function main() {
   const availability = await readJson(
     AVAILABILITY_FILE,
@@ -107,27 +94,52 @@ async function main() {
   );
 
   requireCondition(
+    typeof availability.lagStatistics === "object" &&
+      availability.lagStatistics !== null,
+    "Availability lagStatistics are missing."
+  );
+
+  requireCondition(
     typeof yearly === "object" &&
       yearly !== null,
     "Yearly analysis is missing."
   );
 
-  const availabilityNegativeLagCount =
-    firstFiniteNumber(
-      availability.negativeLagCount,
-      availability.lagStatistics?.negativeLagCount,
-      availability.lagStats?.negativeLagCount,
-      availability.summary?.negativeLagCount
-    );
+  const negativeLagCount =
+    availability.lagStatistics.negativeLagCount;
+
+  const overSevenDayLagCount =
+    availability.lagStatistics.overSevenDayCount;
+
+  const medianLagCalendarDays =
+    availability.lagStatistics.medianCalendarDays;
+
+  const maximumLagCalendarDays =
+    availability.lagStatistics.maximumCalendarDays;
 
   requireCondition(
-    availabilityNegativeLagCount !== null,
-    "Availability analysis does not expose a negative-lag count."
+    Number.isFinite(negativeLagCount),
+    "Negative-lag count is missing."
   );
 
   requireCondition(
-    availabilityNegativeLagCount === 0,
+    negativeLagCount === 0,
     "Negative lags remain in availability analysis."
+  );
+
+  requireCondition(
+    Number.isFinite(overSevenDayLagCount),
+    "Over-seven-day lag count is missing."
+  );
+
+  requireCondition(
+    Number.isFinite(medianLagCalendarDays),
+    "Median lag is missing from availability analysis."
+  );
+
+  requireCondition(
+    Number.isFinite(maximumLagCalendarDays),
+    "Maximum lag is missing from availability analysis."
   );
 
   requireCondition(
@@ -162,45 +174,7 @@ async function main() {
     realtimeThursdayCount;
 
   const wednesdayThursdayShare =
-    preparedCount > 0
-      ? wednesdayThursdayCount / preparedCount
-      : null;
-
-  const overSevenDayLagCount =
-    firstFiniteNumber(
-      availability.overSevenDayCount,
-      availability.lagStatistics?.overSevenDayCount,
-      availability.lagStats?.overSevenDayCount,
-      availability.summary?.overSevenDayCount
-    );
-
-  const medianLagCalendarDays =
-    firstFiniteNumber(
-      availability.medianLagCalendarDays,
-      availability.lagStatistics?.medianLagCalendarDays,
-      availability.lagStats?.medianLagCalendarDays,
-      availability.lagStats?.median,
-      availability.summary?.medianLagCalendarDays
-    );
-
-  const maximumLagCalendarDays =
-    firstFiniteNumber(
-      availability.maximumLagCalendarDays,
-      availability.lagStatistics?.maximumLagCalendarDays,
-      availability.lagStats?.maximumLagCalendarDays,
-      availability.lagStats?.max,
-      availability.summary?.maximumLagCalendarDays
-    );
-
-  requireCondition(
-    medianLagCalendarDays !== null,
-    "Median lag is missing from availability analysis."
-  );
-
-  requireCondition(
-    maximumLagCalendarDays !== null,
-    "Maximum lag is missing from availability analysis."
-  );
+    wednesdayThursdayCount / preparedCount;
 
   const output = {
     schemaVersion: "1.2",
@@ -216,14 +190,9 @@ async function main() {
 
     candidateSummary: {
       preparedCandidates: preparedCount,
-
-      negativeLagCount:
-        availabilityNegativeLagCount,
-
+      negativeLagCount,
       overSevenDayLagCount,
-
       medianLagCalendarDays,
-
       maximumLagCalendarDays
     },
 
@@ -244,14 +213,17 @@ async function main() {
       yearlyEvidencePresent:
         true,
 
-      negativeLagCount:
-        availabilityNegativeLagCount,
+      negativeLagCount,
 
       medianLagPresent:
-        medianLagCalendarDays !== null,
+        Number.isFinite(
+          medianLagCalendarDays
+        ),
 
       maximumLagPresent:
-        maximumLagCalendarDays !== null,
+        Number.isFinite(
+          maximumLagCalendarDays
+        ),
 
       passed:
         true
@@ -274,7 +246,7 @@ async function main() {
         "ALFRED realtime_start date at 23:59:59.999 UTC",
 
       negativeLagsAfterMethodReview:
-        availabilityNegativeLagCount,
+        negativeLagCount,
 
       yearlyPatternReviewed:
         true,
@@ -359,7 +331,7 @@ async function main() {
       "It does not modify official HESI.",
       "No historical AvailableAt value is moved backward.",
       "Current staging is cross-checked against the weekday diagnostic generated in the same pipeline run.",
-      "Median and maximum lag statistics must be present before the gate passes.",
+      "Lag statistics are read directly from availability.lagStatistics.",
       "Human methodological approval remains required."
     ]
   };
@@ -387,7 +359,11 @@ async function main() {
   );
 
   console.log(
-    `Negative lags: ${availabilityNegativeLagCount}`
+    `Negative lags: ${negativeLagCount}`
+  );
+
+  console.log(
+    `Lags > 7 days: ${overSevenDayLagCount}`
   );
 
   console.log(
