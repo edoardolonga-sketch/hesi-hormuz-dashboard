@@ -107,7 +107,7 @@ async function main() {
     new Date().toISOString();
 
   /*
-   * Verify the official CFTC historical index.
+   * Verify official historical index.
    */
   const historicalIndex =
     await fetchText(
@@ -129,8 +129,8 @@ async function main() {
   }
 
   /*
-   * Download the official annual compressed
-   * Disaggregated Futures Only archive.
+   * Download official annual Disaggregated
+   * Futures Only archive.
    */
   const archiveBytes =
     await fetchBytes(
@@ -151,10 +151,6 @@ async function main() {
     );
   }
 
-  /*
-   * Use the unzip utility available on the
-   * Ubuntu GitHub Actions runner.
-   */
   const {
     mkdtemp,
     writeFile: writeTempFile,
@@ -220,10 +216,6 @@ async function main() {
       );
     }
 
-    /*
-     * Locate the extracted file containing
-     * the Disaggregated Managed Money columns.
-     */
     let dataFileName = null;
     let dataText = null;
 
@@ -284,6 +276,17 @@ async function main() {
       parseCsvLine(lines[0])
         .map(normalizeHeader);
 
+    /*
+     * Diagnostic output.
+     *
+     * We deliberately print the complete real
+     * CFTC header before validating column names.
+     * This lets us identify the exact date column
+     * without guessing.
+     */
+    console.log("CFTC HEADERS:");
+    console.log(headers);
+
     const requiredColumns = [
       "Market_and_Exchange_Names",
       "As_of_Date_Form_YYYY-MM-DD",
@@ -295,6 +298,10 @@ async function main() {
 
     for (const column of requiredColumns) {
       if (!headers.includes(column)) {
+        console.log(
+          `MISSING REQUIRED COLUMN: ${column}`
+        );
+
         throw new Error(
           `Required CFTC column missing: ${column}`
         );
@@ -441,12 +448,18 @@ async function main() {
       executionTimestamp,
 
       targetSeries: {
-        sourceId: "cftc_cot",
+        sourceId:
+          "cftc_cot",
+
         seriesId:
           "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-        marketCode: MARKET_CODE,
+
+        marketCode:
+          MARKET_CODE,
+
         reportType:
           "Disaggregated Futures Only",
+
         metric:
           "Managed Money Long minus Managed Money Short"
       },
@@ -454,15 +467,21 @@ async function main() {
       officialHistoricalSource: {
         provider:
           "U.S. Commodity Futures Trading Commission",
+
         indexUrl:
           HISTORICAL_INDEX_URL,
+
         testYear:
           TEST_YEAR,
+
         archiveUrl:
           ARCHIVE_URL,
+
         archiveByteLength:
           archiveBytes.length,
+
         zipSignatureValid,
+
         extractedFile:
           dataFileName
       },
@@ -470,27 +489,37 @@ async function main() {
       extractionStatus: {
         archiveExtractionPerformed:
           true,
+
         marketCodeSearchPerformed:
           true,
+
         marketCodeFound:
           true,
+
         observationsExtracted:
           observations.length,
+
         uniqueObservationDates:
           uniqueDates.size,
+
         firstObservationDate:
-          observations[0].observationDate,
+          observations[0]
+            .observationDate,
+
         lastObservationDate:
           observations[
             observations.length - 1
           ].observationDate,
+
         marketNames
       },
 
       columnValidation: {
         requiredColumns,
+
         allRequiredColumnsFound:
           true,
+
         historicalMetricMatchesLiveDefinition:
           true
       },
@@ -500,12 +529,16 @@ async function main() {
       availabilityEvidence: {
         exactHistoricalAvailableAtEstablished:
           false,
+
         syntheticAvailableAtAssigned:
           false,
+
         observationDatePlusThreeDaysAssumed:
           false,
+
         historicalValuesReadyForAdmission:
           false,
+
         reason:
           "Historical values were extracted and structurally validated, but no defensible AvailableAt has yet been assigned."
       },
@@ -513,14 +546,19 @@ async function main() {
       safeguards: {
         historicalStoreModified:
           false,
+
         historicalDatasetModified:
           false,
+
         pointInTimeDatasetModified:
           false,
+
         calibrationPerformed:
           false,
+
         modelWeightsModified:
           false,
+
         officialHesiModified:
           false
       },
@@ -542,21 +580,27 @@ async function main() {
     console.log(
       "CFTC historical extraction probe"
     );
+
     console.log(
       "--------------------------------"
     );
+
     console.log(
       `Year: ${TEST_YEAR}`
     );
+
     console.log(
       `Market code: ${MARKET_CODE}`
     );
+
     console.log(
       `Observations extracted: ${observations.length}`
     );
+
     console.log(
       `First observation: ${observations[0].observationDate}`
     );
+
     console.log(
       `Last observation: ${
         observations[
@@ -564,12 +608,15 @@ async function main() {
         ].observationDate
       }`
     );
+
     console.log(
       "Historical metric definition: VERIFIED"
     );
+
     console.log(
       "Historical AvailableAt: NOT ESTABLISHED"
     );
+
     console.log(
       "Historical observations admitted: 0"
     );
@@ -588,6 +635,8 @@ main().catch((error) => {
   console.error(
     "CFTC historical extraction probe failed:"
   );
+
   console.error(error);
+
   process.exit(1);
 });
