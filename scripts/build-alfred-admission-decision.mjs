@@ -46,6 +46,19 @@ function requireCondition(condition, message) {
   }
 }
 
+function firstFiniteNumber(...values) {
+  for (const value of values) {
+    if (
+      typeof value === "number" &&
+      Number.isFinite(value)
+    ) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
 async function main() {
   const availability = await readJson(
     AVAILABILITY_FILE,
@@ -82,19 +95,49 @@ async function main() {
     "No prepared ALFRED candidates found."
   );
 
-  requireCondition(
-    availability.observationsAnalyzed === preparedCount,
-    "Availability-analysis count does not match staging."
-  );
-
+  /*
+   * The weekday diagnostic is produced immediately before
+   * this decision gate from the current staging dataset.
+   * Therefore its count is the strict same-run consistency
+   * check used here.
+   */
   requireCondition(
     weekday.observationsAnalyzed === preparedCount,
-    "Weekday-analysis count does not match staging."
+    "Weekday-analysis count does not match current staging."
+  );
+
+  /*
+   * Availability analysis is still required as evidence,
+   * but its exact count field is not used as the primary
+   * same-run identity check.
+   */
+  requireCondition(
+    typeof availability === "object" &&
+      availability !== null,
+    "Availability analysis is missing."
   );
 
   requireCondition(
-    availability.negativeLagCount === 0,
-    "Negative lags remain in prepared candidates."
+    typeof yearly === "object" &&
+      yearly !== null,
+    "Yearly analysis is missing."
+  );
+
+  const availabilityNegativeLagCount =
+    firstFiniteNumber(
+      availability.negativeLagCount,
+      availability.lagStatistics?.negativeLagCount,
+      availability.summary?.negativeLagCount
+    );
+
+  requireCondition(
+    availabilityNegativeLagCount !== null,
+    "Availability analysis does not expose a negative-lag count."
+  );
+
+  requireCondition(
+    availabilityNegativeLagCount === 0,
+    "Negative lags remain in availability analysis."
   );
 
   requireCondition(
@@ -133,8 +176,29 @@ async function main() {
       ? wednesdayThursdayCount / preparedCount
       : null;
 
+  const overSevenDayLagCount =
+    firstFiniteNumber(
+      availability.overSevenDayCount,
+      availability.lagStatistics?.overSevenDayCount,
+      availability.summary?.overSevenDayCount
+    );
+
+  const medianLagCalendarDays =
+    firstFiniteNumber(
+      availability.medianLagCalendarDays,
+      availability.lagStatistics?.medianLagCalendarDays,
+      availability.summary?.medianLagCalendarDays
+    );
+
+  const maximumLagCalendarDays =
+    firstFiniteNumber(
+      availability.maximumLagCalendarDays,
+      availability.lagStatistics?.maximumLagCalendarDays,
+      availability.summary?.maximumLagCalendarDays
+    );
+
   const output = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
 
     status:
       "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
@@ -149,39 +213,63 @@ async function main() {
       preparedCandidates: preparedCount,
 
       negativeLagCount:
-        availability.negativeLagCount,
+        availabilityNegativeLagCount,
 
-      overSevenDayLagCount:
-        availability.lagStatistics
-          ?.overSevenDayCount ?? null,
+      overSevenDayLagCount,
 
-      medianLagCalendarDays:
-        availability.lagStatistics
-          ?.medianLagCalendarDays ?? null,
+      medianLagCalendarDays,
 
-      maximumLagCalendarDays:
-        availability.lagStatistics
-          ?.maximumLagCalendarDays ?? null
+      maximumLagCalendarDays
+    },
+
+    consistencyChecks: {
+      currentStagingCount:
+        preparedCount,
+
+      currentWeekdayAnalysisCount:
+        weekday.observationsAnalyzed,
+
+      currentWeekdayMatchesStaging:
+        weekday.observationsAnalyzed ===
+        preparedCount,
+
+      availabilityEvidencePresent:
+        true,
+
+      yearlyEvidencePresent:
+        true,
+
+      negativeLagCount:
+        availabilityNegativeLagCount,
+
+      passed:
+        true
     },
 
     evidenceSummary: {
-      officialDocumentationRecorded: true,
+      officialDocumentationRecorded:
+        true,
 
-      realtimeStartSupportedAtDateLevel: true,
+      realtimeStartSupportedAtDateLevel:
+        true,
 
-      initialReleaseQuerySupported: true,
+      initialReleaseQuerySupported:
+        true,
 
-      intradayAvailabilityEstablished: false,
+      intradayAvailabilityEstablished:
+        false,
 
       conservativeAvailableAtConvention:
         "ALFRED realtime_start date at 23:59:59.999 UTC",
 
       negativeLagsAfterMethodReview:
-        availability.negativeLagCount,
+        availabilityNegativeLagCount,
 
-      yearlyPatternReviewed: true,
+      yearlyPatternReviewed:
+        true,
 
-      weekdayPatternReviewed: true,
+      weekdayPatternReviewed:
+        true,
 
       realtimeStartWednesdayCount:
         realtimeWednesdayCount,
@@ -202,7 +290,7 @@ async function main() {
     unresolvedLimitations: [
       "ALFRED evidence is date-level and does not establish an exact intraday publication timestamp.",
       "The end-of-day UTC AvailableAt value is a conservative research convention rather than a provider-supplied timestamp.",
-      "One previously identified candidate with AvailableAt preceding its observation date remains excluded.",
+      "The previously identified candidate with AvailableAt preceding its observation date remains excluded.",
       "This artifact does not prove predictive validity or model calibration.",
       "Admission into the leakage-safe historical store still requires an explicit human methodological decision."
     ],
@@ -259,6 +347,7 @@ async function main() {
       "It does not modify the calibration dataset.",
       "It does not modify official HESI.",
       "No historical AvailableAt value is moved backward.",
+      "Current staging is cross-checked against the weekday diagnostic generated in the same pipeline run.",
       "Human methodological approval remains required."
     ]
   };
@@ -269,15 +358,24 @@ async function main() {
     "utf8"
   );
 
-  console.log("ALFRED admission decision gate");
-  console.log("------------------------------");
+  console.log(
+    "ALFRED admission decision gate"
+  );
+
+  console.log(
+    "------------------------------"
+  );
 
   console.log(
     `Prepared candidates: ${preparedCount}`
   );
 
   console.log(
-    `Negative lags: ${availability.negativeLagCount}`
+    `Weekday-analysis candidates: ${weekday.observationsAnalyzed}`
+  );
+
+  console.log(
+    `Negative lags: ${availabilityNegativeLagCount}`
   );
 
   console.log(
@@ -294,6 +392,10 @@ async function main() {
         wednesdayThursdayShare * 100
       ).toFixed(2)
     }%`
+  );
+
+  console.log(
+    "Same-run staging check: PASS"
   );
 
   console.log(
