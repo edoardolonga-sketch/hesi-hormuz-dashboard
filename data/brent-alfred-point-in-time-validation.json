@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
-  "status": "POINT_IN_TIME_RULE_VALIDATED_NOT_ADMITTED",
-  "validationTimestamp": "2026-10-02T07:32:21.771Z",
+  "schemaVersion": "1.1",
+  "status": "POINT_IN_TIME_RULE_VALIDATED_METHOD_APPROVED_NOT_ADMITTED",
+  "validationTimestamp": "2026-10-02T07:42:10.206Z",
   "sourceDataset": "brent-alfred-admission-ready.json",
   "prerequisite": "brent-alfred-availableat-policy-validation.json",
   "rule": {
@@ -9,7 +9,8 @@
     "beforeAvailableAt": "NOT_VISIBLE",
     "atOrAfterAvailableAt": "VISIBLE",
     "availableAtSource": "ALFRED date-level realtimeStart represented conservatively at 23:59:59.999 UTC",
-    "intradayPublicationTimeEstablished": false
+    "intradayPublicationTimeEstablished": false,
+    "validationScope": "ELIGIBILITY_BOUNDARY_IMPLEMENTATION"
   },
   "summary": {
     "candidatesEvaluated": 3939,
@@ -19,9 +20,14 @@
     "invisibleAtAvailableAtCount": 0,
     "passed": true
   },
+  "humanDecisionState": {
+    "decisionRecorded": true,
+    "methodologyApproved": true,
+    "admissionAuthorized": false
+  },
   "failures": [],
   "safeguards": {
-    "methodologyApproved": false,
+    "methodologyApproved": true,
     "admissionAuthorized": false,
     "admissionPerformed": false,
     "historicalStoreModified": false,
@@ -29,11 +35,14 @@
     "officialHesiModified": false
   },
   "notes": [
-    "This is a point-in-time eligibility validation only.",
+    "This is a point-in-time eligibility-boundary validation only.",
+    "Human approval of the ALFRED AvailableAt methodology has been recorded.",
+    "The validation does not independently establish the historical correctness of AvailableAt.",
     "The validation does not establish an exact historical intraday publication time.",
-    "The recorded AvailableAt remains the conservative end-of-day UTC research convention.",
+    "The recorded AvailableAt remains the approved conservative end-of-day UTC research convention.",
     "An observation is ineligible before AvailableAt.",
     "An observation becomes eligible at AvailableAt and remains eligible afterward.",
+    "Methodological approval does not authorize historical admission.",
     "No candidate is admitted by this script.",
     "No historical dataset is modified by this script.",
     "No calibration dataset is modified by this script.",

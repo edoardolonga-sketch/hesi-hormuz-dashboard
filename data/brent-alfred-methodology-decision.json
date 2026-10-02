@@ -1,8 +1,9 @@
 {
-  "schemaVersion": "1.0",
-  "status": "HUMAN_METHODOLOGY_DECISION_NOT_RECORDED",
-  "createdAt": "2026-10-02T07:32:21.628Z",
+  "schemaVersion": "1.1",
+  "status": "HUMAN_METHODOLOGY_APPROVED_ADMISSION_NOT_AUTHORIZED",
+  "createdAt": "2026-10-02T07:42:10.115Z",
   "sourceDecisionGate": "brent-alfred-admission-decision.json",
+  "sourceHumanDecision": "brent-alfred-human-methodology-decision.json",
   "evidenceSnapshot": {
     "preparedCandidates": 3939,
     "negativeLagCount": 0,
@@ -14,11 +15,18 @@
     "availableAtConvention": "ALFRED realtime_start date at 23:59:59.999 UTC"
   },
   "methodologicalDecision": {
-    "decisionRecorded": false,
-    "approved": false,
-    "decidedBy": null,
-    "decidedAt": null,
-    "rationale": null
+    "decisionRecorded": true,
+    "approved": true,
+    "decidedBy": "Human methodological review",
+    "decidedAt": "2026-10-02",
+    "rationale": "Approved for research use as a conservative point-in-time methodology. ALFRED realtime_start is accepted as date-level evidence of historical availability. Because exact intraday publication time is not established, AvailableAt is represented conservatively as 23:59:59.999 UTC on the realtime_start date, making the observation usable from the following UTC day. Long observed lags are retained without backward adjustment, and the identified negative-lag anomaly remains excluded. This methodological approval does not authorize historical admission.",
+    "acknowledgements": {
+      "dateLevelEvidenceOnly": true,
+      "exactIntradayTimeNotEstablished": true,
+      "endOfDayUtcIsResearchConvention": true,
+      "longLagsRetainedWithoutBackwardShift": true,
+      "negativeLagAnomalyExcluded": true
+    }
   },
   "admissionDecision": {
     "authorized": false,
@@ -32,19 +40,11 @@
     "officialHesiModified": false,
     "backwardAvailableAtAdjustmentAllowed": false
   },
-  "requiredBeforeApproval": [
-    "Explicit human review of the ALFRED date-level availability methodology.",
-    "Explicit acceptance or rejection of the conservative end-of-day UTC AvailableAt convention.",
-    "Explicit acknowledgement that exact intraday publication timing is not established.",
-    "Explicit acknowledgement that long calendar lags are retained rather than shifted backward.",
-    "Explicit confirmation that the previously identified negative-lag anomaly remains excluded.",
-    "Separate explicit authorization before any candidate is admitted into the leakage-safe historical store."
-  ],
   "notes": [
-    "This artifact records the state before a human methodological decision.",
-    "Creating this artifact does not constitute methodological approval.",
-    "Creating this artifact does not authorize historical admission.",
+    "This artifact mirrors the separately recorded human methodology decision.",
+    "Methodological approval does not authorize historical admission.",
     "No historical observation is promoted by this script.",
+    "A separate explicit admission decision is required before any ALFRED candidate can enter the leakage-safe historical store.",
     "No calibration dataset is modified by this script.",
     "Official HESI is not modified by this script."
   ]
