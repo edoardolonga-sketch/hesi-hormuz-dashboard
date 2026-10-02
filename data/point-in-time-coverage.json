@@ -1,0 +1,182 @@
+{
+  "schemaVersion": "1.0",
+  "status": "POINT_IN_TIME_COVERAGE_ANALYZED_NOT_CALIBRATED",
+  "analysisTimestamp": "2026-10-02T17:50:25.447Z",
+  "sourceArtifact": {
+    "status": "POINT_IN_TIME_BACKTEST_DATASET_NOT_CALIBRATED",
+    "buildTimestamp": "2026-10-02T17:50:25.259Z",
+    "snapshotCount": 5651,
+    "leakageViolations": 0
+  },
+  "requiredSources": [
+    "brent_market",
+    "cftc_cot",
+    "eia_wpsr"
+  ],
+  "summary": {
+    "totalSnapshots": 5651,
+    "firstSnapshotAt": "2011-04-14T00:00:00.000Z",
+    "lastSnapshotAt": "2026-10-02T00:00:00.000Z",
+    "firstAvailableSnapshotBySource": {
+      "brent_market": "2011-04-14T00:00:00.000Z",
+      "cftc_cot": "2026-09-28T00:00:00.000Z",
+      "eia_wpsr": "2026-09-28T00:00:00.000Z"
+    },
+    "firstAllSourcesSnapshotAt": "2026-09-28T00:00:00.000Z",
+    "allSourcesSnapshotCount": 5,
+    "allSourcesCoveragePct": 0.0885,
+    "fullCoverageExists": true
+  },
+  "sourceSnapshotCounts": {
+    "brent_market": 5651,
+    "cftc_cot": 5,
+    "eia_wpsr": 5
+  },
+  "coverageCombinations": {
+    "brent_market": 5646,
+    "brent_market+cftc_cot+eia_wpsr": 5
+  },
+  "yearlyCoverage": {
+    "2011": {
+      "snapshotCount": 262,
+      "brentAvailable": 262,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2012": {
+      "snapshotCount": 366,
+      "brentAvailable": 366,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2013": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2014": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2015": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2016": {
+      "snapshotCount": 366,
+      "brentAvailable": 366,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2017": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2018": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2019": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2020": {
+      "snapshotCount": 366,
+      "brentAvailable": 366,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2021": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2022": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2023": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2024": {
+      "snapshotCount": 366,
+      "brentAvailable": 366,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2025": {
+      "snapshotCount": 365,
+      "brentAvailable": 365,
+      "cftcAvailable": 0,
+      "eiaAvailable": 0,
+      "allSourcesAvailable": 0
+    },
+    "2026": {
+      "snapshotCount": 275,
+      "brentAvailable": 275,
+      "cftcAvailable": 5,
+      "eiaAvailable": 5,
+      "allSourcesAvailable": 5
+    }
+  },
+  "researchAssessment": {
+    "fullHesiHistoricalCoverageEstablished": true,
+    "calibrationAuthorized": false,
+    "calibrationPerformed": false,
+    "backtestPerformanceMeasured": false,
+    "predictiveValidityEstablished": false,
+    "reason": "At least one point-in-time snapshot contains all required sources. This establishes overlap existence only, not sufficient historical depth or calibration readiness."
+  },
+  "safeguards": {
+    "sourceDatasetModified": false,
+    "pointInTimeDatasetModified": false,
+    "historicalObservationsModified": false,
+    "calibrationPerformed": false,
+    "modelWeightsModified": false,
+    "thresholdsModified": false,
+    "forecastModelTrained": false,
+    "officialHesiModified": false,
+    "dashboardOfficialHesiModified": false
+  },
+  "interpretationLimits": [
+    "This analysis measures point-in-time source overlap only.",
+    "Source availability means the snapshot contains at least one eligible latest observation for that source.",
+    "Availability does not imply that the observation is sufficiently fresh for a scientific HESI calculation.",
+    "Full source overlap does not establish sufficient sample size for calibration.",
+    "Full source overlap does not establish predictive validity.",
+    "The leakage check validates the implemented AvailableAt eligibility rule but does not independently verify provider publication metadata.",
+    "No calibration, model fitting, weight optimization, threshold optimization or forecast training is performed.",
+    "Official HESI remains unchanged."
+  ]
+}
