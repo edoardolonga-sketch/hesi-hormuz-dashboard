@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.2",
   "status": "AVAILABLE_AT_POLICY_VALIDATED_METHOD_APPROVED_NOT_ADMITTED",
-  "validationTimestamp": "2026-10-02T17:44:23.714Z",
+  "validationTimestamp": "2026-10-02T17:47:24.776Z",
   "sourceDataset": "brent-alfred-admission-ready.json",
   "sourceMethodologyDecision": "brent-alfred-methodology-decision.json",
   "policy": {
