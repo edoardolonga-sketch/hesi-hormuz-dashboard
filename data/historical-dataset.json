@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "status": "RESEARCH_DATASET_NOT_CALIBRATED",
-  "buildTimestamp": "2026-10-02T06:10:12.618Z",
+  "buildTimestamp": "2026-10-02T06:12:21.560Z",
   "leakageProtection": "ENABLED",
   "availableAtPolicy": "Every record retains its original AvailableAt timestamp from the leakage-safe historical store. No historical availability timestamp is reconstructed, moved backward, or invented.",
   "summary": {

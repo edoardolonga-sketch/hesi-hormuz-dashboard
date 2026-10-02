@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0",
+  "status": "DOCUMENTED_NOT_ADMITTED",
+  "evidenceTimestamp": "2026-10-02T06:12:21.504Z",
+  "subject": "ALFRED Brent historical availability methodology",
+  "seriesId": "DCOILBRENTEU",
+  "officialDocumentation": [
+    {
+      "authority": "Federal Reserve Bank of St. Louis",
+      "document": "FRED API Real-Time Periods",
+      "url": "https://fred.stlouisfed.org/docs/api/fred/realtime_period.html",
+      "supportedInterpretation": "The real-time period represents when information was known and allows retrieval of information known as of a historical period."
+    },
+    {
+      "authority": "Federal Reserve Bank of St. Louis",
+      "document": "fred/series/observations",
+      "url": "https://fred.stlouisfed.org/docs/api/fred/series_observations.html",
+      "supportedInterpretation": "output_type=4 is documented as Observations, Initial Release Only."
+    },
+    {
+      "authority": "Federal Reserve Bank of St. Louis",
+      "document": "fred/series/vintagedates",
+      "url": "https://fred.stlouisfed.org/docs/api/fred/series_vintagedates.html",
+      "supportedInterpretation": "Vintage dates identify dates when series values were revised or new data values were released."
+    }
+  ],
+  "methodologyAssessment": {
+    "realtimeStartUse": "SUPPORTED_AT_DATE_LEVEL",
+    "initialReleaseQuery": "SUPPORTED",
+    "intradayAvailability": "NOT_ESTABLISHED",
+    "candidateAvailableAtConvention": "ALFRED realtime_start date converted conservatively to 23:59:59.999 UTC.",
+    "conventionType": "CONSERVATIVE_RESEARCH_CONVENTION_NOT_PROVIDER_TIMESTAMP",
+    "leakageInterpretation": "The candidate convention does not move information earlier than the ALFRED realtime_start date.",
+    "exactPublicationTimeClaimed": false
+  },
+  "empiricalEvidence": {
+    "observationsAnalyzed": 3939,
+    "duplicateObservations": 0,
+    "earliestObservationDate": "2011-04-06",
+    "latestObservationDate": "2026-09-29",
+    "minimumLagCalendarDays": 0,
+    "medianLagCalendarDays": 6,
+    "meanLagCalendarDays": 5.457222645341457,
+    "maximumLagCalendarDays": 15,
+    "negativeLagCount": 0,
+    "overSevenDayCount": 738,
+    "lagDistribution": {
+      "0": 7,
+      "1": 117,
+      "2": 771,
+      "3": 79,
+      "4": 6,
+      "5": 667,
+      "6": 782,
+      "7": 772,
+      "8": 605,
+      "9": 102,
+      "10": 6,
+      "11": 1,
+      "12": 9,
+      "13": 6,
+      "14": 5,
+      "15": 4
+    }
+  },
+  "interpretation": {
+    "longLagsAutomaticallyInvalid": false,
+    "rationale": "A lag above seven calendar days is not by itself evidence of leakage or invalidity. The ALFRED realtime_start date is retained rather than shifted backward.",
+    "anomalousRecordPolicy": "Records failing temporal consistency checks remain excluded and are never corrected automatically."
+  },
+  "methodologyDecision": {
+    "documentationSupport": true,
+    "automatedConsistencySupport": true,
+    "humanMethodologicalApproval": false,
+    "admissionAuthorized": false,
+    "reason": "Official documentation and empirical consistency support continued methodological review, but documentation alone does not authorize admission to the calibration dataset."
+  },
+  "promotion": {
+    "automaticAdmission": false,
+    "historicalStoreUpdated": false,
+    "calibrationDatasetUpdated": false,
+    "officialHesiUpdated": false
+  },
+  "notes": [
+    "This artifact records methodological evidence; it does not admit observations.",
+    "ALFRED realtime_start is treated as date-level availability evidence.",
+    "No intraday publication timestamp is inferred from ALFRED.",
+    "The end-of-day UTC AvailableAt convention is intentionally conservative.",
+    "Observed lags are retained exactly rather than normalized to an assumed publication schedule.",
+    "The 738 observations above seven calendar days are not automatically rejected solely because of their lag.",
+    "Human methodological approval remains false.",
+    "Historical calibration and official HESI remain unchanged."
+  ]
+}
