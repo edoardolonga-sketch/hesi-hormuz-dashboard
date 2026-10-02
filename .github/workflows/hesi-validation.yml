@@ -82,6 +82,9 @@ jobs:
       - name: Record ALFRED methodology decision state
         run: node scripts/record-alfred-methodology-decision.mjs
 
+      - name: Validate ALFRED human admission decision
+        run: node scripts/validate-alfred-human-admission-decision.mjs
+
       - name: Validate ALFRED AvailableAt policy
         run: node scripts/validate-alfred-availableat-policy.mjs
 
