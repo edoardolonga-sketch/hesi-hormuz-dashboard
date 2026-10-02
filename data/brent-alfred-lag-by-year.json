@@ -1,0 +1,389 @@
+{
+  "schemaVersion": "1.0",
+  "status": "TEMPORAL_DIAGNOSTIC_NOT_ADMISSION",
+  "analysisTimestamp": "2026-10-02T06:17:31.843Z",
+  "sourceDataset": "brent-alfred-admission-ready.json",
+  "observationsAnalyzed": 3939,
+  "yearRange": {
+    "first": "2011",
+    "last": "2026"
+  },
+  "methodology": {
+    "grouping": "Calendar year of observationDate",
+    "lagDefinition": "Calendar-day difference between ALFRED realtimeStart and observationDate.",
+    "purpose": "Detect temporal changes in the ALFRED date-level availability pattern.",
+    "admissionEffect": "NONE"
+  },
+  "yearlyAnalysis": {
+    "2011": {
+      "observations": 183,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 5,
+      "meanLagCalendarDays": 4.420765027322404,
+      "maximumLagCalendarDays": 8,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 10,
+      "overSevenDayShare": 0.0546448087431694,
+      "lagDistribution": {
+        "0": 1,
+        "1": 33,
+        "2": 34,
+        "3": 1,
+        "4": 1,
+        "5": 31,
+        "6": 38,
+        "7": 34,
+        "8": 10
+      }
+    },
+    "2012": {
+      "observations": 246,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 5,
+      "meanLagCalendarDays": 4.223577235772358,
+      "maximumLagCalendarDays": 12,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 9,
+      "overSevenDayShare": 0.036585365853658534,
+      "lagDistribution": {
+        "0": 4,
+        "1": 47,
+        "2": 49,
+        "3": 1,
+        "5": 45,
+        "6": 49,
+        "7": 42,
+        "8": 6,
+        "9": 2,
+        "12": 1
+      }
+    },
+    "2013": {
+      "observations": 251,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.302788844621514,
+      "maximumLagCalendarDays": 15,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 44,
+      "overSevenDayShare": 0.1752988047808765,
+      "lagDistribution": {
+        "0": 1,
+        "1": 18,
+        "2": 49,
+        "3": 2,
+        "4": 1,
+        "5": 43,
+        "6": 47,
+        "7": 46,
+        "8": 32,
+        "9": 6,
+        "10": 1,
+        "12": 2,
+        "13": 1,
+        "14": 1,
+        "15": 1
+      }
+    },
+    "2014": {
+      "observations": 254,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.519685039370079,
+      "maximumLagCalendarDays": 9,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 50,
+      "overSevenDayShare": 0.1968503937007874,
+      "lagDistribution": {
+        "1": 3,
+        "2": 52,
+        "3": 4,
+        "5": 44,
+        "6": 50,
+        "7": 51,
+        "8": 44,
+        "9": 6
+      }
+    },
+    "2015": {
+      "observations": 259,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.536679536679537,
+      "maximumLagCalendarDays": 9,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 50,
+      "overSevenDayShare": 0.19305019305019305,
+      "lagDistribution": {
+        "1": 2,
+        "2": 52,
+        "3": 5,
+        "5": 45,
+        "6": 53,
+        "7": 52,
+        "8": 44,
+        "9": 6
+      }
+    },
+    "2016": {
+      "observations": 256,
+      "minimumLagCalendarDays": 2,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.6171875,
+      "maximumLagCalendarDays": 9,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 53,
+      "overSevenDayShare": 0.20703125,
+      "lagDistribution": {
+        "2": 52,
+        "3": 4,
+        "5": 43,
+        "6": 52,
+        "7": 52,
+        "8": 46,
+        "9": 7
+      }
+    },
+    "2017": {
+      "observations": 257,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.560311284046692,
+      "maximumLagCalendarDays": 9,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 51,
+      "overSevenDayShare": 0.19844357976653695,
+      "lagDistribution": {
+        "1": 1,
+        "2": 52,
+        "3": 6,
+        "5": 43,
+        "6": 52,
+        "7": 52,
+        "8": 44,
+        "9": 7
+      }
+    },
+    "2018": {
+      "observations": 257,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.560311284046692,
+      "maximumLagCalendarDays": 10,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 52,
+      "overSevenDayShare": 0.20233463035019456,
+      "lagDistribution": {
+        "1": 1,
+        "2": 52,
+        "3": 8,
+        "4": 1,
+        "5": 41,
+        "6": 50,
+        "7": 52,
+        "8": 42,
+        "9": 9,
+        "10": 1
+      }
+    },
+    "2019": {
+      "observations": 258,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.589147286821706,
+      "maximumLagCalendarDays": 12,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 55,
+      "overSevenDayShare": 0.2131782945736434,
+      "lagDistribution": {
+        "1": 2,
+        "2": 51,
+        "3": 7,
+        "4": 1,
+        "5": 43,
+        "6": 49,
+        "7": 50,
+        "8": 45,
+        "9": 8,
+        "10": 1,
+        "12": 1
+      }
+    },
+    "2020": {
+      "observations": 256,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.8359375,
+      "maximumLagCalendarDays": 15,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 60,
+      "overSevenDayShare": 0.234375,
+      "lagDistribution": {
+        "0": 1,
+        "1": 1,
+        "2": 47,
+        "3": 6,
+        "5": 41,
+        "6": 51,
+        "7": 49,
+        "8": 43,
+        "9": 10,
+        "12": 2,
+        "13": 2,
+        "14": 2,
+        "15": 1
+      }
+    },
+    "2021": {
+      "observations": 256,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.60546875,
+      "maximumLagCalendarDays": 10,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 53,
+      "overSevenDayShare": 0.20703125,
+      "lagDistribution": {
+        "1": 1,
+        "2": 50,
+        "3": 5,
+        "4": 1,
+        "5": 45,
+        "6": 50,
+        "7": 51,
+        "8": 45,
+        "9": 7,
+        "10": 1
+      }
+    },
+    "2022": {
+      "observations": 256,
+      "minimumLagCalendarDays": 2,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.74609375,
+      "maximumLagCalendarDays": 15,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 57,
+      "overSevenDayShare": 0.22265625,
+      "lagDistribution": {
+        "2": 50,
+        "3": 6,
+        "5": 42,
+        "6": 50,
+        "7": 51,
+        "8": 45,
+        "9": 8,
+        "12": 1,
+        "13": 1,
+        "14": 1,
+        "15": 1
+      }
+    },
+    "2023": {
+      "observations": 254,
+      "minimumLagCalendarDays": 2,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.767716535433071,
+      "maximumLagCalendarDays": 15,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 56,
+      "overSevenDayShare": 0.2204724409448819,
+      "lagDistribution": {
+        "2": 47,
+        "3": 8,
+        "5": 41,
+        "6": 51,
+        "7": 51,
+        "8": 43,
+        "9": 9,
+        "12": 1,
+        "13": 1,
+        "14": 1,
+        "15": 1
+      }
+    },
+    "2024": {
+      "observations": 255,
+      "minimumLagCalendarDays": 2,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.596078431372549,
+      "maximumLagCalendarDays": 10,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 52,
+      "overSevenDayShare": 0.20392156862745098,
+      "lagDistribution": {
+        "2": 50,
+        "3": 8,
+        "4": 1,
+        "5": 42,
+        "6": 51,
+        "7": 51,
+        "8": 43,
+        "9": 8,
+        "10": 1
+      }
+    },
+    "2025": {
+      "observations": 253,
+      "minimumLagCalendarDays": 2,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.715415019762846,
+      "maximumLagCalendarDays": 13,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 54,
+      "overSevenDayShare": 0.2134387351778656,
+      "lagDistribution": {
+        "2": 48,
+        "3": 5,
+        "5": 44,
+        "6": 51,
+        "7": 51,
+        "8": 44,
+        "9": 6,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "13": 1
+      }
+    },
+    "2026": {
+      "observations": 188,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.345744680851064,
+      "maximumLagCalendarDays": 9,
+      "negativeLagCount": 0,
+      "overSevenDayCount": 32,
+      "overSevenDayShare": 0.1702127659574468,
+      "lagDistribution": {
+        "1": 8,
+        "2": 36,
+        "3": 3,
+        "5": 34,
+        "6": 38,
+        "7": 37,
+        "8": 29,
+        "9": 3
+      }
+    }
+  },
+  "methodologyDecision": {
+    "humanMethodologicalApproval": false,
+    "admissionAuthorized": false,
+    "historicalAdmissionPerformed": false
+  },
+  "promotion": {
+    "historicalStoreUpdated": false,
+    "calibrationDatasetUpdated": false,
+    "officialHesiUpdated": false
+  },
+  "notes": [
+    "This is a temporal diagnostic only.",
+    "No observation is admitted by this script.",
+    "Lag patterns are preserved rather than normalized.",
+    "A lag above seven days is not automatically treated as invalid.",
+    "No intraday publication time is inferred.",
+    "Human methodological approval remains false.",
+    "Official HESI remains unchanged."
+  ]
+}
