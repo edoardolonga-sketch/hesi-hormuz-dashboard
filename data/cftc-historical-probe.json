@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0",
+  "status": "CFTC_HISTORICAL_AVAILABILITY_PROBE_NOT_ADMITTED",
+  "executionTimestamp": "2026-10-02T17:57:49.271Z",
+  "targetSeries": {
+    "sourceId": "cftc_cot",
+    "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+    "marketCode": "067651",
+    "marketName": "WTI-PHYSICAL",
+    "reportType": "Disaggregated Futures Only",
+    "metric": "Managed Money Long minus Managed Money Short"
+  },
+  "officialHistoricalSource": {
+    "provider": "U.S. Commodity Futures Trading Commission",
+    "indexUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+    "testYear": 2025,
+    "archiveUrl": "https://www.cftc.gov/files/dea/history/deacot2025.zip",
+    "indexValidated": true,
+    "archiveDownloaded": true,
+    "archiveByteLength": 2392119,
+    "zipSignatureValid": true
+  },
+  "availabilityEvidence": {
+    "releaseScheduleUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm",
+    "releaseSchedulePageValidated": true,
+    "normalPublicationRule": "COT reports are generally released Friday at 3:30 p.m. Eastern Time using data from the preceding Tuesday.",
+    "holidayDelayPossible": true,
+    "completeHistoricalReleaseDateListEstablished": false,
+    "exactHistoricalAvailableAtEstablished": false,
+    "syntheticAvailableAtAssigned": false,
+    "observationDatePlusThreeDaysAssumed": false,
+    "researchConclusion": "Historical CFTC values are available from official archives, but this probe does not establish an exact AvailableAt for every historical observation."
+  },
+  "extractionStatus": {
+    "archiveExtractionPerformed": false,
+    "marketCodeSearchPerformed": false,
+    "marketCodeFound": null,
+    "observationsExtracted": 0
+  },
+  "safeguards": {
+    "historicalStoreModified": false,
+    "historicalDatasetModified": false,
+    "pointInTimeDatasetModified": false,
+    "calibrationPerformed": false,
+    "modelWeightsModified": false,
+    "officialHesiModified": false
+  },
+  "nextResearchQuestion": "Determine a defensible historical AvailableAt methodology before any CFTC historical observation is admitted."
+}
