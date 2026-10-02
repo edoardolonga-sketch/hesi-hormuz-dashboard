@@ -1,41 +1,167 @@
 {
-  "schemaVersion": "1.0",
-  "status": "CFTC_HISTORICAL_AVAILABILITY_PROBE_NOT_ADMITTED",
-  "executionTimestamp": "2026-10-02T18:01:23.402Z",
-  "targetSeries": {
+  "schemaVersion": "1.3",
+  "status": "CFTC_HISTORICAL_MARKET_CODE_DIAGNOSTIC_NOT_ADMITTED",
+  "executionTimestamp": "2026-10-02T18:21:26.739Z",
+  "target": {
+    "requestedMarketCode": "067651",
+    "expectedMarketName": "WTI-PHYSICAL",
     "sourceId": "cftc_cot",
-    "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-    "marketCode": "067651",
-    "marketName": "WTI-PHYSICAL",
-    "reportType": "Disaggregated Futures Only",
-    "metric": "Managed Money Long minus Managed Money Short"
+    "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY"
   },
   "officialHistoricalSource": {
     "provider": "U.S. Commodity Futures Trading Commission",
     "indexUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
     "testYear": 2025,
-    "archiveUrl": "https://www.cftc.gov/files/dea/history/deacot2025.zip",
-    "indexValidated": true,
-    "archiveDownloaded": true,
-    "archiveByteLength": 2392119,
-    "zipSignatureValid": true
+    "archiveUrl": "https://www.cftc.gov/files/dea/history/fut_disagg_txt_2025.zip",
+    "archiveByteLength": 2420076,
+    "zipSignatureValid": true,
+    "extractedFile": "f_year.txt"
+  },
+  "codeSearch": {
+    "cftcContractMarketCode": {
+      "column": "CFTC_Contract_Market_Code",
+      "requestedCode": "067651",
+      "matchCount": 52,
+      "firstMatches": [
+        {
+          "observationDate": "2025-12-30",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-23",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-16",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-09",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-02",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-25",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-18",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-10",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-04",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-10-28",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        }
+      ]
+    },
+    "cftcMarketCode": {
+      "column": "CFTC_Market_Code",
+      "requestedCode": "067651",
+      "matchCount": 0,
+      "firstMatches": []
+    },
+    "marketNameSearch": {
+      "rule": "Market_and_Exchange_Names contains both WTI and PHYSICAL",
+      "matchCount": 52,
+      "firstMatches": [
+        {
+          "observationDate": "2025-12-30",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-23",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-16",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-09",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-12-02",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-25",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-18",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-10",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-11-04",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        },
+        {
+          "observationDate": "2025-10-28",
+          "marketName": "WTI-PHYSICAL - NEW YORK MERCANTILE EXCHANGE",
+          "cftcContractMarketCode": "067651",
+          "cftcMarketCode": "NYME"
+        }
+      ]
+    }
   },
   "availabilityEvidence": {
-    "releaseScheduleUrl": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedule/index.htm",
-    "releaseSchedulePageValidated": true,
-    "normalPublicationRule": "COT reports are generally released Friday at 3:30 p.m. Eastern Time using data from the preceding Tuesday.",
-    "holidayDelayPossible": true,
-    "completeHistoricalReleaseDateListEstablished": false,
     "exactHistoricalAvailableAtEstablished": false,
     "syntheticAvailableAtAssigned": false,
-    "observationDatePlusThreeDaysAssumed": false,
-    "researchConclusion": "Historical CFTC values are available from official archives, but this probe does not establish an exact AvailableAt for every historical observation."
-  },
-  "extractionStatus": {
-    "archiveExtractionPerformed": false,
-    "marketCodeSearchPerformed": false,
-    "marketCodeFound": null,
-    "observationsExtracted": 0
+    "historicalValuesAdmitted": false
   },
   "safeguards": {
     "historicalStoreModified": false,
@@ -43,7 +169,10 @@
     "pointInTimeDatasetModified": false,
     "calibrationPerformed": false,
     "modelWeightsModified": false,
-    "officialHesiModified": false
+    "thresholdsModified": false,
+    "forecastModelTrained": false,
+    "officialHesiModified": false,
+    "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "Determine a defensible historical AvailableAt methodology before any CFTC historical observation is admitted."
+  "interpretation": "Diagnostic only. This artifact determines which official CFTC code column identifies the target WTI-PHYSICAL historical rows. It does not admit observations or assign historical AvailableAt."
 }
