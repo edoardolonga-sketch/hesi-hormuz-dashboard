@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0",
+  "decisionType": "ALFRED_BRENT_HISTORICAL_ADMISSION",
+  "decisionRecorded": false,
+  "approved": false,
+  "decidedBy": null,
+  "decidedAt": null,
+  "rationale": null,
+  "methodologyPrerequisite": {
+    "methodologyDecisionRecorded": true,
+    "methodologyApproved": true
+  },
+  "acknowledgements": {
+    "preparedCandidates": 3939,
+    "negativeLagAnomalyExcluded": true,
+    "availableAtUsesApprovedConservativeConvention": true,
+    "longLagsRetainedWithoutBackwardShift": true,
+    "admissionDoesNotImplyCalibrationApproval": true,
+    "admissionDoesNotModifyOfficialHesi": true
+  },
+  "admissionAuthorized": false,
+  "historicalStoreModified": false,
+  "calibrationDatasetModified": false,
+  "officialHesiModified": false
+}
