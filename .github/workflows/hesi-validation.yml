@@ -94,6 +94,9 @@ jobs:
       - name: Validate ALFRED point-in-time rule
         run: node scripts/validate-alfred-point-in-time.mjs
 
+      - name: Admit approved ALFRED Brent history
+        run: node scripts/admit-alfred-brent-history.mjs
+
       - name: Build leakage-safe historical dataset
         run: node scripts/build-historical-dataset.mjs
 
