@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0",
+  "status": "TEMPORAL_COVERAGE_ANALYZED_NOT_CALIBRATED",
+  "analysisTimestamp": "2026-10-02T17:27:50.935Z",
+  "sourceDataset": "historical-dataset.json",
+  "safeguards": {
+    "leakageProtection": "ENABLED",
+    "datasetModified": false,
+    "calibrationPerformed": false,
+    "modelWeightsModified": false,
+    "officialHesiModified": false
+  },
+  "summary": {
+    "totalHistoricalObservations": 3942,
+    "brentObservations": 3939,
+    "earliestBrentObservationDate": "2011-04-06",
+    "latestBrentObservationDate": "2026-09-29",
+    "earliestBrentAvailableAt": "2011-04-13T23:59:59.999Z",
+    "latestBrentAvailableAt": "2026-10-01T06:34:38.177Z",
+    "uniqueBrentKeys": 3939,
+    "yearsCovered": 16
+  },
+  "availabilityLagDays": {
+    "minimum": 0.999999988425926,
+    "maximum": 15.999999988425927,
+    "mean": 6.458202760691892,
+    "median": 6.999999988425926,
+    "sameDay": 7,
+    "oneToThreeDays": 966,
+    "fourToSevenDays": 2228,
+    "moreThanSevenDays": 738
+  },
+  "maximumCalendarGap": {
+    "from": "2011-04-21",
+    "to": "2011-04-26",
+    "calendarDays": 5
+  },
+  "observationsByYear": {
+    "2011": 183,
+    "2012": 246,
+    "2013": 251,
+    "2014": 254,
+    "2015": 259,
+    "2016": 256,
+    "2017": 257,
+    "2018": 257,
+    "2019": 258,
+    "2020": 256,
+    "2021": 256,
+    "2022": 256,
+    "2023": 254,
+    "2024": 255,
+    "2025": 253,
+    "2026": 188
+  },
+  "interpretationLimits": [
+    "This artifact describes temporal coverage only.",
+    "It does not determine whether the historical sample is sufficient for calibration.",
+    "Calendar gaps are not automatically data-quality failures because Brent observations are not expected on every calendar day.",
+    "AvailableAt lag is measured from 00:00 UTC on observationDate to the stored AvailableAt timestamp.",
+    "The analysis does not alter historical observations or reconstruct availability timestamps.",
+    "No model calibration, backtest, weight optimization or official HESI modification is performed."
+  ]
+}

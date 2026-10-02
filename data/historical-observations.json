@@ -70933,10 +70933,13 @@
     "decisionRecorded": true,
     "admissionAuthorized": true,
     "preparedCandidates": 3939,
-    "newlyAdmitted": 3937,
-    "preservedExistingOverlaps": 2,
+    "newlyAdmittedThisRun": 0,
+    "existingCandidatesPreservedThisRun": 3939,
+    "allPreparedCandidatesPresent": true,
     "valueConflicts": 0,
-    "overlapPolicy": "Existing observations are preserved. No overwrite or replacement is allowed.",
+    "existingObservationsOverwritten": 0,
+    "overlapPolicy": "Existing observations are preserved when their value matches the approved ALFRED candidate. No overwrite or replacement of existing observations or AvailableAt timestamps is allowed.",
+    "idempotent": true,
     "calibrationAuthorized": false,
     "officialHesiAuthorized": false
   }
