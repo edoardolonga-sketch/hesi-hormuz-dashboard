@@ -95,22 +95,11 @@ async function main() {
     "No prepared ALFRED candidates found."
   );
 
-  /*
-   * The weekday diagnostic is produced immediately before
-   * this decision gate from the current staging dataset.
-   * Therefore its count is the strict same-run consistency
-   * check used here.
-   */
   requireCondition(
     weekday.observationsAnalyzed === preparedCount,
     "Weekday-analysis count does not match current staging."
   );
 
-  /*
-   * Availability analysis is still required as evidence,
-   * but its exact count field is not used as the primary
-   * same-run identity check.
-   */
   requireCondition(
     typeof availability === "object" &&
       availability !== null,
@@ -127,6 +116,7 @@ async function main() {
     firstFiniteNumber(
       availability.negativeLagCount,
       availability.lagStatistics?.negativeLagCount,
+      availability.lagStats?.negativeLagCount,
       availability.summary?.negativeLagCount
     );
 
@@ -180,6 +170,7 @@ async function main() {
     firstFiniteNumber(
       availability.overSevenDayCount,
       availability.lagStatistics?.overSevenDayCount,
+      availability.lagStats?.overSevenDayCount,
       availability.summary?.overSevenDayCount
     );
 
@@ -187,6 +178,8 @@ async function main() {
     firstFiniteNumber(
       availability.medianLagCalendarDays,
       availability.lagStatistics?.medianLagCalendarDays,
+      availability.lagStats?.medianLagCalendarDays,
+      availability.lagStats?.median,
       availability.summary?.medianLagCalendarDays
     );
 
@@ -194,11 +187,23 @@ async function main() {
     firstFiniteNumber(
       availability.maximumLagCalendarDays,
       availability.lagStatistics?.maximumLagCalendarDays,
+      availability.lagStats?.maximumLagCalendarDays,
+      availability.lagStats?.max,
       availability.summary?.maximumLagCalendarDays
     );
 
+  requireCondition(
+    medianLagCalendarDays !== null,
+    "Median lag is missing from availability analysis."
+  );
+
+  requireCondition(
+    maximumLagCalendarDays !== null,
+    "Maximum lag is missing from availability analysis."
+  );
+
   const output = {
-    schemaVersion: "1.1",
+    schemaVersion: "1.2",
 
     status:
       "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
@@ -241,6 +246,12 @@ async function main() {
 
       negativeLagCount:
         availabilityNegativeLagCount,
+
+      medianLagPresent:
+        medianLagCalendarDays !== null,
+
+      maximumLagPresent:
+        maximumLagCalendarDays !== null,
 
       passed:
         true
@@ -348,6 +359,7 @@ async function main() {
       "It does not modify official HESI.",
       "No historical AvailableAt value is moved backward.",
       "Current staging is cross-checked against the weekday diagnostic generated in the same pipeline run.",
+      "Median and maximum lag statistics must be present before the gate passes.",
       "Human methodological approval remains required."
     ]
   };
@@ -376,6 +388,14 @@ async function main() {
 
   console.log(
     `Negative lags: ${availabilityNegativeLagCount}`
+  );
+
+  console.log(
+    `Median lag: ${medianLagCalendarDays} days`
+  );
+
+  console.log(
+    `Maximum lag: ${maximumLagCalendarDays} days`
   );
 
   console.log(
