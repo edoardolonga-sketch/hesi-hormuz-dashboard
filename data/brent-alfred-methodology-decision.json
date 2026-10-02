@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.1",
-  "status": "HUMAN_METHODOLOGY_APPROVED_ADMISSION_NOT_AUTHORIZED",
-  "createdAt": "2026-10-02T16:19:40.722Z",
+  "schemaVersion": "1.2",
+  "status": "HUMAN_METHODOLOGY_APPROVED_ADMISSION_DECISION_PENDING",
+  "createdAt": "2026-10-02T16:26:51.784Z",
   "sourceDecisionGate": "brent-alfred-admission-decision.json",
   "sourceHumanDecision": "brent-alfred-human-methodology-decision.json",
   "evidenceSnapshot": {
@@ -29,9 +29,11 @@
     }
   },
   "admissionDecision": {
+    "decisionRecorded": false,
     "authorized": false,
     "authorizedBy": null,
-    "authorizedAt": null
+    "authorizedAt": null,
+    "status": "PENDING_EXPLICIT_ADMISSION_DECISION"
   },
   "safeguards": {
     "automaticAdmission": false,
@@ -41,10 +43,11 @@
     "backwardAvailableAtAdjustmentAllowed": false
   },
   "notes": [
-    "This artifact mirrors the separately recorded human methodology decision.",
+    "The human ALFRED AvailableAt methodology decision has been recorded and approved.",
+    "The historical admission decision remains separate and pending.",
     "Methodological approval does not authorize historical admission.",
     "No historical observation is promoted by this script.",
-    "A separate explicit admission decision is required before any ALFRED candidate can enter the leakage-safe historical store.",
+    "The 3,939 prepared candidates remain outside the leakage-safe historical store.",
     "No calibration dataset is modified by this script.",
     "Official HESI is not modified by this script."
   ]
