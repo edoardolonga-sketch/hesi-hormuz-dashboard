@@ -42,10 +42,17 @@ async function main() {
     "brent-alfred-human-methodology-decision.json"
   );
 
+  /*
+   * Expected state:
+   *
+   * Methodology decision = APPROVED
+   * Admission decision   = PENDING
+   * Admission authorized = NO
+   */
   requireCondition(
     gate.status ===
-      "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
-    "Admission decision gate is not in the expected pre-admission state."
+      "METHODOLOGY_APPROVED_ADMISSION_DECISION_PENDING",
+    "Admission decision gate is not in the expected methodology-approved pre-admission state."
   );
 
   requireCondition(
@@ -54,25 +61,57 @@ async function main() {
   );
 
   requireCondition(
-    gate.humanDecision?.admissionAuthorized === false,
-    "Gate unexpectedly authorizes admission."
+    gate.consistencyChecks
+      ?.methodologyDecisionRecorded === true,
+    "Gate does not reflect a recorded methodology decision."
   );
 
   requireCondition(
-    gate.promotion?.historicalStoreUpdated === false,
+    gate.consistencyChecks
+      ?.methodologyApproved === true,
+    "Gate does not reflect methodology approval."
+  );
+
+  requireCondition(
+    gate.humanDecision
+      ?.decisionRecorded === true,
+    "Gate does not contain a recorded human decision."
+  );
+
+  requireCondition(
+    gate.humanDecision
+      ?.methodologicalApproval === true,
+    "Gate does not contain human methodology approval."
+  );
+
+  requireCondition(
+    gate.humanDecision
+      ?.admissionAuthorized === false,
+    "Gate unexpectedly authorizes historical admission."
+  );
+
+  requireCondition(
+    gate.promotion
+      ?.historicalStoreUpdated === false,
     "Historical store was unexpectedly modified."
   );
 
   requireCondition(
-    gate.promotion?.calibrationDatasetUpdated === false,
+    gate.promotion
+      ?.calibrationDatasetUpdated === false,
     "Calibration dataset was unexpectedly modified."
   );
 
   requireCondition(
-    gate.promotion?.officialHesiUpdated === false,
+    gate.promotion
+      ?.officialHesiUpdated === false,
     "Official HESI was unexpectedly modified."
   );
 
+  /*
+   * Validate the authoritative human methodology
+   * decision independently from the generated gate.
+   */
   requireCondition(
     humanDecision.schemaVersion === "1.0",
     "Unexpected human decision schema version."
@@ -82,6 +121,16 @@ async function main() {
     humanDecision.decisionType ===
       "ALFRED_BRENT_AVAILABLE_AT_METHODOLOGY",
     "Unexpected human methodology decision type."
+  );
+
+  requireCondition(
+    humanDecision.decisionRecorded === true,
+    "Human methodology decision has not been recorded."
+  );
+
+  requireCondition(
+    humanDecision.approved === true,
+    "Human methodology decision has not been approved."
   );
 
   requireCondition(
@@ -104,30 +153,17 @@ async function main() {
     "Human methodology decision unexpectedly modifies official HESI."
   );
 
-  const decisionRecorded =
-    humanDecision.decisionRecorded === true;
-
-  const methodologyApproved =
-    decisionRecorded && humanDecision.approved === true;
-
-  let status = "HUMAN_METHODOLOGY_DECISION_NOT_RECORDED";
-
-  if (decisionRecorded && methodologyApproved) {
-    status =
-      "HUMAN_METHODOLOGY_APPROVED_ADMISSION_NOT_AUTHORIZED";
-  } else if (
-    decisionRecorded &&
-    humanDecision.approved === false
-  ) {
-    status = "HUMAN_METHODOLOGY_REJECTED";
-  }
+  const decisionRecorded = true;
+  const methodologyApproved = true;
 
   const output = {
-    schemaVersion: "1.1",
+    schemaVersion: "1.2",
 
-    status,
+    status:
+      "HUMAN_METHODOLOGY_APPROVED_ADMISSION_DECISION_PENDING",
 
-    createdAt: new Date().toISOString(),
+    createdAt:
+      new Date().toISOString(),
 
     sourceDecisionGate:
       "brent-alfred-admission-decision.json",
@@ -166,44 +202,62 @@ async function main() {
 
     methodologicalDecision: {
       decisionRecorded,
-      approved: methodologyApproved,
+      approved:
+        methodologyApproved,
+
       decidedBy:
-        decisionRecorded
-          ? humanDecision.decidedBy
-          : null,
+        humanDecision.decidedBy,
+
       decidedAt:
-        decisionRecorded
-          ? humanDecision.decidedAt
-          : null,
+        humanDecision.decidedAt,
+
       rationale:
-        decisionRecorded
-          ? humanDecision.rationale
-          : null,
+        humanDecision.rationale,
+
       acknowledgements:
-        decisionRecorded
-          ? humanDecision.acknowledgements
-          : null
+        humanDecision.acknowledgements
     },
 
     admissionDecision: {
-      authorized: false,
-      authorizedBy: null,
-      authorizedAt: null
+      decisionRecorded:
+        false,
+
+      authorized:
+        false,
+
+      authorizedBy:
+        null,
+
+      authorizedAt:
+        null,
+
+      status:
+        "PENDING_EXPLICIT_ADMISSION_DECISION"
     },
 
     safeguards: {
-      automaticAdmission: false,
-      historicalStoreModified: false,
-      calibrationDatasetModified: false,
-      officialHesiModified: false,
-      backwardAvailableAtAdjustmentAllowed: false
+      automaticAdmission:
+        false,
+
+      historicalStoreModified:
+        false,
+
+      calibrationDatasetModified:
+        false,
+
+      officialHesiModified:
+        false,
+
+      backwardAvailableAtAdjustmentAllowed:
+        false
     },
 
     notes: [
-      "This artifact mirrors the separately recorded human methodology decision.",
+      "The human ALFRED AvailableAt methodology decision has been recorded and approved.",
+      "The historical admission decision remains separate and pending.",
       "Methodological approval does not authorize historical admission.",
       "No historical observation is promoted by this script.",
-      "A separate explicit admission decision is required before any ALFRED candidate can enter the leakage-safe historical store.",
+      "The 3,939 prepared candidates remain outside the leakage-safe historical store.",
       "No calibration dataset is modified by this script.",
       "Official HESI is not modified by this script."
     ]
@@ -215,33 +269,61 @@ async function main() {
     "utf8"
   );
 
-  console.log("ALFRED methodology decision record");
-  console.log("----------------------------------");
+  console.log(
+    "ALFRED methodology decision record"
+  );
+
+  console.log(
+    "----------------------------------"
+  );
+
   console.log(
     `Prepared candidates: ${output.evidenceSnapshot.preparedCandidates}`
   );
+
   console.log(
     `Median lag: ${output.evidenceSnapshot.medianLagCalendarDays} days`
   );
+
   console.log(
     `Maximum lag: ${output.evidenceSnapshot.maximumLagCalendarDays} days`
   );
+
   console.log(
-    `Human decision recorded: ${decisionRecorded ? "YES" : "NO"}`
+    "Human decision recorded: YES"
   );
+
   console.log(
-    `Methodology approved: ${methodologyApproved ? "YES" : "NO"}`
+    "Methodology approved: YES"
   );
-  console.log("Admission authorized: NO");
-  console.log("Historical store modified: NO");
-  console.log("Calibration dataset modified: NO");
-  console.log("Official HESI modified: NO");
+
+  console.log(
+    "Admission decision: PENDING"
+  );
+
+  console.log(
+    "Admission authorized: NO"
+  );
+
+  console.log(
+    "Historical store modified: NO"
+  );
+
+  console.log(
+    "Calibration dataset modified: NO"
+  );
+
+  console.log(
+    "Official HESI modified: NO"
+  );
 }
 
 main().catch((error) => {
   console.error(
     "ALFRED methodology decision record failed:"
   );
+
   console.error(error);
+
   process.exit(1);
 });
