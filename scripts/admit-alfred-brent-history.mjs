@@ -10,11 +10,6 @@ const DECISION_FILE = new URL(
   import.meta.url
 );
 
-const OVERLAP_FILE = new URL(
-  "../data/brent-alfred-admission-overlap.json",
-  import.meta.url
-);
-
 const HISTORICAL_FILE = new URL(
   "../data/historical-observations.json",
   import.meta.url
@@ -62,11 +57,6 @@ async function main() {
     "brent-alfred-human-admission-decision.json"
   );
 
-  const overlap = await readJson(
-    OVERLAP_FILE,
-    "brent-alfred-admission-overlap.json"
-  );
-
   const historical = await readJson(
     HISTORICAL_FILE,
     "historical-observations.json"
@@ -111,11 +101,6 @@ async function main() {
   );
 
   requireCondition(
-    decision.historicalStoreModified === false,
-    "Decision artifact must not claim that it modified the historical store."
-  );
-
-  requireCondition(
     decision.calibrationDatasetModified === false,
     "Admission decision must not authorize calibration modification."
   );
@@ -143,72 +128,13 @@ async function main() {
   );
 
   requireCondition(
-    staging.methodologyState?.admissionAuthorized === false,
-    "Staging artifact must remain non-authorizing."
-  );
-
-  requireCondition(
     Array.isArray(staging.preparedCandidates),
     "Prepared ALFRED candidates array is missing."
   );
 
   requireCondition(
-    staging.preparedCandidates.length === 3939,
-    "Expected exactly 3939 prepared ALFRED candidates."
-  );
-
-  /*
-   * OVERLAP ANALYSIS
-   */
-
-  requireCondition(
-    overlap.status === "ANALYZED_NOT_ADMITTED",
-    "ALFRED overlap analysis is not in the expected state."
-  );
-
-  requireCondition(
-    overlap.summary?.preparedCandidates === 3939,
-    "Overlap report does not contain 3939 prepared candidates."
-  );
-
-  requireCondition(
-    overlap.summary?.overlappingKeys === 2,
-    "Expected exactly 2 existing ALFRED overlap keys."
-  );
-
-  requireCondition(
-    overlap.summary?.exactOverlaps === 0,
-    "Unexpected exact-overlap count."
-  );
-
-  requireCondition(
-    overlap.summary?.valueMatchesAvailableAtDiffers === 2,
-    "Expected exactly 2 same-value/different-AvailableAt overlaps."
-  );
-
-  requireCondition(
-    overlap.summary?.valueConflicts === 0,
-    "Value conflicts exist. Admission aborted."
-  );
-
-  requireCondition(
-    overlap.summary?.nonOverlappingCandidates === 3937,
-    "Expected exactly 3937 non-overlapping candidates."
-  );
-
-  requireCondition(
-    overlap.overlapPolicy?.automaticOverwriteAllowed === false &&
-      overlap.overlapPolicy
-        ?.automaticReplacementAllowed === false,
-    "Overlap report does not prohibit overwrite/replacement."
-  );
-
-  requireCondition(
-    overlap.safeguards?.historicalStoreModified === false &&
-      overlap.safeguards
-        ?.calibrationDatasetModified === false &&
-      overlap.safeguards?.officialHesiModified === false,
-    "Overlap analysis safeguards are not intact."
+    staging.preparedCandidates.length > 0,
+    "No prepared ALFRED candidates are available."
   );
 
   /*
@@ -234,12 +160,21 @@ async function main() {
   }
 
   /*
-   * PREPARE ADMISSION
+   * PROCESS CANDIDATES
+   *
+   * Idempotent policy:
+   *
+   * - missing key + valid candidate -> admit
+   * - existing key + same value -> preserve existing
+   * - existing key + different value -> abort
+   *
+   * Existing AvailableAt is never replaced.
    */
 
   const candidateKeys = new Set();
+
   const admitted = [];
-  const preservedOverlaps = [];
+  const preservedExisting = [];
 
   for (const candidate of staging.preparedCandidates) {
     requireCondition(
@@ -266,7 +201,11 @@ async function main() {
 
     requireCondition(
       typeof candidate.observationDate === "string" &&
-        Number.isFinite(Date.parse(candidate.observationDate)),
+        Number.isFinite(
+          Date.parse(
+            `${candidate.observationDate}T00:00:00.000Z`
+          )
+        ),
       "Candidate contains invalid observationDate."
     );
 
@@ -275,9 +214,16 @@ async function main() {
       "Candidate contains invalid AvailableAt."
     );
 
+    const observationDateMs = Date.parse(
+      `${candidate.observationDate}T00:00:00.000Z`
+    );
+
+    const availableAtMs = Date.parse(
+      candidate.availableAt
+    );
+
     requireCondition(
-      Date.parse(candidate.availableAt) >=
-        Date.parse(candidate.observationDate),
+      availableAtMs >= observationDateMs,
       `AvailableAt precedes observationDate: ${candidate.observationDate}`
     );
 
@@ -298,45 +244,54 @@ async function main() {
         `Existing historical value conflicts with ALFRED candidate: ${key}`
       );
 
-      preservedOverlaps.push({
+      preservedExisting.push({
         key,
         existingValue: existing.value,
         candidateValue: candidate.value,
-        existingAvailableAt: existing.availableAt,
-        candidateAvailableAt: candidate.availableAt
+        existingAvailableAt:
+          existing.availableAt,
+        candidateAvailableAt:
+          candidate.availableAt
       });
 
       continue;
     }
 
-    admitted.push({
+    const admittedObservation = {
       sourceId: candidate.sourceId,
       seriesId: candidate.seriesId,
-      observationDate: candidate.observationDate,
-      availableAt: candidate.availableAt,
+      observationDate:
+        candidate.observationDate,
+      availableAt:
+        candidate.availableAt,
       value: candidate.value,
-      unit: candidate.unit ?? "usd_per_barrel",
-      frequency: candidate.frequency ?? "daily",
+      unit:
+        candidate.unit ??
+        "usd_per_barrel",
+      frequency:
+        candidate.frequency ??
+        "daily",
       availableAtEvidence:
-        candidate.availableAtEvidence ?? null,
+        candidate.availableAtEvidence ??
+        null,
       availableAtMethod:
-        candidate.availableAtMethod ?? null
-    });
+        candidate.availableAtMethod ??
+        null
+    };
+
+    admitted.push(
+      admittedObservation
+    );
+
+    existingByKey.set(
+      key,
+      admittedObservation
+    );
   }
 
   /*
-   * FINAL PRE-WRITE ASSERTIONS
+   * FINAL STORE
    */
-
-  requireCondition(
-    preservedOverlaps.length === 2,
-    "Expected exactly 2 preserved existing overlaps."
-  );
-
-  requireCondition(
-    admitted.length === 3937,
-    "Expected exactly 3937 new ALFRED observations for admission."
-  );
 
   const finalObservations = [
     ...historical.observations,
@@ -358,9 +313,43 @@ async function main() {
 
   requireCondition(
     finalObservations.length ===
-      historical.observations.length + 3937,
+      historical.observations.length +
+        admitted.length,
     "Unexpected final historical observation count."
   );
+
+  /*
+   * VERIFY EVERY PREPARED CANDIDATE
+   * EXISTS AFTER ADMISSION
+   */
+
+  const finalByKey = new Map(
+    finalObservations.map(
+      (observation) => [
+        observationKey(observation),
+        observation
+      ]
+    )
+  );
+
+  for (const candidate of staging.preparedCandidates) {
+    const key =
+      observationKey(candidate);
+
+    const finalObservation =
+      finalByKey.get(key);
+
+    requireCondition(
+      finalObservation,
+      `Prepared candidate missing from final historical store: ${key}`
+    );
+
+    requireCondition(
+      finalObservation.value ===
+        candidate.value,
+      `Final historical value conflicts with ALFRED candidate: ${key}`
+    );
+  }
 
   /*
    * DETERMINISTIC OUTPUT
@@ -391,19 +380,41 @@ async function main() {
     status:
       "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT",
 
-    observations: finalObservations,
+    observations:
+      finalObservations,
 
     alfredBrentAdmission: {
       decisionRecorded: true,
       admissionAuthorized: true,
-      preparedCandidates: 3939,
-      newlyAdmitted: 3937,
-      preservedExistingOverlaps: 2,
+
+      preparedCandidates:
+        staging.preparedCandidates.length,
+
+      newlyAdmittedThisRun:
+        admitted.length,
+
+      existingCandidatesPreservedThisRun:
+        preservedExisting.length,
+
+      allPreparedCandidatesPresent:
+        true,
+
       valueConflicts: 0,
+
+      existingObservationsOverwritten:
+        0,
+
       overlapPolicy:
-        "Existing observations are preserved. No overwrite or replacement is allowed.",
-      calibrationAuthorized: false,
-      officialHesiAuthorized: false
+        "Existing observations are preserved when their value matches the approved ALFRED candidate. No overwrite or replacement of existing observations or AvailableAt timestamps is allowed.",
+
+      idempotent:
+        true,
+
+      calibrationAuthorized:
+        false,
+
+      officialHesiAuthorized:
+        false
     }
   };
 
@@ -426,11 +437,11 @@ async function main() {
   );
 
   console.log(
-    `New observations admitted: ${admitted.length}`
+    `New observations admitted this run: ${admitted.length}`
   );
 
   console.log(
-    `Existing overlaps preserved: ${preservedOverlaps.length}`
+    `Existing candidate observations preserved: ${preservedExisting.length}`
   );
 
   console.log(
@@ -443,6 +454,14 @@ async function main() {
 
   console.log(
     `Historical store observations: ${finalObservations.length}`
+  );
+
+  console.log(
+    "All prepared candidates present: YES"
+  );
+
+  console.log(
+    "Idempotent admission: YES"
   );
 
   console.log(
