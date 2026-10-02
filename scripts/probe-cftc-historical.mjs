@@ -39,7 +39,9 @@ function parseCsvLine(line) {
 
   fields.push(current);
 
-  return fields.map((value) => value.trim());
+  return fields.map(
+    (value) => value.trim()
+  );
 }
 
 function normalizeHeader(value) {
@@ -49,11 +51,15 @@ function normalizeHeader(value) {
     .trim();
 }
 
-function parseInteger(value, fieldName) {
-  const cleaned = String(value)
-    .replace(/,/g, "")
+function cleanField(value) {
+  return String(value ?? "")
     .replace(/^"|"$/g, "")
     .trim();
+}
+
+function parseInteger(value, fieldName) {
+  const cleaned = cleanField(value)
+    .replace(/,/g, "");
 
   const parsed = Number(cleaned);
 
@@ -66,10 +72,32 @@ function parseInteger(value, fieldName) {
   return parsed;
 }
 
+function validateObservationDate(value) {
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(value)
+  ) {
+    throw new Error(
+      `Invalid CFTC observation date: ${value}`
+    );
+  }
+
+  const timestamp =
+    Date.parse(`${value}T00:00:00.000Z`);
+
+  if (!Number.isFinite(timestamp)) {
+    throw new Error(
+      `Unparseable CFTC observation date: ${value}`
+    );
+  }
+
+  return value;
+}
+
 async function fetchBytes(url, label) {
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "hesi-hormuz-dashboard/1.0"
+      "User-Agent":
+        "hesi-hormuz-dashboard/1.0"
     }
   });
 
@@ -88,7 +116,8 @@ async function fetchBytes(url, label) {
 async function fetchText(url, label) {
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "hesi-hormuz-dashboard/1.0"
+      "User-Agent":
+        "hesi-hormuz-dashboard/1.0"
     }
   });
 
@@ -107,7 +136,11 @@ async function main() {
     new Date().toISOString();
 
   /*
-   * Verify official historical index.
+   * Verify the official CFTC historical index.
+   *
+   * This establishes the official historical
+   * source only. It does not establish historical
+   * AvailableAt timestamps.
    */
   const historicalIndex =
     await fetchText(
@@ -129,8 +162,8 @@ async function main() {
   }
 
   /*
-   * Download official annual Disaggregated
-   * Futures Only archive.
+   * Download the official annual compressed
+   * Disaggregated Futures Only archive.
    */
   const archiveBytes =
     await fetchBytes(
@@ -138,6 +171,16 @@ async function main() {
       "CFTC historical archive"
     );
 
+  if (archiveBytes.length === 0) {
+    throw new Error(
+      "CFTC historical archive is empty."
+    );
+  }
+
+  /*
+   * Validate standard ZIP signature:
+   * 50 4B 03 04
+   */
   const zipSignatureValid =
     archiveBytes.length >= 4 &&
     archiveBytes[0] === 0x50 &&
@@ -151,6 +194,11 @@ async function main() {
     );
   }
 
+  /*
+   * GitHub Actions uses Ubuntu.
+   * We use the system unzip utility only for
+   * extracting this research probe archive.
+   */
   const {
     mkdtemp,
     writeFile: writeTempFile,
@@ -207,7 +255,8 @@ async function main() {
     const candidateFiles =
       extractedFiles.filter(
         (name) =>
-          name !== `cftc-${TEST_YEAR}.zip`
+          name !==
+          `cftc-${TEST_YEAR}.zip`
       );
 
     if (candidateFiles.length === 0) {
@@ -216,6 +265,11 @@ async function main() {
       );
     }
 
+    /*
+     * Locate the extracted Disaggregated
+     * Futures Only data file by its Managed
+     * Money column names.
+     */
     let dataFileName = null;
     let dataText = null;
 
@@ -244,6 +298,9 @@ async function main() {
         ) &&
         candidateText.includes(
           "M_Money_Positions_Short_All"
+        ) &&
+        candidateText.includes(
+          "Report_Date_as_YYYY-MM-DD"
         )
       ) {
         dataFileName = fileName;
@@ -277,19 +334,12 @@ async function main() {
         .map(normalizeHeader);
 
     /*
-     * Diagnostic output.
-     *
-     * We deliberately print the complete real
-     * CFTC header before validating column names.
-     * This lets us identify the exact date column
-     * without guessing.
+     * These names were observed directly in the
+     * official CFTC 2025 historical archive.
      */
-    console.log("CFTC HEADERS:");
-    console.log(headers);
-
     const requiredColumns = [
       "Market_and_Exchange_Names",
-      "As_of_Date_Form_YYYY-MM-DD",
+      "Report_Date_as_YYYY-MM-DD",
       "CFTC_Market_Code",
       "M_Money_Positions_Long_All",
       "M_Money_Positions_Short_All",
@@ -298,10 +348,6 @@ async function main() {
 
     for (const column of requiredColumns) {
       if (!headers.includes(column)) {
-        console.log(
-          `MISSING REQUIRED COLUMN: ${column}`
-        );
-
         throw new Error(
           `Required CFTC column missing: ${column}`
         );
@@ -311,7 +357,8 @@ async function main() {
     const columnIndex =
       Object.fromEntries(
         headers.map(
-          (name, index) => [name, index]
+          (name, index) =>
+            [name, index]
         )
       );
 
@@ -321,40 +368,45 @@ async function main() {
       const fields =
         parseCsvLine(line);
 
+      /*
+       * Skip structurally incomplete rows.
+       */
       if (fields.length < headers.length) {
         continue;
       }
 
       const marketCode =
-        fields[
-          columnIndex[
-            "CFTC_Market_Code"
+        cleanField(
+          fields[
+            columnIndex[
+              "CFTC_Market_Code"
+            ]
           ]
-        ]
-          ?.replace(/^"|"$/g, "")
-          .trim();
+        );
 
       if (marketCode !== MARKET_CODE) {
         continue;
       }
 
       const marketName =
-        fields[
-          columnIndex[
-            "Market_and_Exchange_Names"
+        cleanField(
+          fields[
+            columnIndex[
+              "Market_and_Exchange_Names"
+            ]
           ]
-        ]
-          ?.replace(/^"|"$/g, "")
-          .trim();
+        );
 
       const observationDate =
-        fields[
-          columnIndex[
-            "As_of_Date_Form_YYYY-MM-DD"
-          ]
-        ]
-          ?.replace(/^"|"$/g, "")
-          .trim();
+        validateObservationDate(
+          cleanField(
+            fields[
+              columnIndex[
+                "Report_Date_as_YYYY-MM-DD"
+              ]
+            ]
+          )
+        );
 
       const managedMoneyLong =
         parseInteger(
@@ -386,6 +438,20 @@ async function main() {
           "Managed Money Spreading"
         );
 
+      if (
+        managedMoneyLong < 0 ||
+        managedMoneyShort < 0 ||
+        managedMoneySpreading < 0
+      ) {
+        throw new Error(
+          `Negative CFTC positioning value on ${observationDate}.`
+        );
+      }
+
+      const managedMoneyNet =
+        managedMoneyLong -
+        managedMoneyShort;
+
       observations.push({
         observationDate,
         marketCode,
@@ -393,9 +459,7 @@ async function main() {
         managedMoneyLong,
         managedMoneyShort,
         managedMoneySpreading,
-        managedMoneyNet:
-          managedMoneyLong -
-          managedMoneyShort
+        managedMoneyNet
       });
     }
 
@@ -412,6 +476,10 @@ async function main() {
         )
     );
 
+    /*
+     * A weekly market series must not contain
+     * duplicate report dates for the same market.
+     */
     const uniqueDates =
       new Set(
         observations.map(
@@ -439,8 +507,16 @@ async function main() {
         )
       ];
 
+    /*
+     * This probe establishes historical VALUES
+     * only.
+     *
+     * It deliberately does NOT assign historical
+     * AvailableAt timestamps and does NOT admit
+     * observations into the historical store.
+     */
     const output = {
-      schemaVersion: "1.1",
+      schemaVersion: "1.2",
 
       status:
         "CFTC_HISTORICAL_VALUES_EXTRACTED_NOT_ADMITTED",
@@ -515,6 +591,9 @@ async function main() {
       },
 
       columnValidation: {
+        dateColumn:
+          "Report_Date_as_YYYY-MM-DD",
+
         requiredColumns,
 
         allRequiredColumnsFound:
@@ -540,7 +619,7 @@ async function main() {
           false,
 
         reason:
-          "Historical values were extracted and structurally validated, but no defensible AvailableAt has yet been assigned."
+          "Historical CFTC values are extracted and structurally validated, but no defensible historical AvailableAt has yet been assigned."
       },
 
       safeguards: {
@@ -559,12 +638,21 @@ async function main() {
         modelWeightsModified:
           false,
 
+        thresholdsModified:
+          false,
+
+        forecastModelTrained:
+          false,
+
         officialHesiModified:
+          false,
+
+        dashboardOfficialHesiModified:
           false
       },
 
       nextResearchQuestion:
-        "Determine and validate a defensible historical AvailableAt methodology before historical CFTC observations are admitted."
+        "Determine and validate a defensible historical AvailableAt methodology before any historical CFTC observation is admitted."
     };
 
     await writeFile(
@@ -598,6 +686,10 @@ async function main() {
     );
 
     console.log(
+      `Unique observation dates: ${uniqueDates.size}`
+    );
+
+    console.log(
       `First observation: ${observations[0].observationDate}`
     );
 
@@ -610,6 +702,10 @@ async function main() {
     );
 
     console.log(
+      `Market names: ${marketNames.join(" | ")}`
+    );
+
+    console.log(
       "Historical metric definition: VERIFIED"
     );
 
@@ -619,6 +715,10 @@ async function main() {
 
     console.log(
       "Historical observations admitted: 0"
+    );
+
+    console.log(
+      "Official HESI modified: NO"
     );
   } finally {
     await rm(
