@@ -1,0 +1,5239 @@
+{
+  "schemaVersion": "1.0",
+  "status": "AVAILABILITY_ANALYSIS_NOT_ADMISSION",
+  "analysisTimestamp": "2026-10-02T06:03:22.106Z",
+  "sourceDataset": "brent-alfred-admission-ready.json",
+  "summary": {
+    "observationsAnalyzed": 3939,
+    "duplicateObservations": 0,
+    "earliestObservationDate": "2011-04-06",
+    "latestObservationDate": "2026-09-29",
+    "earliestRealtimeStart": "2011-04-13",
+    "latestRealtimeStart": "2026-09-30"
+  },
+  "lagMethod": {
+    "definition": "Calendar-day difference between ALFRED realtimeStart and observationDate.",
+    "interpretation": "This measures the date-level delay encoded by the ALFRED realtime_start field. It does not infer an intraday publication time.",
+    "availableAtConvention": "realtimeStart at 23:59:59.999 UTC remains the conservative candidate AvailableAt convention."
+  },
+  "lagStatistics": {
+    "minimumCalendarDays": 0,
+    "maximumCalendarDays": 15,
+    "meanCalendarDays": 5.457222645341457,
+    "medianCalendarDays": 6,
+    "negativeLagCount": 0,
+    "sameDayCount": 7,
+    "oneDayCount": 117,
+    "twoDayCount": 771,
+    "threeDayCount": 79,
+    "fourToSevenDayCount": 2227,
+    "overSevenDayCount": 738
+  },
+  "lagDistribution": {
+    "0": 7,
+    "1": 117,
+    "2": 771,
+    "3": 79,
+    "4": 6,
+    "5": 667,
+    "6": 782,
+    "7": 772,
+    "8": 605,
+    "9": 102,
+    "10": 6,
+    "11": 1,
+    "12": 9,
+    "13": 6,
+    "14": 5,
+    "15": 4
+  },
+  "unusualLagRule": "lagCalendarDays < 0 or > 7",
+  "unusualLagObservations": [
+    {
+      "observationDate": "2011-05-25",
+      "realtimeStart": "2011-06-02",
+      "availableAt": "2011-06-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 114.47
+    },
+    {
+      "observationDate": "2011-06-14",
+      "realtimeStart": "2011-06-22",
+      "availableAt": "2011-06-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 120.35
+    },
+    {
+      "observationDate": "2011-06-29",
+      "realtimeStart": "2011-07-07",
+      "availableAt": "2011-07-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 111.49
+    },
+    {
+      "observationDate": "2011-08-23",
+      "realtimeStart": "2011-08-31",
+      "availableAt": "2011-08-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.35
+    },
+    {
+      "observationDate": "2011-08-31",
+      "realtimeStart": "2011-09-08",
+      "availableAt": "2011-09-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 116.48
+    },
+    {
+      "observationDate": "2011-10-05",
+      "realtimeStart": "2011-10-13",
+      "availableAt": "2011-10-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 103.77
+    },
+    {
+      "observationDate": "2011-11-29",
+      "realtimeStart": "2011-12-07",
+      "availableAt": "2011-12-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 111.25
+    },
+    {
+      "observationDate": "2011-12-06",
+      "realtimeStart": "2011-12-14",
+      "availableAt": "2011-12-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.16
+    },
+    {
+      "observationDate": "2011-12-13",
+      "realtimeStart": "2011-12-21",
+      "availableAt": "2011-12-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.25
+    },
+    {
+      "observationDate": "2011-12-21",
+      "realtimeStart": "2011-12-29",
+      "availableAt": "2011-12-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108
+    },
+    {
+      "observationDate": "2012-01-11",
+      "realtimeStart": "2012-01-19",
+      "availableAt": "2012-01-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 111.66
+    },
+    {
+      "observationDate": "2012-05-23",
+      "realtimeStart": "2012-05-31",
+      "availableAt": "2012-05-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.88
+    },
+    {
+      "observationDate": "2012-06-27",
+      "realtimeStart": "2012-07-05",
+      "availableAt": "2012-07-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 92.06
+    },
+    {
+      "observationDate": "2012-08-14",
+      "realtimeStart": "2012-08-22",
+      "availableAt": "2012-08-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 113.9
+    },
+    {
+      "observationDate": "2012-08-29",
+      "realtimeStart": "2012-09-06",
+      "availableAt": "2012-09-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 112.53
+    },
+    {
+      "observationDate": "2012-10-02",
+      "realtimeStart": "2012-10-11",
+      "availableAt": "2012-10-11T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 112.49
+    },
+    {
+      "observationDate": "2012-10-03",
+      "realtimeStart": "2012-10-11",
+      "availableAt": "2012-10-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.32
+    },
+    {
+      "observationDate": "2012-12-28",
+      "realtimeStart": "2013-01-09",
+      "availableAt": "2013-01-09T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 110.05
+    },
+    {
+      "observationDate": "2012-12-31",
+      "realtimeStart": "2013-01-09",
+      "availableAt": "2013-01-09T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 110.8
+    },
+    {
+      "observationDate": "2013-01-08",
+      "realtimeStart": "2013-01-16",
+      "availableAt": "2013-01-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 113.03
+    },
+    {
+      "observationDate": "2013-01-16",
+      "realtimeStart": "2013-01-24",
+      "availableAt": "2013-01-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.97
+    },
+    {
+      "observationDate": "2013-02-12",
+      "realtimeStart": "2013-02-21",
+      "availableAt": "2013-02-21T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 117.89
+    },
+    {
+      "observationDate": "2013-02-13",
+      "realtimeStart": "2013-02-21",
+      "availableAt": "2013-02-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 118.43
+    },
+    {
+      "observationDate": "2013-02-26",
+      "realtimeStart": "2013-03-06",
+      "availableAt": "2013-03-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 112.96
+    },
+    {
+      "observationDate": "2013-03-05",
+      "realtimeStart": "2013-03-13",
+      "availableAt": "2013-03-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.42
+    },
+    {
+      "observationDate": "2013-03-12",
+      "realtimeStart": "2013-03-20",
+      "availableAt": "2013-03-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.48
+    },
+    {
+      "observationDate": "2013-03-26",
+      "realtimeStart": "2013-04-03",
+      "availableAt": "2013-04-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.1
+    },
+    {
+      "observationDate": "2013-04-02",
+      "realtimeStart": "2013-04-10",
+      "availableAt": "2013-04-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.66
+    },
+    {
+      "observationDate": "2013-04-09",
+      "realtimeStart": "2013-04-17",
+      "availableAt": "2013-04-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 104.08
+    },
+    {
+      "observationDate": "2013-04-16",
+      "realtimeStart": "2013-04-24",
+      "availableAt": "2013-04-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 97.88
+    },
+    {
+      "observationDate": "2013-04-23",
+      "realtimeStart": "2013-05-01",
+      "availableAt": "2013-05-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 99.25
+    },
+    {
+      "observationDate": "2013-04-30",
+      "realtimeStart": "2013-05-08",
+      "availableAt": "2013-05-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 101.53
+    },
+    {
+      "observationDate": "2013-05-07",
+      "realtimeStart": "2013-05-15",
+      "availableAt": "2013-05-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 105.18
+    },
+    {
+      "observationDate": "2013-05-14",
+      "realtimeStart": "2013-05-22",
+      "availableAt": "2013-05-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 102.7
+    },
+    {
+      "observationDate": "2013-05-21",
+      "realtimeStart": "2013-05-30",
+      "availableAt": "2013-05-30T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 103.1
+    },
+    {
+      "observationDate": "2013-05-22",
+      "realtimeStart": "2013-05-30",
+      "availableAt": "2013-05-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 102.14
+    },
+    {
+      "observationDate": "2013-06-11",
+      "realtimeStart": "2013-06-19",
+      "availableAt": "2013-06-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 101.5
+    },
+    {
+      "observationDate": "2013-06-18",
+      "realtimeStart": "2013-06-26",
+      "availableAt": "2013-06-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 105.21
+    },
+    {
+      "observationDate": "2013-08-20",
+      "realtimeStart": "2013-08-28",
+      "availableAt": "2013-08-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.74
+    },
+    {
+      "observationDate": "2013-08-28",
+      "realtimeStart": "2013-09-05",
+      "availableAt": "2013-09-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 116.27
+    },
+    {
+      "observationDate": "2013-09-10",
+      "realtimeStart": "2013-09-18",
+      "availableAt": "2013-09-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 112.1
+    },
+    {
+      "observationDate": "2013-09-17",
+      "realtimeStart": "2013-09-25",
+      "availableAt": "2013-09-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.05
+    },
+    {
+      "observationDate": "2013-09-24",
+      "realtimeStart": "2013-10-02",
+      "availableAt": "2013-10-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.68
+    },
+    {
+      "observationDate": "2013-10-01",
+      "realtimeStart": "2013-10-09",
+      "availableAt": "2013-10-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.32
+    },
+    {
+      "observationDate": "2013-10-08",
+      "realtimeStart": "2013-10-23",
+      "availableAt": "2013-10-23T23:59:59.999Z",
+      "lagCalendarDays": 15,
+      "value": 110.56
+    },
+    {
+      "observationDate": "2013-10-09",
+      "realtimeStart": "2013-10-23",
+      "availableAt": "2013-10-23T23:59:59.999Z",
+      "lagCalendarDays": 14,
+      "value": 109.02
+    },
+    {
+      "observationDate": "2013-10-10",
+      "realtimeStart": "2013-10-23",
+      "availableAt": "2013-10-23T23:59:59.999Z",
+      "lagCalendarDays": 13,
+      "value": 111.63
+    },
+    {
+      "observationDate": "2013-10-11",
+      "realtimeStart": "2013-10-23",
+      "availableAt": "2013-10-23T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 110.65
+    },
+    {
+      "observationDate": "2013-10-14",
+      "realtimeStart": "2013-10-23",
+      "availableAt": "2013-10-23T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 110.13
+    },
+    {
+      "observationDate": "2013-10-15",
+      "realtimeStart": "2013-10-23",
+      "availableAt": "2013-10-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.67
+    },
+    {
+      "observationDate": "2013-10-22",
+      "realtimeStart": "2013-10-30",
+      "availableAt": "2013-10-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.57
+    },
+    {
+      "observationDate": "2013-10-29",
+      "realtimeStart": "2013-11-06",
+      "availableAt": "2013-11-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.04
+    },
+    {
+      "observationDate": "2013-11-05",
+      "realtimeStart": "2013-11-14",
+      "availableAt": "2013-11-14T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 105.01
+    },
+    {
+      "observationDate": "2013-11-06",
+      "realtimeStart": "2013-11-14",
+      "availableAt": "2013-11-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 105.46
+    },
+    {
+      "observationDate": "2013-11-19",
+      "realtimeStart": "2013-11-27",
+      "availableAt": "2013-11-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.29
+    },
+    {
+      "observationDate": "2013-11-26",
+      "realtimeStart": "2013-12-04",
+      "availableAt": "2013-12-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 112.04
+    },
+    {
+      "observationDate": "2013-12-03",
+      "realtimeStart": "2013-12-11",
+      "availableAt": "2013-12-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 113.06
+    },
+    {
+      "observationDate": "2013-12-17",
+      "realtimeStart": "2013-12-27",
+      "availableAt": "2013-12-27T23:59:59.999Z",
+      "lagCalendarDays": 10,
+      "value": 108.91
+    },
+    {
+      "observationDate": "2013-12-18",
+      "realtimeStart": "2013-12-27",
+      "availableAt": "2013-12-27T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 109.56
+    },
+    {
+      "observationDate": "2013-12-19",
+      "realtimeStart": "2013-12-27",
+      "availableAt": "2013-12-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.78
+    },
+    {
+      "observationDate": "2013-12-27",
+      "realtimeStart": "2014-01-08",
+      "availableAt": "2014-01-08T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 112.06
+    },
+    {
+      "observationDate": "2013-12-30",
+      "realtimeStart": "2014-01-08",
+      "availableAt": "2014-01-08T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 110.47
+    },
+    {
+      "observationDate": "2013-12-31",
+      "realtimeStart": "2014-01-08",
+      "availableAt": "2014-01-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.95
+    },
+    {
+      "observationDate": "2014-01-07",
+      "realtimeStart": "2014-01-15",
+      "availableAt": "2014-01-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.01
+    },
+    {
+      "observationDate": "2014-01-14",
+      "realtimeStart": "2014-01-23",
+      "availableAt": "2014-01-23T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 107.12
+    },
+    {
+      "observationDate": "2014-01-15",
+      "realtimeStart": "2014-01-23",
+      "availableAt": "2014-01-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.09
+    },
+    {
+      "observationDate": "2014-01-28",
+      "realtimeStart": "2014-02-05",
+      "availableAt": "2014-02-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.1
+    },
+    {
+      "observationDate": "2014-02-04",
+      "realtimeStart": "2014-02-12",
+      "availableAt": "2014-02-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.04
+    },
+    {
+      "observationDate": "2014-02-11",
+      "realtimeStart": "2014-02-20",
+      "availableAt": "2014-02-20T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 109.21
+    },
+    {
+      "observationDate": "2014-02-12",
+      "realtimeStart": "2014-02-20",
+      "availableAt": "2014-02-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.62
+    },
+    {
+      "observationDate": "2014-02-25",
+      "realtimeStart": "2014-03-05",
+      "availableAt": "2014-03-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.19
+    },
+    {
+      "observationDate": "2014-03-04",
+      "realtimeStart": "2014-03-12",
+      "availableAt": "2014-03-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.17
+    },
+    {
+      "observationDate": "2014-03-11",
+      "realtimeStart": "2014-03-19",
+      "availableAt": "2014-03-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.35
+    },
+    {
+      "observationDate": "2014-03-25",
+      "realtimeStart": "2014-04-02",
+      "availableAt": "2014-04-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.01
+    },
+    {
+      "observationDate": "2014-04-08",
+      "realtimeStart": "2014-04-16",
+      "availableAt": "2014-04-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 105.83
+    },
+    {
+      "observationDate": "2014-04-15",
+      "realtimeStart": "2014-04-23",
+      "availableAt": "2014-04-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.1
+    },
+    {
+      "observationDate": "2014-04-22",
+      "realtimeStart": "2014-04-30",
+      "availableAt": "2014-04-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.54
+    },
+    {
+      "observationDate": "2014-04-29",
+      "realtimeStart": "2014-05-07",
+      "availableAt": "2014-05-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.89
+    },
+    {
+      "observationDate": "2014-05-06",
+      "realtimeStart": "2014-05-14",
+      "availableAt": "2014-05-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.3
+    },
+    {
+      "observationDate": "2014-05-13",
+      "realtimeStart": "2014-05-21",
+      "availableAt": "2014-05-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.78
+    },
+    {
+      "observationDate": "2014-05-20",
+      "realtimeStart": "2014-05-29",
+      "availableAt": "2014-05-29T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 110.35
+    },
+    {
+      "observationDate": "2014-05-21",
+      "realtimeStart": "2014-05-29",
+      "availableAt": "2014-05-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 111.32
+    },
+    {
+      "observationDate": "2014-06-03",
+      "realtimeStart": "2014-06-11",
+      "availableAt": "2014-06-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.87
+    },
+    {
+      "observationDate": "2014-06-10",
+      "realtimeStart": "2014-06-18",
+      "availableAt": "2014-06-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 109.18
+    },
+    {
+      "observationDate": "2014-06-17",
+      "realtimeStart": "2014-06-25",
+      "availableAt": "2014-06-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 114.02
+    },
+    {
+      "observationDate": "2014-06-24",
+      "realtimeStart": "2014-07-02",
+      "availableAt": "2014-07-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 113.74
+    },
+    {
+      "observationDate": "2014-07-01",
+      "realtimeStart": "2014-07-09",
+      "availableAt": "2014-07-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.84
+    },
+    {
+      "observationDate": "2014-07-08",
+      "realtimeStart": "2014-07-16",
+      "availableAt": "2014-07-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.65
+    },
+    {
+      "observationDate": "2014-07-15",
+      "realtimeStart": "2014-07-23",
+      "availableAt": "2014-07-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 104.73
+    },
+    {
+      "observationDate": "2014-07-22",
+      "realtimeStart": "2014-07-30",
+      "availableAt": "2014-07-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.48
+    },
+    {
+      "observationDate": "2014-07-29",
+      "realtimeStart": "2014-08-06",
+      "availableAt": "2014-08-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.98
+    },
+    {
+      "observationDate": "2014-08-05",
+      "realtimeStart": "2014-08-13",
+      "availableAt": "2014-08-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 102.82
+    },
+    {
+      "observationDate": "2014-08-12",
+      "realtimeStart": "2014-08-20",
+      "availableAt": "2014-08-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 101.68
+    },
+    {
+      "observationDate": "2014-08-19",
+      "realtimeStart": "2014-08-27",
+      "availableAt": "2014-08-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 99.74
+    },
+    {
+      "observationDate": "2014-08-26",
+      "realtimeStart": "2014-09-04",
+      "availableAt": "2014-09-04T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 100.5
+    },
+    {
+      "observationDate": "2014-08-27",
+      "realtimeStart": "2014-09-04",
+      "availableAt": "2014-09-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 100.4
+    },
+    {
+      "observationDate": "2014-09-09",
+      "realtimeStart": "2014-09-17",
+      "availableAt": "2014-09-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 98.08
+    },
+    {
+      "observationDate": "2014-09-16",
+      "realtimeStart": "2014-09-24",
+      "availableAt": "2014-09-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 97.39
+    },
+    {
+      "observationDate": "2014-09-23",
+      "realtimeStart": "2014-10-01",
+      "availableAt": "2014-10-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 94.87
+    },
+    {
+      "observationDate": "2014-09-30",
+      "realtimeStart": "2014-10-08",
+      "availableAt": "2014-10-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 94.67
+    },
+    {
+      "observationDate": "2014-10-07",
+      "realtimeStart": "2014-10-16",
+      "availableAt": "2014-10-16T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 90.9
+    },
+    {
+      "observationDate": "2014-10-08",
+      "realtimeStart": "2014-10-16",
+      "availableAt": "2014-10-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 90.25
+    },
+    {
+      "observationDate": "2014-10-21",
+      "realtimeStart": "2014-10-29",
+      "availableAt": "2014-10-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.17
+    },
+    {
+      "observationDate": "2014-10-28",
+      "realtimeStart": "2014-11-05",
+      "availableAt": "2014-11-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.57
+    },
+    {
+      "observationDate": "2014-11-04",
+      "realtimeStart": "2014-11-13",
+      "availableAt": "2014-11-13T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 82.12
+    },
+    {
+      "observationDate": "2014-11-05",
+      "realtimeStart": "2014-11-13",
+      "availableAt": "2014-11-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.88
+    },
+    {
+      "observationDate": "2014-11-18",
+      "realtimeStart": "2014-11-26",
+      "availableAt": "2014-11-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.23
+    },
+    {
+      "observationDate": "2014-11-25",
+      "realtimeStart": "2014-12-03",
+      "availableAt": "2014-12-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.62
+    },
+    {
+      "observationDate": "2014-12-02",
+      "realtimeStart": "2014-12-10",
+      "availableAt": "2014-12-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.13
+    },
+    {
+      "observationDate": "2014-12-09",
+      "realtimeStart": "2014-12-17",
+      "availableAt": "2014-12-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.11
+    },
+    {
+      "observationDate": "2014-12-16",
+      "realtimeStart": "2014-12-24",
+      "availableAt": "2014-12-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.26
+    },
+    {
+      "observationDate": "2014-12-23",
+      "realtimeStart": "2014-12-31",
+      "availableAt": "2014-12-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.07
+    },
+    {
+      "observationDate": "2014-12-30",
+      "realtimeStart": "2015-01-07",
+      "availableAt": "2015-01-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.6
+    },
+    {
+      "observationDate": "2015-01-06",
+      "realtimeStart": "2015-01-14",
+      "availableAt": "2015-01-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 50.12
+    },
+    {
+      "observationDate": "2015-01-13",
+      "realtimeStart": "2015-01-22",
+      "availableAt": "2015-01-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 45.13
+    },
+    {
+      "observationDate": "2015-01-14",
+      "realtimeStart": "2015-01-22",
+      "availableAt": "2015-01-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.82
+    },
+    {
+      "observationDate": "2015-01-27",
+      "realtimeStart": "2015-02-04",
+      "availableAt": "2015-02-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.55
+    },
+    {
+      "observationDate": "2015-02-03",
+      "realtimeStart": "2015-02-11",
+      "availableAt": "2015-02-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.41
+    },
+    {
+      "observationDate": "2015-02-10",
+      "realtimeStart": "2015-02-19",
+      "availableAt": "2015-02-19T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 55.79
+    },
+    {
+      "observationDate": "2015-02-11",
+      "realtimeStart": "2015-02-19",
+      "availableAt": "2015-02-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.48
+    },
+    {
+      "observationDate": "2015-02-24",
+      "realtimeStart": "2015-03-04",
+      "availableAt": "2015-03-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.33
+    },
+    {
+      "observationDate": "2015-03-03",
+      "realtimeStart": "2015-03-11",
+      "availableAt": "2015-03-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.18
+    },
+    {
+      "observationDate": "2015-03-10",
+      "realtimeStart": "2015-03-18",
+      "availableAt": "2015-03-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.95
+    },
+    {
+      "observationDate": "2015-03-17",
+      "realtimeStart": "2015-03-25",
+      "availableAt": "2015-03-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.17
+    },
+    {
+      "observationDate": "2015-03-24",
+      "realtimeStart": "2015-04-01",
+      "availableAt": "2015-04-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.61
+    },
+    {
+      "observationDate": "2015-03-31",
+      "realtimeStart": "2015-04-08",
+      "availableAt": "2015-04-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.69
+    },
+    {
+      "observationDate": "2015-04-07",
+      "realtimeStart": "2015-04-15",
+      "availableAt": "2015-04-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.55
+    },
+    {
+      "observationDate": "2015-04-14",
+      "realtimeStart": "2015-04-22",
+      "availableAt": "2015-04-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.69
+    },
+    {
+      "observationDate": "2015-04-28",
+      "realtimeStart": "2015-05-06",
+      "availableAt": "2015-05-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.61
+    },
+    {
+      "observationDate": "2015-05-05",
+      "realtimeStart": "2015-05-13",
+      "availableAt": "2015-05-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.44
+    },
+    {
+      "observationDate": "2015-05-12",
+      "realtimeStart": "2015-05-20",
+      "availableAt": "2015-05-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.09
+    },
+    {
+      "observationDate": "2015-05-19",
+      "realtimeStart": "2015-05-28",
+      "availableAt": "2015-05-28T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 63.48
+    },
+    {
+      "observationDate": "2015-05-20",
+      "realtimeStart": "2015-05-28",
+      "availableAt": "2015-05-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.52
+    },
+    {
+      "observationDate": "2015-06-02",
+      "realtimeStart": "2015-06-10",
+      "availableAt": "2015-06-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.14
+    },
+    {
+      "observationDate": "2015-06-09",
+      "realtimeStart": "2015-06-17",
+      "availableAt": "2015-06-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.23
+    },
+    {
+      "observationDate": "2015-06-16",
+      "realtimeStart": "2015-06-24",
+      "availableAt": "2015-06-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.75
+    },
+    {
+      "observationDate": "2015-06-23",
+      "realtimeStart": "2015-07-01",
+      "availableAt": "2015-07-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.67
+    },
+    {
+      "observationDate": "2015-06-30",
+      "realtimeStart": "2015-07-08",
+      "availableAt": "2015-07-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.31
+    },
+    {
+      "observationDate": "2015-07-07",
+      "realtimeStart": "2015-07-15",
+      "availableAt": "2015-07-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.72
+    },
+    {
+      "observationDate": "2015-07-14",
+      "realtimeStart": "2015-07-22",
+      "availableAt": "2015-07-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.2
+    },
+    {
+      "observationDate": "2015-07-21",
+      "realtimeStart": "2015-07-29",
+      "availableAt": "2015-07-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.94
+    },
+    {
+      "observationDate": "2015-07-28",
+      "realtimeStart": "2015-08-05",
+      "availableAt": "2015-08-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.3
+    },
+    {
+      "observationDate": "2015-08-04",
+      "realtimeStart": "2015-08-12",
+      "availableAt": "2015-08-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.08
+    },
+    {
+      "observationDate": "2015-08-11",
+      "realtimeStart": "2015-08-19",
+      "availableAt": "2015-08-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.33
+    },
+    {
+      "observationDate": "2015-08-18",
+      "realtimeStart": "2015-08-26",
+      "availableAt": "2015-08-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47
+    },
+    {
+      "observationDate": "2015-08-25",
+      "realtimeStart": "2015-09-02",
+      "availableAt": "2015-09-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 41.86
+    },
+    {
+      "observationDate": "2015-09-01",
+      "realtimeStart": "2015-09-10",
+      "availableAt": "2015-09-10T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 48.8
+    },
+    {
+      "observationDate": "2015-09-02",
+      "realtimeStart": "2015-09-10",
+      "availableAt": "2015-09-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.67
+    },
+    {
+      "observationDate": "2015-09-15",
+      "realtimeStart": "2015-09-23",
+      "availableAt": "2015-09-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.91
+    },
+    {
+      "observationDate": "2015-09-22",
+      "realtimeStart": "2015-09-30",
+      "availableAt": "2015-09-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.69
+    },
+    {
+      "observationDate": "2015-09-29",
+      "realtimeStart": "2015-10-07",
+      "availableAt": "2015-10-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.58
+    },
+    {
+      "observationDate": "2015-10-06",
+      "realtimeStart": "2015-10-15",
+      "availableAt": "2015-10-15T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 51.34
+    },
+    {
+      "observationDate": "2015-10-07",
+      "realtimeStart": "2015-10-15",
+      "availableAt": "2015-10-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 51.66
+    },
+    {
+      "observationDate": "2015-10-20",
+      "realtimeStart": "2015-10-28",
+      "availableAt": "2015-10-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.93
+    },
+    {
+      "observationDate": "2015-10-27",
+      "realtimeStart": "2015-11-04",
+      "availableAt": "2015-11-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.54
+    },
+    {
+      "observationDate": "2015-11-03",
+      "realtimeStart": "2015-11-12",
+      "availableAt": "2015-11-12T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 48
+    },
+    {
+      "observationDate": "2015-11-04",
+      "realtimeStart": "2015-11-12",
+      "availableAt": "2015-11-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.96
+    },
+    {
+      "observationDate": "2015-11-17",
+      "realtimeStart": "2015-11-25",
+      "availableAt": "2015-11-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 41.28
+    },
+    {
+      "observationDate": "2015-11-24",
+      "realtimeStart": "2015-12-02",
+      "availableAt": "2015-12-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 44.38
+    },
+    {
+      "observationDate": "2015-12-08",
+      "realtimeStart": "2015-12-16",
+      "availableAt": "2015-12-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 39.44
+    },
+    {
+      "observationDate": "2015-12-15",
+      "realtimeStart": "2015-12-23",
+      "availableAt": "2015-12-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 37.66
+    },
+    {
+      "observationDate": "2015-12-22",
+      "realtimeStart": "2015-12-30",
+      "availableAt": "2015-12-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 35.26
+    },
+    {
+      "observationDate": "2015-12-29",
+      "realtimeStart": "2016-01-06",
+      "availableAt": "2016-01-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 36.85
+    },
+    {
+      "observationDate": "2016-01-05",
+      "realtimeStart": "2016-01-13",
+      "availableAt": "2016-01-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 35.56
+    },
+    {
+      "observationDate": "2016-01-12",
+      "realtimeStart": "2016-01-21",
+      "availableAt": "2016-01-21T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 29.14
+    },
+    {
+      "observationDate": "2016-01-13",
+      "realtimeStart": "2016-01-21",
+      "availableAt": "2016-01-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 28.58
+    },
+    {
+      "observationDate": "2016-01-26",
+      "realtimeStart": "2016-02-03",
+      "availableAt": "2016-02-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 30.94
+    },
+    {
+      "observationDate": "2016-02-02",
+      "realtimeStart": "2016-02-10",
+      "availableAt": "2016-02-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 30.98
+    },
+    {
+      "observationDate": "2016-02-09",
+      "realtimeStart": "2016-02-18",
+      "availableAt": "2016-02-18T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 30.15
+    },
+    {
+      "observationDate": "2016-02-10",
+      "realtimeStart": "2016-02-18",
+      "availableAt": "2016-02-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 29.64
+    },
+    {
+      "observationDate": "2016-02-23",
+      "realtimeStart": "2016-03-02",
+      "availableAt": "2016-03-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 31.9
+    },
+    {
+      "observationDate": "2016-03-01",
+      "realtimeStart": "2016-03-09",
+      "availableAt": "2016-03-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 35.73
+    },
+    {
+      "observationDate": "2016-03-08",
+      "realtimeStart": "2016-03-16",
+      "availableAt": "2016-03-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 39.16
+    },
+    {
+      "observationDate": "2016-03-15",
+      "realtimeStart": "2016-03-23",
+      "availableAt": "2016-03-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 37.49
+    },
+    {
+      "observationDate": "2016-03-22",
+      "realtimeStart": "2016-03-30",
+      "availableAt": "2016-03-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40.54
+    },
+    {
+      "observationDate": "2016-03-29",
+      "realtimeStart": "2016-04-06",
+      "availableAt": "2016-04-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 36.75
+    },
+    {
+      "observationDate": "2016-04-05",
+      "realtimeStart": "2016-04-13",
+      "availableAt": "2016-04-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 35.88
+    },
+    {
+      "observationDate": "2016-04-12",
+      "realtimeStart": "2016-04-20",
+      "availableAt": "2016-04-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.02
+    },
+    {
+      "observationDate": "2016-04-19",
+      "realtimeStart": "2016-04-27",
+      "availableAt": "2016-04-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.02
+    },
+    {
+      "observationDate": "2016-04-26",
+      "realtimeStart": "2016-05-04",
+      "availableAt": "2016-05-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.94
+    },
+    {
+      "observationDate": "2016-05-03",
+      "realtimeStart": "2016-05-11",
+      "availableAt": "2016-05-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.09
+    },
+    {
+      "observationDate": "2016-05-10",
+      "realtimeStart": "2016-05-18",
+      "availableAt": "2016-05-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 44.01
+    },
+    {
+      "observationDate": "2016-05-17",
+      "realtimeStart": "2016-05-25",
+      "availableAt": "2016-05-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.71
+    },
+    {
+      "observationDate": "2016-05-24",
+      "realtimeStart": "2016-06-02",
+      "availableAt": "2016-06-02T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 48.42
+    },
+    {
+      "observationDate": "2016-05-25",
+      "realtimeStart": "2016-06-02",
+      "availableAt": "2016-06-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.87
+    },
+    {
+      "observationDate": "2016-06-07",
+      "realtimeStart": "2016-06-15",
+      "availableAt": "2016-06-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.76
+    },
+    {
+      "observationDate": "2016-06-14",
+      "realtimeStart": "2016-06-22",
+      "availableAt": "2016-06-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.88
+    },
+    {
+      "observationDate": "2016-06-21",
+      "realtimeStart": "2016-06-29",
+      "availableAt": "2016-06-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.18
+    },
+    {
+      "observationDate": "2016-06-28",
+      "realtimeStart": "2016-07-07",
+      "availableAt": "2016-07-07T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 46.29
+    },
+    {
+      "observationDate": "2016-06-29",
+      "realtimeStart": "2016-07-07",
+      "availableAt": "2016-07-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.4
+    },
+    {
+      "observationDate": "2016-07-12",
+      "realtimeStart": "2016-07-20",
+      "availableAt": "2016-07-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.72
+    },
+    {
+      "observationDate": "2016-07-19",
+      "realtimeStart": "2016-07-27",
+      "availableAt": "2016-07-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.7
+    },
+    {
+      "observationDate": "2016-07-26",
+      "realtimeStart": "2016-08-03",
+      "availableAt": "2016-08-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.56
+    },
+    {
+      "observationDate": "2016-08-02",
+      "realtimeStart": "2016-08-10",
+      "availableAt": "2016-08-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40
+    },
+    {
+      "observationDate": "2016-08-09",
+      "realtimeStart": "2016-08-17",
+      "availableAt": "2016-08-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.37
+    },
+    {
+      "observationDate": "2016-08-16",
+      "realtimeStart": "2016-08-24",
+      "availableAt": "2016-08-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.27
+    },
+    {
+      "observationDate": "2016-08-23",
+      "realtimeStart": "2016-08-31",
+      "availableAt": "2016-08-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.7
+    },
+    {
+      "observationDate": "2016-08-30",
+      "realtimeStart": "2016-09-08",
+      "availableAt": "2016-09-08T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 47.94
+    },
+    {
+      "observationDate": "2016-08-31",
+      "realtimeStart": "2016-09-08",
+      "availableAt": "2016-09-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.94
+    },
+    {
+      "observationDate": "2016-09-13",
+      "realtimeStart": "2016-09-21",
+      "availableAt": "2016-09-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.48
+    },
+    {
+      "observationDate": "2016-09-20",
+      "realtimeStart": "2016-09-28",
+      "availableAt": "2016-09-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.24
+    },
+    {
+      "observationDate": "2016-09-27",
+      "realtimeStart": "2016-10-05",
+      "availableAt": "2016-10-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 44.95
+    },
+    {
+      "observationDate": "2016-10-04",
+      "realtimeStart": "2016-10-13",
+      "availableAt": "2016-10-13T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 48.81
+    },
+    {
+      "observationDate": "2016-10-05",
+      "realtimeStart": "2016-10-13",
+      "availableAt": "2016-10-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.57
+    },
+    {
+      "observationDate": "2016-10-18",
+      "realtimeStart": "2016-10-26",
+      "availableAt": "2016-10-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.81
+    },
+    {
+      "observationDate": "2016-10-25",
+      "realtimeStart": "2016-11-02",
+      "availableAt": "2016-11-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.08
+    },
+    {
+      "observationDate": "2016-11-01",
+      "realtimeStart": "2016-11-09",
+      "availableAt": "2016-11-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.77
+    },
+    {
+      "observationDate": "2016-11-08",
+      "realtimeStart": "2016-11-16",
+      "availableAt": "2016-11-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.47
+    },
+    {
+      "observationDate": "2016-11-15",
+      "realtimeStart": "2016-11-23",
+      "availableAt": "2016-11-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 44.15
+    },
+    {
+      "observationDate": "2016-11-22",
+      "realtimeStart": "2016-11-30",
+      "availableAt": "2016-11-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.1
+    },
+    {
+      "observationDate": "2016-11-29",
+      "realtimeStart": "2016-12-07",
+      "availableAt": "2016-12-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 44.68
+    },
+    {
+      "observationDate": "2016-12-06",
+      "realtimeStart": "2016-12-14",
+      "availableAt": "2016-12-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.31
+    },
+    {
+      "observationDate": "2016-12-13",
+      "realtimeStart": "2016-12-21",
+      "availableAt": "2016-12-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.28
+    },
+    {
+      "observationDate": "2016-12-20",
+      "realtimeStart": "2016-12-29",
+      "availableAt": "2016-12-29T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 54.56
+    },
+    {
+      "observationDate": "2016-12-21",
+      "realtimeStart": "2016-12-29",
+      "availableAt": "2016-12-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.01
+    },
+    {
+      "observationDate": "2016-12-28",
+      "realtimeStart": "2017-01-05",
+      "availableAt": "2017-01-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.93
+    },
+    {
+      "observationDate": "2017-01-10",
+      "realtimeStart": "2017-01-19",
+      "availableAt": "2017-01-19T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 53.2
+    },
+    {
+      "observationDate": "2017-01-11",
+      "realtimeStart": "2017-01-19",
+      "availableAt": "2017-01-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.61
+    },
+    {
+      "observationDate": "2017-01-24",
+      "realtimeStart": "2017-02-01",
+      "availableAt": "2017-02-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.7
+    },
+    {
+      "observationDate": "2017-02-07",
+      "realtimeStart": "2017-02-15",
+      "availableAt": "2017-02-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.79
+    },
+    {
+      "observationDate": "2017-02-14",
+      "realtimeStart": "2017-02-23",
+      "availableAt": "2017-02-23T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 54.96
+    },
+    {
+      "observationDate": "2017-02-15",
+      "realtimeStart": "2017-02-23",
+      "availableAt": "2017-02-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.57
+    },
+    {
+      "observationDate": "2017-02-28",
+      "realtimeStart": "2017-03-08",
+      "availableAt": "2017-03-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.36
+    },
+    {
+      "observationDate": "2017-03-07",
+      "realtimeStart": "2017-03-15",
+      "availableAt": "2017-03-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.61
+    },
+    {
+      "observationDate": "2017-03-14",
+      "realtimeStart": "2017-03-22",
+      "availableAt": "2017-03-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.6
+    },
+    {
+      "observationDate": "2017-03-21",
+      "realtimeStart": "2017-03-29",
+      "availableAt": "2017-03-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 50.14
+    },
+    {
+      "observationDate": "2017-03-28",
+      "realtimeStart": "2017-04-05",
+      "availableAt": "2017-04-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 50.72
+    },
+    {
+      "observationDate": "2017-04-04",
+      "realtimeStart": "2017-04-12",
+      "availableAt": "2017-04-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.08
+    },
+    {
+      "observationDate": "2017-04-11",
+      "realtimeStart": "2017-04-19",
+      "availableAt": "2017-04-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 54.73
+    },
+    {
+      "observationDate": "2017-04-18",
+      "realtimeStart": "2017-04-26",
+      "availableAt": "2017-04-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.6
+    },
+    {
+      "observationDate": "2017-04-25",
+      "realtimeStart": "2017-05-03",
+      "availableAt": "2017-05-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.37
+    },
+    {
+      "observationDate": "2017-05-02",
+      "realtimeStart": "2017-05-10",
+      "availableAt": "2017-05-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.31
+    },
+    {
+      "observationDate": "2017-05-09",
+      "realtimeStart": "2017-05-17",
+      "availableAt": "2017-05-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.06
+    },
+    {
+      "observationDate": "2017-05-16",
+      "realtimeStart": "2017-05-24",
+      "availableAt": "2017-05-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 51.21
+    },
+    {
+      "observationDate": "2017-05-23",
+      "realtimeStart": "2017-06-01",
+      "availableAt": "2017-06-01T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 53.19
+    },
+    {
+      "observationDate": "2017-05-24",
+      "realtimeStart": "2017-06-01",
+      "availableAt": "2017-06-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.29
+    },
+    {
+      "observationDate": "2017-06-06",
+      "realtimeStart": "2017-06-14",
+      "availableAt": "2017-06-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.11
+    },
+    {
+      "observationDate": "2017-06-13",
+      "realtimeStart": "2017-06-21",
+      "availableAt": "2017-06-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.95
+    },
+    {
+      "observationDate": "2017-06-20",
+      "realtimeStart": "2017-06-28",
+      "availableAt": "2017-06-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.98
+    },
+    {
+      "observationDate": "2017-06-27",
+      "realtimeStart": "2017-07-06",
+      "availableAt": "2017-07-06T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 46.17
+    },
+    {
+      "observationDate": "2017-06-28",
+      "realtimeStart": "2017-07-06",
+      "availableAt": "2017-07-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.45
+    },
+    {
+      "observationDate": "2017-07-11",
+      "realtimeStart": "2017-07-19",
+      "availableAt": "2017-07-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.68
+    },
+    {
+      "observationDate": "2017-07-18",
+      "realtimeStart": "2017-07-26",
+      "availableAt": "2017-07-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.92
+    },
+    {
+      "observationDate": "2017-07-25",
+      "realtimeStart": "2017-08-02",
+      "availableAt": "2017-08-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.19
+    },
+    {
+      "observationDate": "2017-08-01",
+      "realtimeStart": "2017-08-09",
+      "availableAt": "2017-08-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 50.77
+    },
+    {
+      "observationDate": "2017-08-08",
+      "realtimeStart": "2017-08-16",
+      "availableAt": "2017-08-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.18
+    },
+    {
+      "observationDate": "2017-08-15",
+      "realtimeStart": "2017-08-23",
+      "availableAt": "2017-08-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.9
+    },
+    {
+      "observationDate": "2017-08-22",
+      "realtimeStart": "2017-08-30",
+      "availableAt": "2017-08-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.29
+    },
+    {
+      "observationDate": "2017-08-29",
+      "realtimeStart": "2017-09-07",
+      "availableAt": "2017-09-07T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 51.64
+    },
+    {
+      "observationDate": "2017-08-30",
+      "realtimeStart": "2017-09-07",
+      "availableAt": "2017-09-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 51.91
+    },
+    {
+      "observationDate": "2017-09-12",
+      "realtimeStart": "2017-09-20",
+      "availableAt": "2017-09-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.06
+    },
+    {
+      "observationDate": "2017-09-19",
+      "realtimeStart": "2017-09-27",
+      "availableAt": "2017-09-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 56.58
+    },
+    {
+      "observationDate": "2017-09-26",
+      "realtimeStart": "2017-10-04",
+      "availableAt": "2017-10-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.77
+    },
+    {
+      "observationDate": "2017-10-03",
+      "realtimeStart": "2017-10-12",
+      "availableAt": "2017-10-12T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 56.12
+    },
+    {
+      "observationDate": "2017-10-04",
+      "realtimeStart": "2017-10-12",
+      "availableAt": "2017-10-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 56
+    },
+    {
+      "observationDate": "2017-10-17",
+      "realtimeStart": "2017-10-25",
+      "availableAt": "2017-10-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.63
+    },
+    {
+      "observationDate": "2017-10-24",
+      "realtimeStart": "2017-11-01",
+      "availableAt": "2017-11-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.84
+    },
+    {
+      "observationDate": "2017-10-31",
+      "realtimeStart": "2017-11-08",
+      "availableAt": "2017-11-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.35
+    },
+    {
+      "observationDate": "2017-11-07",
+      "realtimeStart": "2017-11-15",
+      "availableAt": "2017-11-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.36
+    },
+    {
+      "observationDate": "2017-11-14",
+      "realtimeStart": "2017-11-22",
+      "availableAt": "2017-11-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.91
+    },
+    {
+      "observationDate": "2017-11-21",
+      "realtimeStart": "2017-11-29",
+      "availableAt": "2017-11-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.28
+    },
+    {
+      "observationDate": "2017-11-28",
+      "realtimeStart": "2017-12-06",
+      "availableAt": "2017-12-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.56
+    },
+    {
+      "observationDate": "2017-12-05",
+      "realtimeStart": "2017-12-13",
+      "availableAt": "2017-12-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.45
+    },
+    {
+      "observationDate": "2017-12-12",
+      "realtimeStart": "2017-12-20",
+      "availableAt": "2017-12-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.96
+    },
+    {
+      "observationDate": "2017-12-19",
+      "realtimeStart": "2017-12-28",
+      "availableAt": "2017-12-28T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 63.69
+    },
+    {
+      "observationDate": "2017-12-20",
+      "realtimeStart": "2017-12-28",
+      "availableAt": "2017-12-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.43
+    },
+    {
+      "observationDate": "2017-12-27",
+      "realtimeStart": "2018-01-04",
+      "availableAt": "2018-01-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.03
+    },
+    {
+      "observationDate": "2018-01-09",
+      "realtimeStart": "2018-01-18",
+      "availableAt": "2018-01-18T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 69.08
+    },
+    {
+      "observationDate": "2018-01-10",
+      "realtimeStart": "2018-01-18",
+      "availableAt": "2018-01-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.79
+    },
+    {
+      "observationDate": "2018-01-23",
+      "realtimeStart": "2018-01-31",
+      "availableAt": "2018-01-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.81
+    },
+    {
+      "observationDate": "2018-01-30",
+      "realtimeStart": "2018-02-07",
+      "availableAt": "2018-02-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.78
+    },
+    {
+      "observationDate": "2018-02-06",
+      "realtimeStart": "2018-02-14",
+      "availableAt": "2018-02-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.75
+    },
+    {
+      "observationDate": "2018-02-13",
+      "realtimeStart": "2018-02-22",
+      "availableAt": "2018-02-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 61.94
+    },
+    {
+      "observationDate": "2018-02-14",
+      "realtimeStart": "2018-02-22",
+      "availableAt": "2018-02-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.29
+    },
+    {
+      "observationDate": "2018-02-27",
+      "realtimeStart": "2018-03-07",
+      "availableAt": "2018-03-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.59
+    },
+    {
+      "observationDate": "2018-03-06",
+      "realtimeStart": "2018-03-14",
+      "availableAt": "2018-03-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.67
+    },
+    {
+      "observationDate": "2018-03-13",
+      "realtimeStart": "2018-03-21",
+      "availableAt": "2018-03-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.2
+    },
+    {
+      "observationDate": "2018-03-20",
+      "realtimeStart": "2018-03-28",
+      "availableAt": "2018-03-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66
+    },
+    {
+      "observationDate": "2018-03-27",
+      "realtimeStart": "2018-04-04",
+      "availableAt": "2018-04-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.63
+    },
+    {
+      "observationDate": "2018-04-03",
+      "realtimeStart": "2018-04-11",
+      "availableAt": "2018-04-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.02
+    },
+    {
+      "observationDate": "2018-04-10",
+      "realtimeStart": "2018-04-18",
+      "availableAt": "2018-04-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.67
+    },
+    {
+      "observationDate": "2018-04-17",
+      "realtimeStart": "2018-04-25",
+      "availableAt": "2018-04-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.71
+    },
+    {
+      "observationDate": "2018-04-24",
+      "realtimeStart": "2018-05-02",
+      "availableAt": "2018-05-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.86
+    },
+    {
+      "observationDate": "2018-05-01",
+      "realtimeStart": "2018-05-09",
+      "availableAt": "2018-05-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.85
+    },
+    {
+      "observationDate": "2018-05-08",
+      "realtimeStart": "2018-05-16",
+      "availableAt": "2018-05-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.16
+    },
+    {
+      "observationDate": "2018-05-15",
+      "realtimeStart": "2018-05-23",
+      "availableAt": "2018-05-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.94
+    },
+    {
+      "observationDate": "2018-05-22",
+      "realtimeStart": "2018-05-31",
+      "availableAt": "2018-05-31T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 80.42
+    },
+    {
+      "observationDate": "2018-05-23",
+      "realtimeStart": "2018-05-31",
+      "availableAt": "2018-05-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.69
+    },
+    {
+      "observationDate": "2018-06-05",
+      "realtimeStart": "2018-06-13",
+      "availableAt": "2018-06-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.91
+    },
+    {
+      "observationDate": "2018-06-12",
+      "realtimeStart": "2018-06-20",
+      "availableAt": "2018-06-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.86
+    },
+    {
+      "observationDate": "2018-06-19",
+      "realtimeStart": "2018-06-27",
+      "availableAt": "2018-06-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.92
+    },
+    {
+      "observationDate": "2018-06-26",
+      "realtimeStart": "2018-07-05",
+      "availableAt": "2018-07-05T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 73.58
+    },
+    {
+      "observationDate": "2018-06-27",
+      "realtimeStart": "2018-07-05",
+      "availableAt": "2018-07-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.09
+    },
+    {
+      "observationDate": "2018-07-10",
+      "realtimeStart": "2018-07-18",
+      "availableAt": "2018-07-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.8
+    },
+    {
+      "observationDate": "2018-07-17",
+      "realtimeStart": "2018-07-25",
+      "availableAt": "2018-07-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.87
+    },
+    {
+      "observationDate": "2018-07-24",
+      "realtimeStart": "2018-08-01",
+      "availableAt": "2018-08-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.53
+    },
+    {
+      "observationDate": "2018-07-31",
+      "realtimeStart": "2018-08-08",
+      "availableAt": "2018-08-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.16
+    },
+    {
+      "observationDate": "2018-08-07",
+      "realtimeStart": "2018-08-15",
+      "availableAt": "2018-08-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.31
+    },
+    {
+      "observationDate": "2018-08-14",
+      "realtimeStart": "2018-08-22",
+      "availableAt": "2018-08-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.77
+    },
+    {
+      "observationDate": "2018-08-21",
+      "realtimeStart": "2018-08-29",
+      "availableAt": "2018-08-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.65
+    },
+    {
+      "observationDate": "2018-08-28",
+      "realtimeStart": "2018-09-06",
+      "availableAt": "2018-09-06T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 75.91
+    },
+    {
+      "observationDate": "2018-08-29",
+      "realtimeStart": "2018-09-06",
+      "availableAt": "2018-09-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.07
+    },
+    {
+      "observationDate": "2018-09-11",
+      "realtimeStart": "2018-09-19",
+      "availableAt": "2018-09-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.22
+    },
+    {
+      "observationDate": "2018-09-18",
+      "realtimeStart": "2018-09-26",
+      "availableAt": "2018-09-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.25
+    },
+    {
+      "observationDate": "2018-09-25",
+      "realtimeStart": "2018-10-03",
+      "availableAt": "2018-10-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.21
+    },
+    {
+      "observationDate": "2018-10-02",
+      "realtimeStart": "2018-10-11",
+      "availableAt": "2018-10-11T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 85.63
+    },
+    {
+      "observationDate": "2018-10-03",
+      "realtimeStart": "2018-10-11",
+      "availableAt": "2018-10-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.45
+    },
+    {
+      "observationDate": "2018-10-16",
+      "realtimeStart": "2018-10-24",
+      "availableAt": "2018-10-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.53
+    },
+    {
+      "observationDate": "2018-10-23",
+      "realtimeStart": "2018-10-31",
+      "availableAt": "2018-10-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.67
+    },
+    {
+      "observationDate": "2018-10-30",
+      "realtimeStart": "2018-11-07",
+      "availableAt": "2018-11-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.68
+    },
+    {
+      "observationDate": "2018-11-06",
+      "realtimeStart": "2018-11-15",
+      "availableAt": "2018-11-15T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 70.64
+    },
+    {
+      "observationDate": "2018-11-07",
+      "realtimeStart": "2018-11-15",
+      "availableAt": "2018-11-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.1
+    },
+    {
+      "observationDate": "2018-11-20",
+      "realtimeStart": "2018-11-28",
+      "availableAt": "2018-11-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.5
+    },
+    {
+      "observationDate": "2018-11-27",
+      "realtimeStart": "2018-12-06",
+      "availableAt": "2018-12-06T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 59.58
+    },
+    {
+      "observationDate": "2018-11-28",
+      "realtimeStart": "2018-12-06",
+      "availableAt": "2018-12-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.97
+    },
+    {
+      "observationDate": "2018-12-11",
+      "realtimeStart": "2018-12-19",
+      "availableAt": "2018-12-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.73
+    },
+    {
+      "observationDate": "2018-12-18",
+      "realtimeStart": "2018-12-28",
+      "availableAt": "2018-12-28T23:59:59.999Z",
+      "lagCalendarDays": 10,
+      "value": 55.26
+    },
+    {
+      "observationDate": "2018-12-19",
+      "realtimeStart": "2018-12-28",
+      "availableAt": "2018-12-28T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 55.6
+    },
+    {
+      "observationDate": "2018-12-20",
+      "realtimeStart": "2018-12-28",
+      "availableAt": "2018-12-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.84
+    },
+    {
+      "observationDate": "2019-01-08",
+      "realtimeStart": "2019-01-16",
+      "availableAt": "2019-01-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 56.91
+    },
+    {
+      "observationDate": "2019-01-15",
+      "realtimeStart": "2019-01-24",
+      "availableAt": "2019-01-24T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 58.65
+    },
+    {
+      "observationDate": "2019-01-16",
+      "realtimeStart": "2019-01-24",
+      "availableAt": "2019-01-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.81
+    },
+    {
+      "observationDate": "2019-01-29",
+      "realtimeStart": "2019-02-06",
+      "availableAt": "2019-02-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.98
+    },
+    {
+      "observationDate": "2019-02-05",
+      "realtimeStart": "2019-02-13",
+      "availableAt": "2019-02-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.67
+    },
+    {
+      "observationDate": "2019-02-12",
+      "realtimeStart": "2019-02-21",
+      "availableAt": "2019-02-21T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 62.58
+    },
+    {
+      "observationDate": "2019-02-13",
+      "realtimeStart": "2019-02-21",
+      "availableAt": "2019-02-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.27
+    },
+    {
+      "observationDate": "2019-02-26",
+      "realtimeStart": "2019-03-06",
+      "availableAt": "2019-03-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.51
+    },
+    {
+      "observationDate": "2019-03-05",
+      "realtimeStart": "2019-03-13",
+      "availableAt": "2019-03-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.24
+    },
+    {
+      "observationDate": "2019-03-12",
+      "realtimeStart": "2019-03-20",
+      "availableAt": "2019-03-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.33
+    },
+    {
+      "observationDate": "2019-03-19",
+      "realtimeStart": "2019-03-27",
+      "availableAt": "2019-03-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.13
+    },
+    {
+      "observationDate": "2019-03-26",
+      "realtimeStart": "2019-04-03",
+      "availableAt": "2019-04-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.51
+    },
+    {
+      "observationDate": "2019-04-02",
+      "realtimeStart": "2019-04-10",
+      "availableAt": "2019-04-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.68
+    },
+    {
+      "observationDate": "2019-04-09",
+      "realtimeStart": "2019-04-17",
+      "availableAt": "2019-04-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.02
+    },
+    {
+      "observationDate": "2019-04-16",
+      "realtimeStart": "2019-04-24",
+      "availableAt": "2019-04-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.74
+    },
+    {
+      "observationDate": "2019-04-23",
+      "realtimeStart": "2019-05-01",
+      "availableAt": "2019-05-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.39
+    },
+    {
+      "observationDate": "2019-04-30",
+      "realtimeStart": "2019-05-08",
+      "availableAt": "2019-05-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.19
+    },
+    {
+      "observationDate": "2019-05-07",
+      "realtimeStart": "2019-05-15",
+      "availableAt": "2019-05-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.98
+    },
+    {
+      "observationDate": "2019-05-14",
+      "realtimeStart": "2019-05-22",
+      "availableAt": "2019-05-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.53
+    },
+    {
+      "observationDate": "2019-05-21",
+      "realtimeStart": "2019-05-30",
+      "availableAt": "2019-05-30T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 72.94
+    },
+    {
+      "observationDate": "2019-05-22",
+      "realtimeStart": "2019-05-30",
+      "availableAt": "2019-05-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.94
+    },
+    {
+      "observationDate": "2019-06-04",
+      "realtimeStart": "2019-06-12",
+      "availableAt": "2019-06-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.56
+    },
+    {
+      "observationDate": "2019-06-11",
+      "realtimeStart": "2019-06-19",
+      "availableAt": "2019-06-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.56
+    },
+    {
+      "observationDate": "2019-06-18",
+      "realtimeStart": "2019-06-26",
+      "availableAt": "2019-06-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.35
+    },
+    {
+      "observationDate": "2019-06-25",
+      "realtimeStart": "2019-07-03",
+      "availableAt": "2019-07-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.24
+    },
+    {
+      "observationDate": "2019-07-02",
+      "realtimeStart": "2019-07-10",
+      "availableAt": "2019-07-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.72
+    },
+    {
+      "observationDate": "2019-07-09",
+      "realtimeStart": "2019-07-17",
+      "availableAt": "2019-07-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.3
+    },
+    {
+      "observationDate": "2019-07-16",
+      "realtimeStart": "2019-07-24",
+      "availableAt": "2019-07-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.87
+    },
+    {
+      "observationDate": "2019-07-23",
+      "realtimeStart": "2019-07-31",
+      "availableAt": "2019-07-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.28
+    },
+    {
+      "observationDate": "2019-07-30",
+      "realtimeStart": "2019-08-07",
+      "availableAt": "2019-08-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.55
+    },
+    {
+      "observationDate": "2019-08-06",
+      "realtimeStart": "2019-08-14",
+      "availableAt": "2019-08-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 58.63
+    },
+    {
+      "observationDate": "2019-08-13",
+      "realtimeStart": "2019-08-21",
+      "availableAt": "2019-08-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.9
+    },
+    {
+      "observationDate": "2019-08-20",
+      "realtimeStart": "2019-08-28",
+      "availableAt": "2019-08-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.03
+    },
+    {
+      "observationDate": "2019-08-27",
+      "realtimeStart": "2019-09-05",
+      "availableAt": "2019-09-05T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 58.44
+    },
+    {
+      "observationDate": "2019-08-28",
+      "realtimeStart": "2019-09-05",
+      "availableAt": "2019-09-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.42
+    },
+    {
+      "observationDate": "2019-09-10",
+      "realtimeStart": "2019-09-18",
+      "availableAt": "2019-09-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.67
+    },
+    {
+      "observationDate": "2019-09-17",
+      "realtimeStart": "2019-09-25",
+      "availableAt": "2019-09-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.59
+    },
+    {
+      "observationDate": "2019-09-24",
+      "realtimeStart": "2019-10-02",
+      "availableAt": "2019-10-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.13
+    },
+    {
+      "observationDate": "2019-10-01",
+      "realtimeStart": "2019-10-09",
+      "availableAt": "2019-10-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.06
+    },
+    {
+      "observationDate": "2019-10-08",
+      "realtimeStart": "2019-10-17",
+      "availableAt": "2019-10-17T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 58.14
+    },
+    {
+      "observationDate": "2019-10-09",
+      "realtimeStart": "2019-10-17",
+      "availableAt": "2019-10-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.7
+    },
+    {
+      "observationDate": "2019-10-22",
+      "realtimeStart": "2019-10-30",
+      "availableAt": "2019-10-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 60.5
+    },
+    {
+      "observationDate": "2019-10-29",
+      "realtimeStart": "2019-11-06",
+      "availableAt": "2019-11-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.05
+    },
+    {
+      "observationDate": "2019-11-05",
+      "realtimeStart": "2019-11-14",
+      "availableAt": "2019-11-14T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 62.72
+    },
+    {
+      "observationDate": "2019-11-06",
+      "realtimeStart": "2019-11-14",
+      "availableAt": "2019-11-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.11
+    },
+    {
+      "observationDate": "2019-11-19",
+      "realtimeStart": "2019-11-27",
+      "availableAt": "2019-11-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.37
+    },
+    {
+      "observationDate": "2019-11-26",
+      "realtimeStart": "2019-12-04",
+      "availableAt": "2019-12-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.82
+    },
+    {
+      "observationDate": "2019-12-03",
+      "realtimeStart": "2019-12-11",
+      "availableAt": "2019-12-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.95
+    },
+    {
+      "observationDate": "2019-12-10",
+      "realtimeStart": "2019-12-18",
+      "availableAt": "2019-12-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.57
+    },
+    {
+      "observationDate": "2019-12-17",
+      "realtimeStart": "2019-12-27",
+      "availableAt": "2019-12-27T23:59:59.999Z",
+      "lagCalendarDays": 10,
+      "value": 68.99
+    },
+    {
+      "observationDate": "2019-12-18",
+      "realtimeStart": "2019-12-27",
+      "availableAt": "2019-12-27T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 69.12
+    },
+    {
+      "observationDate": "2019-12-19",
+      "realtimeStart": "2019-12-27",
+      "availableAt": "2019-12-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.7
+    },
+    {
+      "observationDate": "2019-12-27",
+      "realtimeStart": "2020-01-08",
+      "availableAt": "2020-01-08T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 68.91
+    },
+    {
+      "observationDate": "2019-12-30",
+      "realtimeStart": "2020-01-08",
+      "availableAt": "2020-01-08T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 68.3
+    },
+    {
+      "observationDate": "2019-12-31",
+      "realtimeStart": "2020-01-08",
+      "availableAt": "2020-01-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.77
+    },
+    {
+      "observationDate": "2020-01-07",
+      "realtimeStart": "2020-01-15",
+      "availableAt": "2020-01-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.74
+    },
+    {
+      "observationDate": "2020-01-14",
+      "realtimeStart": "2020-01-23",
+      "availableAt": "2020-01-23T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 64.45
+    },
+    {
+      "observationDate": "2020-01-15",
+      "realtimeStart": "2020-01-23",
+      "availableAt": "2020-01-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.29
+    },
+    {
+      "observationDate": "2020-01-28",
+      "realtimeStart": "2020-02-05",
+      "availableAt": "2020-02-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.37
+    },
+    {
+      "observationDate": "2020-02-04",
+      "realtimeStart": "2020-02-12",
+      "availableAt": "2020-02-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.9
+    },
+    {
+      "observationDate": "2020-02-11",
+      "realtimeStart": "2020-02-20",
+      "availableAt": "2020-02-20T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 54
+    },
+    {
+      "observationDate": "2020-02-12",
+      "realtimeStart": "2020-02-20",
+      "availableAt": "2020-02-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.54
+    },
+    {
+      "observationDate": "2020-02-25",
+      "realtimeStart": "2020-03-04",
+      "availableAt": "2020-03-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 56.71
+    },
+    {
+      "observationDate": "2020-02-26",
+      "realtimeStart": "2020-03-11",
+      "availableAt": "2020-03-11T23:59:59.999Z",
+      "lagCalendarDays": 14,
+      "value": 54.96
+    },
+    {
+      "observationDate": "2020-02-27",
+      "realtimeStart": "2020-03-11",
+      "availableAt": "2020-03-11T23:59:59.999Z",
+      "lagCalendarDays": 13,
+      "value": 52.19
+    },
+    {
+      "observationDate": "2020-02-28",
+      "realtimeStart": "2020-03-11",
+      "availableAt": "2020-03-11T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 51.31
+    },
+    {
+      "observationDate": "2020-03-02",
+      "realtimeStart": "2020-03-11",
+      "availableAt": "2020-03-11T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 52.52
+    },
+    {
+      "observationDate": "2020-03-03",
+      "realtimeStart": "2020-03-11",
+      "availableAt": "2020-03-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 52.24
+    },
+    {
+      "observationDate": "2020-03-09",
+      "realtimeStart": "2020-03-18",
+      "availableAt": "2020-03-18T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 35.33
+    },
+    {
+      "observationDate": "2020-03-10",
+      "realtimeStart": "2020-03-18",
+      "availableAt": "2020-03-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 36.66
+    },
+    {
+      "observationDate": "2020-03-16",
+      "realtimeStart": "2020-03-25",
+      "availableAt": "2020-03-25T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 28.04
+    },
+    {
+      "observationDate": "2020-03-24",
+      "realtimeStart": "2020-04-01",
+      "availableAt": "2020-04-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 24.5
+    },
+    {
+      "observationDate": "2020-04-07",
+      "realtimeStart": "2020-04-15",
+      "availableAt": "2020-04-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 22.1
+    },
+    {
+      "observationDate": "2020-04-14",
+      "realtimeStart": "2020-04-29",
+      "availableAt": "2020-04-29T23:59:59.999Z",
+      "lagCalendarDays": 15,
+      "value": 21.74
+    },
+    {
+      "observationDate": "2020-04-15",
+      "realtimeStart": "2020-04-29",
+      "availableAt": "2020-04-29T23:59:59.999Z",
+      "lagCalendarDays": 14,
+      "value": 19.8
+    },
+    {
+      "observationDate": "2020-04-16",
+      "realtimeStart": "2020-04-29",
+      "availableAt": "2020-04-29T23:59:59.999Z",
+      "lagCalendarDays": 13,
+      "value": 18.69
+    },
+    {
+      "observationDate": "2020-04-17",
+      "realtimeStart": "2020-04-29",
+      "availableAt": "2020-04-29T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 19.75
+    },
+    {
+      "observationDate": "2020-04-20",
+      "realtimeStart": "2020-04-29",
+      "availableAt": "2020-04-29T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 17.36
+    },
+    {
+      "observationDate": "2020-04-21",
+      "realtimeStart": "2020-04-29",
+      "availableAt": "2020-04-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 9.12
+    },
+    {
+      "observationDate": "2020-04-28",
+      "realtimeStart": "2020-05-06",
+      "availableAt": "2020-05-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 15.6
+    },
+    {
+      "observationDate": "2020-05-05",
+      "realtimeStart": "2020-05-13",
+      "availableAt": "2020-05-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 25.46
+    },
+    {
+      "observationDate": "2020-05-12",
+      "realtimeStart": "2020-05-20",
+      "availableAt": "2020-05-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 26.67
+    },
+    {
+      "observationDate": "2020-05-19",
+      "realtimeStart": "2020-05-28",
+      "availableAt": "2020-05-28T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 33.06
+    },
+    {
+      "observationDate": "2020-05-20",
+      "realtimeStart": "2020-05-28",
+      "availableAt": "2020-05-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 34.76
+    },
+    {
+      "observationDate": "2020-06-02",
+      "realtimeStart": "2020-06-10",
+      "availableAt": "2020-06-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 37.72
+    },
+    {
+      "observationDate": "2020-06-09",
+      "realtimeStart": "2020-06-17",
+      "availableAt": "2020-06-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40.45
+    },
+    {
+      "observationDate": "2020-06-16",
+      "realtimeStart": "2020-06-24",
+      "availableAt": "2020-06-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40.75
+    },
+    {
+      "observationDate": "2020-06-23",
+      "realtimeStart": "2020-07-01",
+      "availableAt": "2020-07-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 42.72
+    },
+    {
+      "observationDate": "2020-06-30",
+      "realtimeStart": "2020-07-08",
+      "availableAt": "2020-07-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 41.64
+    },
+    {
+      "observationDate": "2020-07-07",
+      "realtimeStart": "2020-07-15",
+      "availableAt": "2020-07-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.28
+    },
+    {
+      "observationDate": "2020-07-14",
+      "realtimeStart": "2020-07-22",
+      "availableAt": "2020-07-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 42.97
+    },
+    {
+      "observationDate": "2020-07-21",
+      "realtimeStart": "2020-07-29",
+      "availableAt": "2020-07-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 44.31
+    },
+    {
+      "observationDate": "2020-07-28",
+      "realtimeStart": "2020-08-05",
+      "availableAt": "2020-08-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.11
+    },
+    {
+      "observationDate": "2020-08-04",
+      "realtimeStart": "2020-08-12",
+      "availableAt": "2020-08-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.99
+    },
+    {
+      "observationDate": "2020-08-11",
+      "realtimeStart": "2020-08-19",
+      "availableAt": "2020-08-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 43.68
+    },
+    {
+      "observationDate": "2020-08-18",
+      "realtimeStart": "2020-08-26",
+      "availableAt": "2020-08-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 45.34
+    },
+    {
+      "observationDate": "2020-08-25",
+      "realtimeStart": "2020-09-02",
+      "availableAt": "2020-09-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.01
+    },
+    {
+      "observationDate": "2020-09-01",
+      "realtimeStart": "2020-09-10",
+      "availableAt": "2020-09-10T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 45.72
+    },
+    {
+      "observationDate": "2020-09-02",
+      "realtimeStart": "2020-09-10",
+      "availableAt": "2020-09-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 42.7
+    },
+    {
+      "observationDate": "2020-09-15",
+      "realtimeStart": "2020-09-23",
+      "availableAt": "2020-09-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 39.54
+    },
+    {
+      "observationDate": "2020-09-22",
+      "realtimeStart": "2020-09-30",
+      "availableAt": "2020-09-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40.84
+    },
+    {
+      "observationDate": "2020-09-29",
+      "realtimeStart": "2020-10-07",
+      "availableAt": "2020-10-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40.33
+    },
+    {
+      "observationDate": "2020-10-06",
+      "realtimeStart": "2020-10-15",
+      "availableAt": "2020-10-15T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 41.27
+    },
+    {
+      "observationDate": "2020-10-07",
+      "realtimeStart": "2020-10-15",
+      "availableAt": "2020-10-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 40.62
+    },
+    {
+      "observationDate": "2020-10-20",
+      "realtimeStart": "2020-10-28",
+      "availableAt": "2020-10-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 41.62
+    },
+    {
+      "observationDate": "2020-10-27",
+      "realtimeStart": "2020-11-04",
+      "availableAt": "2020-11-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 39.72
+    },
+    {
+      "observationDate": "2020-11-03",
+      "realtimeStart": "2020-11-12",
+      "availableAt": "2020-11-12T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 38.17
+    },
+    {
+      "observationDate": "2020-11-04",
+      "realtimeStart": "2020-11-12",
+      "availableAt": "2020-11-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 39.68
+    },
+    {
+      "observationDate": "2020-11-17",
+      "realtimeStart": "2020-11-25",
+      "availableAt": "2020-11-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 42.54
+    },
+    {
+      "observationDate": "2020-11-24",
+      "realtimeStart": "2020-12-02",
+      "availableAt": "2020-12-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 46.63
+    },
+    {
+      "observationDate": "2020-12-01",
+      "realtimeStart": "2020-12-09",
+      "availableAt": "2020-12-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 47.03
+    },
+    {
+      "observationDate": "2020-12-08",
+      "realtimeStart": "2020-12-16",
+      "availableAt": "2020-12-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 48.84
+    },
+    {
+      "observationDate": "2020-12-15",
+      "realtimeStart": "2020-12-23",
+      "availableAt": "2020-12-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 50.77
+    },
+    {
+      "observationDate": "2020-12-22",
+      "realtimeStart": "2020-12-30",
+      "availableAt": "2020-12-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 49.88
+    },
+    {
+      "observationDate": "2020-12-29",
+      "realtimeStart": "2021-01-06",
+      "availableAt": "2021-01-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 50.44
+    },
+    {
+      "observationDate": "2021-01-05",
+      "realtimeStart": "2021-01-13",
+      "availableAt": "2021-01-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 53.16
+    },
+    {
+      "observationDate": "2021-01-12",
+      "realtimeStart": "2021-01-22",
+      "availableAt": "2021-01-22T23:59:59.999Z",
+      "lagCalendarDays": 10,
+      "value": 55.98
+    },
+    {
+      "observationDate": "2021-01-13",
+      "realtimeStart": "2021-01-22",
+      "availableAt": "2021-01-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 55.52
+    },
+    {
+      "observationDate": "2021-01-14",
+      "realtimeStart": "2021-01-22",
+      "availableAt": "2021-01-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.76
+    },
+    {
+      "observationDate": "2021-01-26",
+      "realtimeStart": "2021-02-03",
+      "availableAt": "2021-02-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 55.26
+    },
+    {
+      "observationDate": "2021-02-02",
+      "realtimeStart": "2021-02-10",
+      "availableAt": "2021-02-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 57.62
+    },
+    {
+      "observationDate": "2021-02-09",
+      "realtimeStart": "2021-02-18",
+      "availableAt": "2021-02-18T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 60.74
+    },
+    {
+      "observationDate": "2021-02-10",
+      "realtimeStart": "2021-02-18",
+      "availableAt": "2021-02-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.17
+    },
+    {
+      "observationDate": "2021-02-23",
+      "realtimeStart": "2021-03-03",
+      "availableAt": "2021-03-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.16
+    },
+    {
+      "observationDate": "2021-03-02",
+      "realtimeStart": "2021-03-10",
+      "availableAt": "2021-03-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.17
+    },
+    {
+      "observationDate": "2021-03-09",
+      "realtimeStart": "2021-03-17",
+      "availableAt": "2021-03-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.03
+    },
+    {
+      "observationDate": "2021-03-16",
+      "realtimeStart": "2021-03-24",
+      "availableAt": "2021-03-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.95
+    },
+    {
+      "observationDate": "2021-03-23",
+      "realtimeStart": "2021-03-31",
+      "availableAt": "2021-03-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 59.96
+    },
+    {
+      "observationDate": "2021-03-30",
+      "realtimeStart": "2021-04-07",
+      "availableAt": "2021-04-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.28
+    },
+    {
+      "observationDate": "2021-04-06",
+      "realtimeStart": "2021-04-14",
+      "availableAt": "2021-04-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61.47
+    },
+    {
+      "observationDate": "2021-04-13",
+      "realtimeStart": "2021-04-21",
+      "availableAt": "2021-04-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.83
+    },
+    {
+      "observationDate": "2021-04-20",
+      "realtimeStart": "2021-04-28",
+      "availableAt": "2021-04-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.34
+    },
+    {
+      "observationDate": "2021-04-27",
+      "realtimeStart": "2021-05-05",
+      "availableAt": "2021-05-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.25
+    },
+    {
+      "observationDate": "2021-05-04",
+      "realtimeStart": "2021-05-12",
+      "availableAt": "2021-05-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.91
+    },
+    {
+      "observationDate": "2021-05-11",
+      "realtimeStart": "2021-05-19",
+      "availableAt": "2021-05-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.83
+    },
+    {
+      "observationDate": "2021-05-18",
+      "realtimeStart": "2021-05-26",
+      "availableAt": "2021-05-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.01
+    },
+    {
+      "observationDate": "2021-05-25",
+      "realtimeStart": "2021-06-03",
+      "availableAt": "2021-06-03T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 68.8
+    },
+    {
+      "observationDate": "2021-05-26",
+      "realtimeStart": "2021-06-03",
+      "availableAt": "2021-06-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.93
+    },
+    {
+      "observationDate": "2021-06-08",
+      "realtimeStart": "2021-06-16",
+      "availableAt": "2021-06-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.39
+    },
+    {
+      "observationDate": "2021-06-15",
+      "realtimeStart": "2021-06-23",
+      "availableAt": "2021-06-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.38
+    },
+    {
+      "observationDate": "2021-06-22",
+      "realtimeStart": "2021-06-30",
+      "availableAt": "2021-06-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.92
+    },
+    {
+      "observationDate": "2021-06-29",
+      "realtimeStart": "2021-07-08",
+      "availableAt": "2021-07-08T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 75.38
+    },
+    {
+      "observationDate": "2021-06-30",
+      "realtimeStart": "2021-07-08",
+      "availableAt": "2021-07-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.94
+    },
+    {
+      "observationDate": "2021-07-13",
+      "realtimeStart": "2021-07-21",
+      "availableAt": "2021-07-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.5
+    },
+    {
+      "observationDate": "2021-07-20",
+      "realtimeStart": "2021-07-28",
+      "availableAt": "2021-07-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.03
+    },
+    {
+      "observationDate": "2021-07-27",
+      "realtimeStart": "2021-08-04",
+      "availableAt": "2021-08-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.87
+    },
+    {
+      "observationDate": "2021-08-03",
+      "realtimeStart": "2021-08-11",
+      "availableAt": "2021-08-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.24
+    },
+    {
+      "observationDate": "2021-08-10",
+      "realtimeStart": "2021-08-18",
+      "availableAt": "2021-08-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.14
+    },
+    {
+      "observationDate": "2021-08-17",
+      "realtimeStart": "2021-08-25",
+      "availableAt": "2021-08-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.4
+    },
+    {
+      "observationDate": "2021-08-24",
+      "realtimeStart": "2021-09-01",
+      "availableAt": "2021-09-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.21
+    },
+    {
+      "observationDate": "2021-08-31",
+      "realtimeStart": "2021-09-09",
+      "availableAt": "2021-09-09T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 73.45
+    },
+    {
+      "observationDate": "2021-09-01",
+      "realtimeStart": "2021-09-09",
+      "availableAt": "2021-09-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.99
+    },
+    {
+      "observationDate": "2021-09-13",
+      "realtimeStart": "2021-09-22",
+      "availableAt": "2021-09-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 72.97
+    },
+    {
+      "observationDate": "2021-09-14",
+      "realtimeStart": "2021-09-22",
+      "availableAt": "2021-09-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.05
+    },
+    {
+      "observationDate": "2021-09-21",
+      "realtimeStart": "2021-09-29",
+      "availableAt": "2021-09-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.65
+    },
+    {
+      "observationDate": "2021-09-28",
+      "realtimeStart": "2021-10-06",
+      "availableAt": "2021-10-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.3
+    },
+    {
+      "observationDate": "2021-10-05",
+      "realtimeStart": "2021-10-14",
+      "availableAt": "2021-10-14T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 82.72
+    },
+    {
+      "observationDate": "2021-10-06",
+      "realtimeStart": "2021-10-14",
+      "availableAt": "2021-10-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 81.39
+    },
+    {
+      "observationDate": "2021-10-19",
+      "realtimeStart": "2021-10-27",
+      "availableAt": "2021-10-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.02
+    },
+    {
+      "observationDate": "2021-10-26",
+      "realtimeStart": "2021-11-03",
+      "availableAt": "2021-11-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.11
+    },
+    {
+      "observationDate": "2021-11-02",
+      "realtimeStart": "2021-11-10",
+      "availableAt": "2021-11-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.42
+    },
+    {
+      "observationDate": "2021-11-09",
+      "realtimeStart": "2021-11-17",
+      "availableAt": "2021-11-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.52
+    },
+    {
+      "observationDate": "2021-11-16",
+      "realtimeStart": "2021-11-24",
+      "availableAt": "2021-11-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.85
+    },
+    {
+      "observationDate": "2021-11-23",
+      "realtimeStart": "2021-12-01",
+      "availableAt": "2021-12-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.43
+    },
+    {
+      "observationDate": "2021-11-30",
+      "realtimeStart": "2021-12-08",
+      "availableAt": "2021-12-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.86
+    },
+    {
+      "observationDate": "2021-12-07",
+      "realtimeStart": "2021-12-15",
+      "availableAt": "2021-12-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.54
+    },
+    {
+      "observationDate": "2021-12-14",
+      "realtimeStart": "2021-12-22",
+      "availableAt": "2021-12-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.37
+    },
+    {
+      "observationDate": "2021-12-21",
+      "realtimeStart": "2021-12-29",
+      "availableAt": "2021-12-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.85
+    },
+    {
+      "observationDate": "2022-01-04",
+      "realtimeStart": "2022-01-12",
+      "availableAt": "2022-01-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.39
+    },
+    {
+      "observationDate": "2022-01-11",
+      "realtimeStart": "2022-01-20",
+      "availableAt": "2022-01-20T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 84.98
+    },
+    {
+      "observationDate": "2022-01-12",
+      "realtimeStart": "2022-01-20",
+      "availableAt": "2022-01-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.83
+    },
+    {
+      "observationDate": "2022-01-25",
+      "realtimeStart": "2022-02-02",
+      "availableAt": "2022-02-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 89.49
+    },
+    {
+      "observationDate": "2022-02-01",
+      "realtimeStart": "2022-02-09",
+      "availableAt": "2022-02-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 90.24
+    },
+    {
+      "observationDate": "2022-02-08",
+      "realtimeStart": "2022-02-16",
+      "availableAt": "2022-02-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 96.07
+    },
+    {
+      "observationDate": "2022-02-15",
+      "realtimeStart": "2022-02-24",
+      "availableAt": "2022-02-24T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 98.43
+    },
+    {
+      "observationDate": "2022-02-16",
+      "realtimeStart": "2022-02-24",
+      "availableAt": "2022-02-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 97.44
+    },
+    {
+      "observationDate": "2022-03-01",
+      "realtimeStart": "2022-03-09",
+      "availableAt": "2022-03-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 110.93
+    },
+    {
+      "observationDate": "2022-03-08",
+      "realtimeStart": "2022-03-16",
+      "availableAt": "2022-03-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 133.18
+    },
+    {
+      "observationDate": "2022-03-15",
+      "realtimeStart": "2022-03-23",
+      "availableAt": "2022-03-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 105.14
+    },
+    {
+      "observationDate": "2022-03-22",
+      "realtimeStart": "2022-03-30",
+      "availableAt": "2022-03-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 121.53
+    },
+    {
+      "observationDate": "2022-03-29",
+      "realtimeStart": "2022-04-06",
+      "availableAt": "2022-04-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 112.79
+    },
+    {
+      "observationDate": "2022-04-05",
+      "realtimeStart": "2022-04-13",
+      "availableAt": "2022-04-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.6
+    },
+    {
+      "observationDate": "2022-04-12",
+      "realtimeStart": "2022-04-20",
+      "availableAt": "2022-04-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 104.42
+    },
+    {
+      "observationDate": "2022-04-19",
+      "realtimeStart": "2022-04-27",
+      "availableAt": "2022-04-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 105.49
+    },
+    {
+      "observationDate": "2022-04-26",
+      "realtimeStart": "2022-05-04",
+      "availableAt": "2022-05-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 102.89
+    },
+    {
+      "observationDate": "2022-05-03",
+      "realtimeStart": "2022-05-11",
+      "availableAt": "2022-05-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 104.94
+    },
+    {
+      "observationDate": "2022-05-10",
+      "realtimeStart": "2022-05-18",
+      "availableAt": "2022-05-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 102.61
+    },
+    {
+      "observationDate": "2022-05-17",
+      "realtimeStart": "2022-05-25",
+      "availableAt": "2022-05-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 112.89
+    },
+    {
+      "observationDate": "2022-05-24",
+      "realtimeStart": "2022-06-02",
+      "availableAt": "2022-06-02T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 115.77
+    },
+    {
+      "observationDate": "2022-05-25",
+      "realtimeStart": "2022-06-02",
+      "availableAt": "2022-06-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 116.41
+    },
+    {
+      "observationDate": "2022-06-07",
+      "realtimeStart": "2022-06-15",
+      "availableAt": "2022-06-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 126.89
+    },
+    {
+      "observationDate": "2022-06-14",
+      "realtimeStart": "2022-06-29",
+      "availableAt": "2022-06-29T23:59:59.999Z",
+      "lagCalendarDays": 15,
+      "value": 127.02
+    },
+    {
+      "observationDate": "2022-06-15",
+      "realtimeStart": "2022-06-29",
+      "availableAt": "2022-06-29T23:59:59.999Z",
+      "lagCalendarDays": 14,
+      "value": 124.96
+    },
+    {
+      "observationDate": "2022-06-16",
+      "realtimeStart": "2022-06-29",
+      "availableAt": "2022-06-29T23:59:59.999Z",
+      "lagCalendarDays": 13,
+      "value": 125.78
+    },
+    {
+      "observationDate": "2022-06-17",
+      "realtimeStart": "2022-06-29",
+      "availableAt": "2022-06-29T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 119.22
+    },
+    {
+      "observationDate": "2022-06-20",
+      "realtimeStart": "2022-06-29",
+      "availableAt": "2022-06-29T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 118.25
+    },
+    {
+      "observationDate": "2022-06-21",
+      "realtimeStart": "2022-06-29",
+      "availableAt": "2022-06-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 118.51
+    },
+    {
+      "observationDate": "2022-06-28",
+      "realtimeStart": "2022-07-07",
+      "availableAt": "2022-07-07T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 122.21
+    },
+    {
+      "observationDate": "2022-06-29",
+      "realtimeStart": "2022-07-07",
+      "availableAt": "2022-07-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 120.8
+    },
+    {
+      "observationDate": "2022-07-12",
+      "realtimeStart": "2022-07-20",
+      "availableAt": "2022-07-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.98
+    },
+    {
+      "observationDate": "2022-07-19",
+      "realtimeStart": "2022-07-27",
+      "availableAt": "2022-07-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 114.96
+    },
+    {
+      "observationDate": "2022-07-26",
+      "realtimeStart": "2022-08-03",
+      "availableAt": "2022-08-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 107.32
+    },
+    {
+      "observationDate": "2022-08-02",
+      "realtimeStart": "2022-08-10",
+      "availableAt": "2022-08-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.51
+    },
+    {
+      "observationDate": "2022-08-09",
+      "realtimeStart": "2022-08-17",
+      "availableAt": "2022-08-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 103.81
+    },
+    {
+      "observationDate": "2022-08-16",
+      "realtimeStart": "2022-08-24",
+      "availableAt": "2022-08-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 95.36
+    },
+    {
+      "observationDate": "2022-08-23",
+      "realtimeStart": "2022-08-31",
+      "availableAt": "2022-08-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 99.49
+    },
+    {
+      "observationDate": "2022-08-30",
+      "realtimeStart": "2022-09-08",
+      "availableAt": "2022-09-08T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 99.34
+    },
+    {
+      "observationDate": "2022-08-31",
+      "realtimeStart": "2022-09-08",
+      "availableAt": "2022-09-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 96.55
+    },
+    {
+      "observationDate": "2022-09-13",
+      "realtimeStart": "2022-09-21",
+      "availableAt": "2022-09-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 92.04
+    },
+    {
+      "observationDate": "2022-09-20",
+      "realtimeStart": "2022-09-28",
+      "availableAt": "2022-09-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 89.62
+    },
+    {
+      "observationDate": "2022-09-27",
+      "realtimeStart": "2022-10-05",
+      "availableAt": "2022-10-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.97
+    },
+    {
+      "observationDate": "2022-10-04",
+      "realtimeStart": "2022-10-13",
+      "availableAt": "2022-10-13T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 93.74
+    },
+    {
+      "observationDate": "2022-10-05",
+      "realtimeStart": "2022-10-13",
+      "availableAt": "2022-10-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 94.35
+    },
+    {
+      "observationDate": "2022-10-18",
+      "realtimeStart": "2022-10-26",
+      "availableAt": "2022-10-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 89.46
+    },
+    {
+      "observationDate": "2022-10-25",
+      "realtimeStart": "2022-11-02",
+      "availableAt": "2022-11-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 91.76
+    },
+    {
+      "observationDate": "2022-11-01",
+      "realtimeStart": "2022-11-09",
+      "availableAt": "2022-11-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 95.12
+    },
+    {
+      "observationDate": "2022-11-08",
+      "realtimeStart": "2022-11-16",
+      "availableAt": "2022-11-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 96.85
+    },
+    {
+      "observationDate": "2022-11-15",
+      "realtimeStart": "2022-11-23",
+      "availableAt": "2022-11-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 94.3
+    },
+    {
+      "observationDate": "2022-11-22",
+      "realtimeStart": "2022-11-30",
+      "availableAt": "2022-11-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 88.65
+    },
+    {
+      "observationDate": "2022-11-29",
+      "realtimeStart": "2022-12-07",
+      "availableAt": "2022-12-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.22
+    },
+    {
+      "observationDate": "2022-12-06",
+      "realtimeStart": "2022-12-14",
+      "availableAt": "2022-12-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.92
+    },
+    {
+      "observationDate": "2022-12-13",
+      "realtimeStart": "2022-12-21",
+      "availableAt": "2022-12-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.14
+    },
+    {
+      "observationDate": "2022-12-20",
+      "realtimeStart": "2022-12-29",
+      "availableAt": "2022-12-29T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 79.45
+    },
+    {
+      "observationDate": "2022-12-21",
+      "realtimeStart": "2022-12-29",
+      "availableAt": "2022-12-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.25
+    },
+    {
+      "observationDate": "2022-12-28",
+      "realtimeStart": "2023-01-05",
+      "availableAt": "2023-01-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 81.7
+    },
+    {
+      "observationDate": "2023-01-10",
+      "realtimeStart": "2023-01-19",
+      "availableAt": "2023-01-19T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 78.4
+    },
+    {
+      "observationDate": "2023-01-11",
+      "realtimeStart": "2023-01-19",
+      "availableAt": "2023-01-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 81.11
+    },
+    {
+      "observationDate": "2023-01-24",
+      "realtimeStart": "2023-02-01",
+      "availableAt": "2023-02-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.25
+    },
+    {
+      "observationDate": "2023-01-31",
+      "realtimeStart": "2023-02-08",
+      "availableAt": "2023-02-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.42
+    },
+    {
+      "observationDate": "2023-02-07",
+      "realtimeStart": "2023-02-15",
+      "availableAt": "2023-02-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.92
+    },
+    {
+      "observationDate": "2023-02-14",
+      "realtimeStart": "2023-02-23",
+      "availableAt": "2023-02-23T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 84.96
+    },
+    {
+      "observationDate": "2023-02-15",
+      "realtimeStart": "2023-02-23",
+      "availableAt": "2023-02-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.11
+    },
+    {
+      "observationDate": "2023-02-28",
+      "realtimeStart": "2023-03-08",
+      "availableAt": "2023-03-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.21
+    },
+    {
+      "observationDate": "2023-03-07",
+      "realtimeStart": "2023-03-15",
+      "availableAt": "2023-03-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.03
+    },
+    {
+      "observationDate": "2023-03-14",
+      "realtimeStart": "2023-03-22",
+      "availableAt": "2023-03-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.77
+    },
+    {
+      "observationDate": "2023-03-21",
+      "realtimeStart": "2023-03-29",
+      "availableAt": "2023-03-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.78
+    },
+    {
+      "observationDate": "2023-03-28",
+      "realtimeStart": "2023-04-05",
+      "availableAt": "2023-04-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.07
+    },
+    {
+      "observationDate": "2023-04-04",
+      "realtimeStart": "2023-04-12",
+      "availableAt": "2023-04-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.7
+    },
+    {
+      "observationDate": "2023-04-11",
+      "realtimeStart": "2023-04-19",
+      "availableAt": "2023-04-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 87.32
+    },
+    {
+      "observationDate": "2023-04-18",
+      "realtimeStart": "2023-04-26",
+      "availableAt": "2023-04-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.48
+    },
+    {
+      "observationDate": "2023-04-25",
+      "realtimeStart": "2023-05-03",
+      "availableAt": "2023-05-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.13
+    },
+    {
+      "observationDate": "2023-05-02",
+      "realtimeStart": "2023-05-10",
+      "availableAt": "2023-05-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.71
+    },
+    {
+      "observationDate": "2023-05-09",
+      "realtimeStart": "2023-05-17",
+      "availableAt": "2023-05-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.76
+    },
+    {
+      "observationDate": "2023-05-16",
+      "realtimeStart": "2023-05-24",
+      "availableAt": "2023-05-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.15
+    },
+    {
+      "observationDate": "2023-05-23",
+      "realtimeStart": "2023-06-01",
+      "availableAt": "2023-06-01T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 76.66
+    },
+    {
+      "observationDate": "2023-05-24",
+      "realtimeStart": "2023-06-01",
+      "availableAt": "2023-06-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.99
+    },
+    {
+      "observationDate": "2023-06-06",
+      "realtimeStart": "2023-06-14",
+      "availableAt": "2023-06-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.22
+    },
+    {
+      "observationDate": "2023-06-13",
+      "realtimeStart": "2023-06-22",
+      "availableAt": "2023-06-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 74.24
+    },
+    {
+      "observationDate": "2023-06-14",
+      "realtimeStart": "2023-06-22",
+      "availableAt": "2023-06-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.39
+    },
+    {
+      "observationDate": "2023-06-27",
+      "realtimeStart": "2023-07-06",
+      "availableAt": "2023-07-06T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 71.88
+    },
+    {
+      "observationDate": "2023-06-28",
+      "realtimeStart": "2023-07-06",
+      "availableAt": "2023-07-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.64
+    },
+    {
+      "observationDate": "2023-07-11",
+      "realtimeStart": "2023-07-19",
+      "availableAt": "2023-07-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.54
+    },
+    {
+      "observationDate": "2023-07-18",
+      "realtimeStart": "2023-07-26",
+      "availableAt": "2023-07-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.54
+    },
+    {
+      "observationDate": "2023-07-25",
+      "realtimeStart": "2023-08-02",
+      "availableAt": "2023-08-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.46
+    },
+    {
+      "observationDate": "2023-08-01",
+      "realtimeStart": "2023-08-09",
+      "availableAt": "2023-08-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.34
+    },
+    {
+      "observationDate": "2023-08-08",
+      "realtimeStart": "2023-08-16",
+      "availableAt": "2023-08-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 88
+    },
+    {
+      "observationDate": "2023-08-15",
+      "realtimeStart": "2023-08-23",
+      "availableAt": "2023-08-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 86.28
+    },
+    {
+      "observationDate": "2023-08-22",
+      "realtimeStart": "2023-08-30",
+      "availableAt": "2023-08-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.7
+    },
+    {
+      "observationDate": "2023-08-29",
+      "realtimeStart": "2023-09-07",
+      "availableAt": "2023-09-07T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 86.37
+    },
+    {
+      "observationDate": "2023-08-30",
+      "realtimeStart": "2023-09-07",
+      "availableAt": "2023-09-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 86.62
+    },
+    {
+      "observationDate": "2023-09-12",
+      "realtimeStart": "2023-09-20",
+      "availableAt": "2023-09-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 93.58
+    },
+    {
+      "observationDate": "2023-09-19",
+      "realtimeStart": "2023-09-27",
+      "availableAt": "2023-09-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 96.11
+    },
+    {
+      "observationDate": "2023-09-26",
+      "realtimeStart": "2023-10-04",
+      "availableAt": "2023-10-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 94.46
+    },
+    {
+      "observationDate": "2023-10-03",
+      "realtimeStart": "2023-10-12",
+      "availableAt": "2023-10-12T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 94.46
+    },
+    {
+      "observationDate": "2023-10-04",
+      "realtimeStart": "2023-10-12",
+      "availableAt": "2023-10-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 89.83
+    },
+    {
+      "observationDate": "2023-10-17",
+      "realtimeStart": "2023-10-25",
+      "availableAt": "2023-10-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 92.52
+    },
+    {
+      "observationDate": "2023-10-24",
+      "realtimeStart": "2023-11-01",
+      "availableAt": "2023-11-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 88
+    },
+    {
+      "observationDate": "2023-10-31",
+      "realtimeStart": "2023-11-15",
+      "availableAt": "2023-11-15T23:59:59.999Z",
+      "lagCalendarDays": 15,
+      "value": 86.82
+    },
+    {
+      "observationDate": "2023-11-01",
+      "realtimeStart": "2023-11-15",
+      "availableAt": "2023-11-15T23:59:59.999Z",
+      "lagCalendarDays": 14,
+      "value": 86.92
+    },
+    {
+      "observationDate": "2023-11-02",
+      "realtimeStart": "2023-11-15",
+      "availableAt": "2023-11-15T23:59:59.999Z",
+      "lagCalendarDays": 13,
+      "value": 89.02
+    },
+    {
+      "observationDate": "2023-11-03",
+      "realtimeStart": "2023-11-15",
+      "availableAt": "2023-11-15T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 87.55
+    },
+    {
+      "observationDate": "2023-11-06",
+      "realtimeStart": "2023-11-15",
+      "availableAt": "2023-11-15T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 87.31
+    },
+    {
+      "observationDate": "2023-11-07",
+      "realtimeStart": "2023-11-15",
+      "availableAt": "2023-11-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.43
+    },
+    {
+      "observationDate": "2023-11-14",
+      "realtimeStart": "2023-11-22",
+      "availableAt": "2023-11-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.2
+    },
+    {
+      "observationDate": "2023-11-21",
+      "realtimeStart": "2023-11-29",
+      "availableAt": "2023-11-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.42
+    },
+    {
+      "observationDate": "2023-11-28",
+      "realtimeStart": "2023-12-06",
+      "availableAt": "2023-12-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 81.66
+    },
+    {
+      "observationDate": "2023-12-05",
+      "realtimeStart": "2023-12-13",
+      "availableAt": "2023-12-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.27
+    },
+    {
+      "observationDate": "2023-12-12",
+      "realtimeStart": "2023-12-20",
+      "availableAt": "2023-12-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.11
+    },
+    {
+      "observationDate": "2023-12-19",
+      "realtimeStart": "2023-12-28",
+      "availableAt": "2023-12-28T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 79.82
+    },
+    {
+      "observationDate": "2023-12-20",
+      "realtimeStart": "2023-12-28",
+      "availableAt": "2023-12-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 81.1
+    },
+    {
+      "observationDate": "2023-12-27",
+      "realtimeStart": "2024-01-04",
+      "availableAt": "2024-01-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.97
+    },
+    {
+      "observationDate": "2024-01-09",
+      "realtimeStart": "2024-01-18",
+      "availableAt": "2024-01-18T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 77.97
+    },
+    {
+      "observationDate": "2024-01-10",
+      "realtimeStart": "2024-01-18",
+      "availableAt": "2024-01-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.46
+    },
+    {
+      "observationDate": "2024-01-23",
+      "realtimeStart": "2024-01-31",
+      "availableAt": "2024-01-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.04
+    },
+    {
+      "observationDate": "2024-01-30",
+      "realtimeStart": "2024-02-07",
+      "availableAt": "2024-02-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.14
+    },
+    {
+      "observationDate": "2024-02-06",
+      "realtimeStart": "2024-02-14",
+      "availableAt": "2024-02-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.46
+    },
+    {
+      "observationDate": "2024-02-13",
+      "realtimeStart": "2024-02-22",
+      "availableAt": "2024-02-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 84.72
+    },
+    {
+      "observationDate": "2024-02-14",
+      "realtimeStart": "2024-02-22",
+      "availableAt": "2024-02-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 84.41
+    },
+    {
+      "observationDate": "2024-02-27",
+      "realtimeStart": "2024-03-06",
+      "availableAt": "2024-03-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.8
+    },
+    {
+      "observationDate": "2024-03-05",
+      "realtimeStart": "2024-03-13",
+      "availableAt": "2024-03-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.82
+    },
+    {
+      "observationDate": "2024-03-12",
+      "realtimeStart": "2024-03-20",
+      "availableAt": "2024-03-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.66
+    },
+    {
+      "observationDate": "2024-03-19",
+      "realtimeStart": "2024-03-27",
+      "availableAt": "2024-03-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 87.36
+    },
+    {
+      "observationDate": "2024-03-26",
+      "realtimeStart": "2024-04-03",
+      "availableAt": "2024-04-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.91
+    },
+    {
+      "observationDate": "2024-04-02",
+      "realtimeStart": "2024-04-10",
+      "availableAt": "2024-04-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 87.63
+    },
+    {
+      "observationDate": "2024-04-09",
+      "realtimeStart": "2024-04-17",
+      "availableAt": "2024-04-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 92.13
+    },
+    {
+      "observationDate": "2024-04-16",
+      "realtimeStart": "2024-04-24",
+      "availableAt": "2024-04-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 91.29
+    },
+    {
+      "observationDate": "2024-04-23",
+      "realtimeStart": "2024-05-01",
+      "availableAt": "2024-05-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 88.29
+    },
+    {
+      "observationDate": "2024-04-30",
+      "realtimeStart": "2024-05-08",
+      "availableAt": "2024-05-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 88.23
+    },
+    {
+      "observationDate": "2024-05-07",
+      "realtimeStart": "2024-05-15",
+      "availableAt": "2024-05-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.69
+    },
+    {
+      "observationDate": "2024-05-14",
+      "realtimeStart": "2024-05-22",
+      "availableAt": "2024-05-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 81
+    },
+    {
+      "observationDate": "2024-05-21",
+      "realtimeStart": "2024-05-30",
+      "availableAt": "2024-05-30T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 81.22
+    },
+    {
+      "observationDate": "2024-05-22",
+      "realtimeStart": "2024-05-30",
+      "availableAt": "2024-05-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.9
+    },
+    {
+      "observationDate": "2024-06-04",
+      "realtimeStart": "2024-06-12",
+      "availableAt": "2024-06-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.33
+    },
+    {
+      "observationDate": "2024-06-11",
+      "realtimeStart": "2024-06-20",
+      "availableAt": "2024-06-20T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 80.15
+    },
+    {
+      "observationDate": "2024-06-12",
+      "realtimeStart": "2024-06-20",
+      "availableAt": "2024-06-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.52
+    },
+    {
+      "observationDate": "2024-06-25",
+      "realtimeStart": "2024-07-03",
+      "availableAt": "2024-07-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 86.81
+    },
+    {
+      "observationDate": "2024-07-02",
+      "realtimeStart": "2024-07-10",
+      "availableAt": "2024-07-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 88.28
+    },
+    {
+      "observationDate": "2024-07-09",
+      "realtimeStart": "2024-07-17",
+      "availableAt": "2024-07-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 86.48
+    },
+    {
+      "observationDate": "2024-07-16",
+      "realtimeStart": "2024-07-24",
+      "availableAt": "2024-07-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 86.6
+    },
+    {
+      "observationDate": "2024-07-23",
+      "realtimeStart": "2024-07-31",
+      "availableAt": "2024-07-31T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.2
+    },
+    {
+      "observationDate": "2024-07-30",
+      "realtimeStart": "2024-08-07",
+      "availableAt": "2024-08-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 79.26
+    },
+    {
+      "observationDate": "2024-08-06",
+      "realtimeStart": "2024-08-14",
+      "availableAt": "2024-08-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.62
+    },
+    {
+      "observationDate": "2024-08-13",
+      "realtimeStart": "2024-08-21",
+      "availableAt": "2024-08-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 82.51
+    },
+    {
+      "observationDate": "2024-08-20",
+      "realtimeStart": "2024-08-28",
+      "availableAt": "2024-08-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.85
+    },
+    {
+      "observationDate": "2024-08-27",
+      "realtimeStart": "2024-09-05",
+      "availableAt": "2024-09-05T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 81.51
+    },
+    {
+      "observationDate": "2024-08-28",
+      "realtimeStart": "2024-09-05",
+      "availableAt": "2024-09-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.04
+    },
+    {
+      "observationDate": "2024-09-10",
+      "realtimeStart": "2024-09-18",
+      "availableAt": "2024-09-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.34
+    },
+    {
+      "observationDate": "2024-09-17",
+      "realtimeStart": "2024-09-25",
+      "availableAt": "2024-09-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.55
+    },
+    {
+      "observationDate": "2024-09-24",
+      "realtimeStart": "2024-10-02",
+      "availableAt": "2024-10-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.29
+    },
+    {
+      "observationDate": "2024-10-01",
+      "realtimeStart": "2024-10-09",
+      "availableAt": "2024-10-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.3
+    },
+    {
+      "observationDate": "2024-10-08",
+      "realtimeStart": "2024-10-17",
+      "availableAt": "2024-10-17T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 78.19
+    },
+    {
+      "observationDate": "2024-10-09",
+      "realtimeStart": "2024-10-17",
+      "availableAt": "2024-10-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.06
+    },
+    {
+      "observationDate": "2024-10-22",
+      "realtimeStart": "2024-10-30",
+      "availableAt": "2024-10-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.59
+    },
+    {
+      "observationDate": "2024-10-29",
+      "realtimeStart": "2024-11-06",
+      "availableAt": "2024-11-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.09
+    },
+    {
+      "observationDate": "2024-11-05",
+      "realtimeStart": "2024-11-14",
+      "availableAt": "2024-11-14T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 76.98
+    },
+    {
+      "observationDate": "2024-11-06",
+      "realtimeStart": "2024-11-14",
+      "availableAt": "2024-11-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.52
+    },
+    {
+      "observationDate": "2024-11-19",
+      "realtimeStart": "2024-11-27",
+      "availableAt": "2024-11-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.32
+    },
+    {
+      "observationDate": "2024-11-26",
+      "realtimeStart": "2024-12-04",
+      "availableAt": "2024-12-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.56
+    },
+    {
+      "observationDate": "2024-12-03",
+      "realtimeStart": "2024-12-11",
+      "availableAt": "2024-12-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 74.8
+    },
+    {
+      "observationDate": "2024-12-10",
+      "realtimeStart": "2024-12-18",
+      "availableAt": "2024-12-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.64
+    },
+    {
+      "observationDate": "2024-12-17",
+      "realtimeStart": "2024-12-27",
+      "availableAt": "2024-12-27T23:59:59.999Z",
+      "lagCalendarDays": 10,
+      "value": 73.16
+    },
+    {
+      "observationDate": "2024-12-18",
+      "realtimeStart": "2024-12-27",
+      "availableAt": "2024-12-27T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 74.57
+    },
+    {
+      "observationDate": "2024-12-19",
+      "realtimeStart": "2024-12-27",
+      "availableAt": "2024-12-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.75
+    },
+    {
+      "observationDate": "2025-01-07",
+      "realtimeStart": "2025-01-15",
+      "availableAt": "2025-01-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.84
+    },
+    {
+      "observationDate": "2025-01-14",
+      "realtimeStart": "2025-01-23",
+      "availableAt": "2025-01-23T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 82.39
+    },
+    {
+      "observationDate": "2025-01-15",
+      "realtimeStart": "2025-01-23",
+      "availableAt": "2025-01-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.48
+    },
+    {
+      "observationDate": "2025-01-28",
+      "realtimeStart": "2025-02-05",
+      "availableAt": "2025-02-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.01
+    },
+    {
+      "observationDate": "2025-02-04",
+      "realtimeStart": "2025-02-12",
+      "availableAt": "2025-02-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 76.58
+    },
+    {
+      "observationDate": "2025-02-11",
+      "realtimeStart": "2025-02-20",
+      "availableAt": "2025-02-20T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 77.65
+    },
+    {
+      "observationDate": "2025-02-12",
+      "realtimeStart": "2025-02-20",
+      "availableAt": "2025-02-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.38
+    },
+    {
+      "observationDate": "2025-02-25",
+      "realtimeStart": "2025-03-05",
+      "availableAt": "2025-03-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.11
+    },
+    {
+      "observationDate": "2025-03-04",
+      "realtimeStart": "2025-03-12",
+      "availableAt": "2025-03-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.31
+    },
+    {
+      "observationDate": "2025-03-11",
+      "realtimeStart": "2025-03-19",
+      "availableAt": "2025-03-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.51
+    },
+    {
+      "observationDate": "2025-03-18",
+      "realtimeStart": "2025-03-26",
+      "availableAt": "2025-03-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.93
+    },
+    {
+      "observationDate": "2025-03-25",
+      "realtimeStart": "2025-04-02",
+      "availableAt": "2025-04-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.78
+    },
+    {
+      "observationDate": "2025-04-01",
+      "realtimeStart": "2025-04-09",
+      "availableAt": "2025-04-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 77.78
+    },
+    {
+      "observationDate": "2025-04-08",
+      "realtimeStart": "2025-04-16",
+      "availableAt": "2025-04-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.86
+    },
+    {
+      "observationDate": "2025-04-15",
+      "realtimeStart": "2025-04-23",
+      "availableAt": "2025-04-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.58
+    },
+    {
+      "observationDate": "2025-04-22",
+      "realtimeStart": "2025-04-30",
+      "availableAt": "2025-04-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.93
+    },
+    {
+      "observationDate": "2025-04-29",
+      "realtimeStart": "2025-05-07",
+      "availableAt": "2025-05-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.04
+    },
+    {
+      "observationDate": "2025-05-06",
+      "realtimeStart": "2025-05-14",
+      "availableAt": "2025-05-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.37
+    },
+    {
+      "observationDate": "2025-05-13",
+      "realtimeStart": "2025-05-21",
+      "availableAt": "2025-05-21T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.93
+    },
+    {
+      "observationDate": "2025-05-20",
+      "realtimeStart": "2025-05-29",
+      "availableAt": "2025-05-29T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 66.93
+    },
+    {
+      "observationDate": "2025-05-21",
+      "realtimeStart": "2025-05-29",
+      "availableAt": "2025-05-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 65.86
+    },
+    {
+      "observationDate": "2025-06-03",
+      "realtimeStart": "2025-06-11",
+      "availableAt": "2025-06-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.48
+    },
+    {
+      "observationDate": "2025-06-10",
+      "realtimeStart": "2025-06-18",
+      "availableAt": "2025-06-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.41
+    },
+    {
+      "observationDate": "2025-06-17",
+      "realtimeStart": "2025-06-25",
+      "availableAt": "2025-06-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 78.7
+    },
+    {
+      "observationDate": "2025-06-24",
+      "realtimeStart": "2025-07-02",
+      "availableAt": "2025-07-02T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.13
+    },
+    {
+      "observationDate": "2025-07-01",
+      "realtimeStart": "2025-07-09",
+      "availableAt": "2025-07-09T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.63
+    },
+    {
+      "observationDate": "2025-07-08",
+      "realtimeStart": "2025-07-16",
+      "availableAt": "2025-07-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 72.5
+    },
+    {
+      "observationDate": "2025-07-15",
+      "realtimeStart": "2025-07-23",
+      "availableAt": "2025-07-23T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.27
+    },
+    {
+      "observationDate": "2025-07-22",
+      "realtimeStart": "2025-07-30",
+      "availableAt": "2025-07-30T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.69
+    },
+    {
+      "observationDate": "2025-07-29",
+      "realtimeStart": "2025-08-06",
+      "availableAt": "2025-08-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 73.21
+    },
+    {
+      "observationDate": "2025-08-05",
+      "realtimeStart": "2025-08-13",
+      "availableAt": "2025-08-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.14
+    },
+    {
+      "observationDate": "2025-08-12",
+      "realtimeStart": "2025-08-20",
+      "availableAt": "2025-08-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.8
+    },
+    {
+      "observationDate": "2025-08-19",
+      "realtimeStart": "2025-08-27",
+      "availableAt": "2025-08-27T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 66.62
+    },
+    {
+      "observationDate": "2025-08-26",
+      "realtimeStart": "2025-09-04",
+      "availableAt": "2025-09-04T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 66.89
+    },
+    {
+      "observationDate": "2025-08-27",
+      "realtimeStart": "2025-09-04",
+      "availableAt": "2025-09-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.75
+    },
+    {
+      "observationDate": "2025-09-09",
+      "realtimeStart": "2025-09-17",
+      "availableAt": "2025-09-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.97
+    },
+    {
+      "observationDate": "2025-09-16",
+      "realtimeStart": "2025-09-24",
+      "availableAt": "2025-09-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 69.69
+    },
+    {
+      "observationDate": "2025-09-23",
+      "realtimeStart": "2025-10-01",
+      "availableAt": "2025-10-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.96
+    },
+    {
+      "observationDate": "2025-09-30",
+      "realtimeStart": "2025-10-08",
+      "availableAt": "2025-10-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.52
+    },
+    {
+      "observationDate": "2025-10-07",
+      "realtimeStart": "2025-10-16",
+      "availableAt": "2025-10-16T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 67.1
+    },
+    {
+      "observationDate": "2025-10-08",
+      "realtimeStart": "2025-10-16",
+      "availableAt": "2025-10-16T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 67.42
+    },
+    {
+      "observationDate": "2025-10-21",
+      "realtimeStart": "2025-10-29",
+      "availableAt": "2025-10-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 61
+    },
+    {
+      "observationDate": "2025-10-28",
+      "realtimeStart": "2025-11-05",
+      "availableAt": "2025-11-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.03
+    },
+    {
+      "observationDate": "2025-11-04",
+      "realtimeStart": "2025-11-13",
+      "availableAt": "2025-11-13T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 65.04
+    },
+    {
+      "observationDate": "2025-11-05",
+      "realtimeStart": "2025-11-13",
+      "availableAt": "2025-11-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.54
+    },
+    {
+      "observationDate": "2025-11-18",
+      "realtimeStart": "2025-11-26",
+      "availableAt": "2025-11-26T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 64.86
+    },
+    {
+      "observationDate": "2025-11-25",
+      "realtimeStart": "2025-12-03",
+      "availableAt": "2025-12-03T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.99
+    },
+    {
+      "observationDate": "2025-12-02",
+      "realtimeStart": "2025-12-10",
+      "availableAt": "2025-12-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 63.37
+    },
+    {
+      "observationDate": "2025-12-09",
+      "realtimeStart": "2025-12-17",
+      "availableAt": "2025-12-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.62
+    },
+    {
+      "observationDate": "2025-12-16",
+      "realtimeStart": "2025-12-29",
+      "availableAt": "2025-12-29T23:59:59.999Z",
+      "lagCalendarDays": 13,
+      "value": 59.93
+    },
+    {
+      "observationDate": "2025-12-17",
+      "realtimeStart": "2025-12-29",
+      "availableAt": "2025-12-29T23:59:59.999Z",
+      "lagCalendarDays": 12,
+      "value": 60.61
+    },
+    {
+      "observationDate": "2025-12-18",
+      "realtimeStart": "2025-12-29",
+      "availableAt": "2025-12-29T23:59:59.999Z",
+      "lagCalendarDays": 11,
+      "value": 60.69
+    },
+    {
+      "observationDate": "2025-12-19",
+      "realtimeStart": "2025-12-29",
+      "availableAt": "2025-12-29T23:59:59.999Z",
+      "lagCalendarDays": 10,
+      "value": 61.35
+    },
+    {
+      "observationDate": "2025-12-30",
+      "realtimeStart": "2026-01-07",
+      "availableAt": "2026-01-07T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.3
+    },
+    {
+      "observationDate": "2026-01-06",
+      "realtimeStart": "2026-01-14",
+      "availableAt": "2026-01-14T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 62.1
+    },
+    {
+      "observationDate": "2026-01-13",
+      "realtimeStart": "2026-01-22",
+      "availableAt": "2026-01-22T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 67.58
+    },
+    {
+      "observationDate": "2026-01-14",
+      "realtimeStart": "2026-01-22",
+      "availableAt": "2026-01-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 68.87
+    },
+    {
+      "observationDate": "2026-01-27",
+      "realtimeStart": "2026-02-04",
+      "availableAt": "2026-02-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.28
+    },
+    {
+      "observationDate": "2026-02-03",
+      "realtimeStart": "2026-02-11",
+      "availableAt": "2026-02-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.01
+    },
+    {
+      "observationDate": "2026-02-10",
+      "realtimeStart": "2026-02-19",
+      "availableAt": "2026-02-19T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 71.01
+    },
+    {
+      "observationDate": "2026-02-11",
+      "realtimeStart": "2026-02-19",
+      "availableAt": "2026-02-19T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.52
+    },
+    {
+      "observationDate": "2026-02-24",
+      "realtimeStart": "2026-03-04",
+      "availableAt": "2026-03-04T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.21
+    },
+    {
+      "observationDate": "2026-03-03",
+      "realtimeStart": "2026-03-11",
+      "availableAt": "2026-03-11T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.28
+    },
+    {
+      "observationDate": "2026-03-10",
+      "realtimeStart": "2026-03-18",
+      "availableAt": "2026-03-18T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 89.84
+    },
+    {
+      "observationDate": "2026-03-17",
+      "realtimeStart": "2026-03-25",
+      "availableAt": "2026-03-25T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.39
+    },
+    {
+      "observationDate": "2026-03-24",
+      "realtimeStart": "2026-04-01",
+      "availableAt": "2026-04-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.42
+    },
+    {
+      "observationDate": "2026-03-31",
+      "realtimeStart": "2026-04-08",
+      "availableAt": "2026-04-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 126.69
+    },
+    {
+      "observationDate": "2026-04-07",
+      "realtimeStart": "2026-04-15",
+      "availableAt": "2026-04-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 138.21
+    },
+    {
+      "observationDate": "2026-04-14",
+      "realtimeStart": "2026-04-22",
+      "availableAt": "2026-04-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 118.69
+    },
+    {
+      "observationDate": "2026-04-21",
+      "realtimeStart": "2026-04-29",
+      "availableAt": "2026-04-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 106.14
+    },
+    {
+      "observationDate": "2026-04-28",
+      "realtimeStart": "2026-05-06",
+      "availableAt": "2026-05-06T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 117.62
+    },
+    {
+      "observationDate": "2026-05-05",
+      "realtimeStart": "2026-05-13",
+      "availableAt": "2026-05-13T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 114.51
+    },
+    {
+      "observationDate": "2026-05-12",
+      "realtimeStart": "2026-05-20",
+      "availableAt": "2026-05-20T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 111.37
+    },
+    {
+      "observationDate": "2026-05-19",
+      "realtimeStart": "2026-05-28",
+      "availableAt": "2026-05-28T23:59:59.999Z",
+      "lagCalendarDays": 9,
+      "value": 114.64
+    },
+    {
+      "observationDate": "2026-05-20",
+      "realtimeStart": "2026-05-28",
+      "availableAt": "2026-05-28T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 108.93
+    },
+    {
+      "observationDate": "2026-06-02",
+      "realtimeStart": "2026-06-10",
+      "availableAt": "2026-06-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 98.49
+    },
+    {
+      "observationDate": "2026-06-09",
+      "realtimeStart": "2026-06-17",
+      "availableAt": "2026-06-17T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 94.15
+    },
+    {
+      "observationDate": "2026-06-16",
+      "realtimeStart": "2026-06-24",
+      "availableAt": "2026-06-24T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 80.5
+    },
+    {
+      "observationDate": "2026-06-23",
+      "realtimeStart": "2026-07-01",
+      "availableAt": "2026-07-01T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 75.69
+    },
+    {
+      "observationDate": "2026-06-30",
+      "realtimeStart": "2026-07-08",
+      "availableAt": "2026-07-08T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 70.46
+    },
+    {
+      "observationDate": "2026-07-07",
+      "realtimeStart": "2026-07-15",
+      "availableAt": "2026-07-15T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 71.78
+    },
+    {
+      "observationDate": "2026-07-14",
+      "realtimeStart": "2026-07-22",
+      "availableAt": "2026-07-22T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 83.69
+    },
+    {
+      "observationDate": "2026-07-21",
+      "realtimeStart": "2026-07-29",
+      "availableAt": "2026-07-29T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 93.85
+    },
+    {
+      "observationDate": "2026-07-28",
+      "realtimeStart": "2026-08-05",
+      "availableAt": "2026-08-05T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 85.51
+    },
+    {
+      "observationDate": "2026-08-04",
+      "realtimeStart": "2026-08-12",
+      "availableAt": "2026-08-12T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 86.47
+    },
+    {
+      "observationDate": "2026-09-02",
+      "realtimeStart": "2026-09-10",
+      "availableAt": "2026-09-10T23:59:59.999Z",
+      "lagCalendarDays": 8,
+      "value": 97.59
+    }
+  ],
+  "methodologyDecision": {
+    "humanMethodologicalApproval": false,
+    "admissionAuthorized": false,
+    "historicalAdmissionPerformed": false
+  },
+  "promotion": {
+    "historicalStoreUpdated": false,
+    "calibrationDatasetUpdated": false,
+    "officialHesiUpdated": false
+  },
+  "notes": [
+    "This artifact is diagnostic only.",
+    "No candidate is admitted by this analysis.",
+    "The analysis uses the ALFRED realtimeStart evidence retained with each prepared candidate.",
+    "Calendar-day lag is not equivalent to exact publication latency.",
+    "No intraday availability time is invented.",
+    "Unusual lags are retained for inspection rather than automatically corrected.",
+    "Human methodological approval remains false.",
+    "Calibration and official HESI remain unchanged."
+  ]
+}
