@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0",
+  "status": "ANALYZED_NOT_ADMITTED",
+  "analysisTimestamp": "2026-10-02T16:47:33.749Z",
+  "sourceStaging": "brent-alfred-admission-ready.json",
+  "sourceHistoricalStore": "historical-observations.json",
+  "summary": {
+    "preparedCandidates": 3939,
+    "existingHistoricalObservations": 5,
+    "overlappingKeys": 2,
+    "exactOverlaps": 0,
+    "valueMatchesAvailableAtDiffers": 2,
+    "valueConflicts": 0,
+    "nonOverlappingCandidates": 3937
+  },
+  "overlapPolicy": {
+    "key": "sourceId|seriesId|observationDate",
+    "automaticOverwriteAllowed": false,
+    "automaticReplacementAllowed": false,
+    "automaticAdmissionAllowed": false,
+    "conflictingRecordsRequireReview": true
+  },
+  "overlaps": [
+    {
+      "key": "brent_market|DCOILBRENTEU|2026-09-22",
+      "sourceId": "brent_market",
+      "seriesId": "DCOILBRENTEU",
+      "observationDate": "2026-09-22",
+      "candidate": {
+        "value": 114.89,
+        "availableAt": "2026-09-23T23:59:59.999Z",
+        "unit": "usd_per_barrel",
+        "frequency": "daily"
+      },
+      "historical": {
+        "value": 114.89,
+        "availableAt": "2026-09-27T14:04:48.025Z",
+        "unit": "usd_per_barrel",
+        "frequency": "daily"
+      },
+      "comparison": {
+        "sameValue": true,
+        "sameAvailableAt": false
+      }
+    },
+    {
+      "key": "brent_market|DCOILBRENTEU|2026-09-29",
+      "sourceId": "brent_market",
+      "seriesId": "DCOILBRENTEU",
+      "observationDate": "2026-09-29",
+      "candidate": {
+        "value": 113.96,
+        "availableAt": "2026-09-30T23:59:59.999Z",
+        "unit": "usd_per_barrel",
+        "frequency": "daily"
+      },
+      "historical": {
+        "value": 113.96,
+        "availableAt": "2026-10-01T06:34:38.177Z",
+        "unit": "usd_per_barrel",
+        "frequency": "daily"
+      },
+      "comparison": {
+        "sameValue": true,
+        "sameAvailableAt": false
+      }
+    }
+  ],
+  "safeguards": {
+    "admissionAuthorized": false,
+    "historicalStoreModified": false,
+    "calibrationDatasetModified": false,
+    "officialHesiModified": false
+  },
+  "notes": [
+    "This artifact only analyzes overlap between prepared ALFRED Brent candidates and the admitted historical observation store.",
+    "No candidate is admitted by this script.",
+    "No existing historical observation is overwritten or replaced.",
+    "Overlap is determined using sourceId, seriesId and observationDate.",
+    "A matching observation date with a different AvailableAt is not treated as an exact duplicate.",
+    "Any value conflict must remain unresolved until explicitly reviewed.",
+    "Official HESI is not modified by this analysis."
+  ]
+}

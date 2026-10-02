@@ -3,7 +3,7 @@
   "status": "QUARANTINED_AVAILABLE_AT_UNVERIFIED",
   "sourceId": "brent_market",
   "seriesId": "DCOILBRENTEU",
-  "fetchTimestamp": "2026-10-02T16:45:27.204Z",
+  "fetchTimestamp": "2026-10-02T16:47:30.966Z",
   "leakageSafeAdmission": false,
   "availableAtPolicy": "Historical values are retained for research, but AvailableAt is intentionally null. observationDate must never be substituted for historical AvailableAt without defensible publication or vintage metadata.",
   "summary": {
