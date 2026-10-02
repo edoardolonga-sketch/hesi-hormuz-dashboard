@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "1.0",
+  "status": "WEEKDAY_DIAGNOSTIC_NOT_ADMISSION",
+  "analysisTimestamp": "2026-10-02T06:22:51.176Z",
+  "sourceDataset": "brent-alfred-admission-ready.json",
+  "observationsAnalyzed": 3939,
+  "methodology": {
+    "observationWeekday": "UTC weekday of observationDate.",
+    "realtimeStartWeekday": "UTC weekday of ALFRED realtimeStart.",
+    "lagDefinition": "Calendar-day difference between realtimeStart and observationDate.",
+    "purpose": "Test whether ALFRED availability lags exhibit systematic weekday/calendar structure.",
+    "admissionEffect": "NONE"
+  },
+  "negativeLagCount": 0,
+  "byObservationWeekday": {
+    "Sunday": {
+      "observations": 0,
+      "minimumLagCalendarDays": null,
+      "medianLagCalendarDays": null,
+      "meanLagCalendarDays": null,
+      "maximumLagCalendarDays": null,
+      "overSevenDayCount": 0,
+      "overSevenDayShare": 0
+    },
+    "Monday": {
+      "observations": 756,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 2,
+      "meanLagCalendarDays": 2.2182539682539684,
+      "maximumLagCalendarDays": 9,
+      "overSevenDayCount": 11,
+      "overSevenDayShare": 0.01455026455026455
+    },
+    "Tuesday": {
+      "observations": 799,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 8,
+      "meanLagCalendarDays": 6.51063829787234,
+      "maximumLagCalendarDays": 15,
+      "overSevenDayCount": 594,
+      "overSevenDayShare": 0.7434292866082604
+    },
+    "Wednesday": {
+      "observations": 803,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 7,
+      "meanLagCalendarDays": 6.990037359900374,
+      "maximumLagCalendarDays": 14,
+      "overSevenDayCount": 113,
+      "overSevenDayShare": 0.14072229140722292
+    },
+    "Thursday": {
+      "observations": 796,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 6.159547738693467,
+      "maximumLagCalendarDays": 13,
+      "overSevenDayCount": 11,
+      "overSevenDayShare": 0.013819095477386936
+    },
+    "Friday": {
+      "observations": 785,
+      "minimumLagCalendarDays": 4,
+      "medianLagCalendarDays": 5,
+      "meanLagCalendarDays": 5.224203821656051,
+      "maximumLagCalendarDays": 12,
+      "overSevenDayCount": 9,
+      "overSevenDayShare": 0.011464968152866241
+    },
+    "Saturday": {
+      "observations": 0,
+      "minimumLagCalendarDays": null,
+      "medianLagCalendarDays": null,
+      "meanLagCalendarDays": null,
+      "maximumLagCalendarDays": null,
+      "overSevenDayCount": 0,
+      "overSevenDayShare": 0
+    }
+  },
+  "byRealtimeStartWeekday": {
+    "Sunday": {
+      "observations": 0,
+      "minimumLagCalendarDays": null,
+      "medianLagCalendarDays": null,
+      "meanLagCalendarDays": null,
+      "maximumLagCalendarDays": null,
+      "overSevenDayCount": 0,
+      "overSevenDayShare": 0
+    },
+    "Monday": {
+      "observations": 7,
+      "minimumLagCalendarDays": 5,
+      "medianLagCalendarDays": 10,
+      "meanLagCalendarDays": 9.142857142857142,
+      "maximumLagCalendarDays": 13,
+      "overSevenDayCount": 4,
+      "overSevenDayShare": 0.5714285714285714
+    },
+    "Tuesday": {
+      "observations": 5,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 4,
+      "meanLagCalendarDays": 3.2,
+      "maximumLagCalendarDays": 6,
+      "overSevenDayCount": 0,
+      "overSevenDayShare": 0
+    },
+    "Wednesday": {
+      "observations": 3300,
+      "minimumLagCalendarDays": 0,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.3978787878787875,
+      "maximumLagCalendarDays": 15,
+      "overSevenDayCount": 531,
+      "overSevenDayShare": 0.16090909090909092
+    },
+    "Thursday": {
+      "observations": 586,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 6,
+      "meanLagCalendarDays": 5.761092150170649,
+      "maximumLagCalendarDays": 9,
+      "overSevenDayCount": 188,
+      "overSevenDayShare": 0.32081911262798635
+    },
+    "Friday": {
+      "observations": 41,
+      "minimumLagCalendarDays": 1,
+      "medianLagCalendarDays": 7,
+      "meanLagCalendarDays": 5.536585365853658,
+      "maximumLagCalendarDays": 10,
+      "overSevenDayCount": 15,
+      "overSevenDayShare": 0.36585365853658536
+    },
+    "Saturday": {
+      "observations": 0,
+      "minimumLagCalendarDays": null,
+      "medianLagCalendarDays": null,
+      "meanLagCalendarDays": null,
+      "maximumLagCalendarDays": null,
+      "overSevenDayCount": 0,
+      "overSevenDayShare": 0
+    }
+  },
+  "weekdayPairs": {
+    "Wednesday -> Wednesday": {
+      "count": 673,
+      "lags": {
+        "0": 6,
+        "7": 662,
+        "14": 5
+      }
+    },
+    "Thursday -> Wednesday": {
+      "count": 681,
+      "lags": {
+        "6": 676,
+        "13": 5
+      }
+    },
+    "Friday -> Wednesday": {
+      "count": 673,
+      "lags": {
+        "5": 665,
+        "12": 8
+      }
+    },
+    "Monday -> Wednesday": {
+      "count": 675,
+      "lags": {
+        "2": 664,
+        "9": 11
+      }
+    },
+    "Tuesday -> Wednesday": {
+      "count": 598,
+      "lags": {
+        "1": 96,
+        "8": 498,
+        "15": 4
+      }
+    },
+    "Wednesday -> Thursday": {
+      "count": 117,
+      "lags": {
+        "1": 15,
+        "8": 102
+      }
+    },
+    "Thursday -> Thursday": {
+      "count": 103,
+      "lags": {
+        "7": 103
+      }
+    },
+    "Friday -> Thursday": {
+      "count": 104,
+      "lags": {
+        "6": 104
+      }
+    },
+    "Tuesday -> Thursday": {
+      "count": 188,
+      "lags": {
+        "2": 102,
+        "9": 86
+      }
+    },
+    "Wednesday -> Tuesday": {
+      "count": 1,
+      "lags": {
+        "6": 1
+      }
+    },
+    "Thursday -> Tuesday": {
+      "count": 1,
+      "lags": {
+        "5": 1
+      }
+    },
+    "Friday -> Tuesday": {
+      "count": 1,
+      "lags": {
+        "4": 1
+      }
+    },
+    "Monday -> Tuesday": {
+      "count": 1,
+      "lags": {
+        "1": 1
+      }
+    },
+    "Tuesday -> Tuesday": {
+      "count": 1,
+      "lags": {
+        "0": 1
+      }
+    },
+    "Monday -> Thursday": {
+      "count": 74,
+      "lags": {
+        "3": 74
+      }
+    },
+    "Tuesday -> Friday": {
+      "count": 10,
+      "lags": {
+        "3": 5,
+        "10": 5
+      }
+    },
+    "Wednesday -> Friday": {
+      "count": 10,
+      "lags": {
+        "2": 5,
+        "9": 5
+      }
+    },
+    "Thursday -> Friday": {
+      "count": 10,
+      "lags": {
+        "1": 5,
+        "8": 5
+      }
+    },
+    "Friday -> Friday": {
+      "count": 6,
+      "lags": {
+        "7": 6
+      }
+    },
+    "Monday -> Friday": {
+      "count": 5,
+      "lags": {
+        "4": 5
+      }
+    },
+    "Tuesday -> Monday": {
+      "count": 2,
+      "lags": {
+        "6": 1,
+        "13": 1
+      }
+    },
+    "Wednesday -> Monday": {
+      "count": 2,
+      "lags": {
+        "5": 1,
+        "12": 1
+      }
+    },
+    "Thursday -> Monday": {
+      "count": 1,
+      "lags": {
+        "11": 1
+      }
+    },
+    "Friday -> Monday": {
+      "count": 1,
+      "lags": {
+        "10": 1
+      }
+    },
+    "Monday -> Monday": {
+      "count": 1,
+      "lags": {
+        "7": 1
+      }
+    }
+  },
+  "methodologyDecision": {
+    "humanMethodologicalApproval": false,
+    "admissionAuthorized": false,
+    "historicalAdmissionPerformed": false
+  },
+  "promotion": {
+    "historicalStoreUpdated": false,
+    "calibrationDatasetUpdated": false,
+    "officialHesiUpdated": false
+  },
+  "notes": [
+    "This artifact is diagnostic only.",
+    "No observation is admitted by this analysis.",
+    "Weekday patterns are measured in UTC at date level.",
+    "No intraday publication time is inferred.",
+    "A lag above seven calendar days is not automatically invalid.",
+    "Observed realtimeStart dates are retained without backward adjustment.",
+    "Human methodological approval remains false.",
+    "Calibration and official HESI remain unchanged."
+  ]
+}
