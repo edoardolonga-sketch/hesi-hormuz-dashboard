@@ -1,15 +1,17 @@
 {
-  "schemaVersion": "1.0",
-  "status": "PREPARED_NOT_ADMITTED",
-  "preparationTimestamp": "2026-10-02T07:42:09.798Z",
+  "schemaVersion": "1.1",
+  "status": "METHODOLOGY_APPROVED_PREPARED_NOT_ADMITTED",
+  "preparationTimestamp": "2026-10-02T16:19:40.268Z",
   "sourceDataset": "brent-alfred-methodology-review.json",
+  "sourceHumanDecision": "brent-alfred-human-methodology-decision.json",
   "summary": {
     "reviewedCandidates": 3939,
     "preparedCandidates": 3939,
     "admittedObservations": 0
   },
   "methodologyState": {
-    "humanMethodologicalApproval": false,
+    "decisionRecorded": true,
+    "humanMethodologicalApproval": true,
     "admissionAuthorized": false
   },
   "preparedCandidates": [
@@ -74863,11 +74865,13 @@
   },
   "notes": [
     "This file is an admission-ready staging artifact only.",
+    "The ALFRED AvailableAt methodology has been explicitly approved by human review.",
     "Prepared candidates passed the automated structural and methodology-consistency checks.",
-    "Preparation does not constitute methodological approval.",
-    "Preparation does not authorize historical admission.",
+    "Methodological approval does not authorize historical admission.",
+    "A separate explicit admission decision is required before any prepared candidate can enter historical-observations.json.",
     "No observation is written to historical-observations.json by this script.",
-    "The excluded ALFRED anomaly is not present in this staging artifact.",
+    "The excluded negative-lag ALFRED anomaly is not present in this staging artifact.",
+    "No AvailableAt timestamp is moved backward.",
     "Calibration and official HESI remain unchanged."
   ]
 }
