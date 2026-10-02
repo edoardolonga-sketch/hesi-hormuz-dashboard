@@ -1,12 +1,12 @@
 import { readFile, writeFile } from "node:fs/promises";
 
-const HISTORICAL_FILE = new URL(
-  "../data/historical-observations.json",
+const HISTORICAL_DATASET_FILE = new URL(
+  "../data/historical-dataset.json",
   import.meta.url
 );
 
 const OUTPUT_FILE = new URL(
-  "../data/historical-dataset.json",
+  "../data/point-in-time-backtest.json",
   import.meta.url
 );
 
@@ -38,8 +38,22 @@ function observationKey(observation) {
   );
 }
 
-function compareObservations(a, b) {
-  const dateDifference =
+function compareByAvailableAt(a, b) {
+  const availableDifference =
+    parseTimestamp(
+      a.availableAt,
+      `${a.sourceId} availableAt`
+    ) -
+    parseTimestamp(
+      b.availableAt,
+      `${b.sourceId} availableAt`
+    );
+
+  if (availableDifference !== 0) {
+    return availableDifference;
+  }
+
+  const observationDifference =
     parseTimestamp(
       a.observationDate,
       `${a.sourceId} observationDate`
@@ -49,42 +63,68 @@ function compareObservations(a, b) {
       `${b.sourceId} observationDate`
     );
 
-  if (dateDifference !== 0) {
-    return dateDifference;
+  if (observationDifference !== 0) {
+    return observationDifference;
   }
 
-  return (
-    parseTimestamp(
-      a.availableAt,
-      `${a.sourceId} availableAt`
-    ) -
-    parseTimestamp(
-      b.availableAt,
-      `${b.sourceId} availableAt`
-    )
+  return observationKey(a).localeCompare(
+    observationKey(b)
   );
 }
 
-async function main() {
-  const buildTimestamp =
-    new Date().toISOString();
+function utcDayStart(timestamp) {
+  const date = new Date(timestamp);
 
-  const historical = await readJson(
-    HISTORICAL_FILE,
-    "historical-observations.json"
+  return Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate()
+  );
+}
+
+function nextUtcDayStart(timestamp) {
+  return utcDayStart(timestamp) + 24 * 60 * 60 * 1000;
+}
+
+async function main() {
+  const buildTimestamp = new Date().toISOString();
+
+  const dataset = await readJson(
+    HISTORICAL_DATASET_FILE,
+    "historical-dataset.json"
   );
 
-  if (!Array.isArray(historical.observations)) {
+  if (
+    dataset.status !==
+    "RESEARCH_DATASET_NOT_CALIBRATED"
+  ) {
     throw new Error(
-      "Historical observations array is missing."
+      "Historical dataset has an unexpected status."
+    );
+  }
+
+  if (dataset.leakageProtection !== "ENABLED") {
+    throw new Error(
+      "Historical dataset leakage protection is not enabled."
+    );
+  }
+
+  if (!Array.isArray(dataset.observations)) {
+    throw new Error(
+      "Historical dataset observations array is missing."
+    );
+  }
+
+  if (dataset.observations.length === 0) {
+    throw new Error(
+      "Historical dataset contains no observations."
     );
   }
 
   const seen = new Set();
-
   const observations = [];
 
-  for (const observation of historical.observations) {
+  for (const observation of dataset.observations) {
     if (!observation.sourceId) {
       throw new Error(
         "Historical observation has no sourceId."
@@ -118,18 +158,23 @@ async function main() {
       );
     }
 
-    parseTimestamp(
+    const observationTime = parseTimestamp(
       observation.observationDate,
       `${observation.sourceId} observationDate`
     );
 
-    parseTimestamp(
+    const availableTime = parseTimestamp(
       observation.availableAt,
       `${observation.sourceId} availableAt`
     );
 
-    const key =
-      observationKey(observation);
+    if (availableTime < observationTime) {
+      throw new Error(
+        `${observation.sourceId} has AvailableAt before observationDate.`
+      );
+    }
+
+    const key = observationKey(observation);
 
     if (seen.has(key)) {
       throw new Error(
@@ -140,77 +185,288 @@ async function main() {
     seen.add(key);
 
     observations.push({
-      ...observation
+      ...observation,
+      _availableTime: availableTime
     });
   }
 
-  observations.sort(compareObservations);
+  observations.sort(compareByAvailableAt);
 
-  const sourceCounts = {};
+  /*
+   * A point-in-time snapshot represents the information
+   * that could legally have been used at the START of a UTC day.
+   *
+   * Therefore an observation is eligible only when:
+   *
+   *     availableAt < snapshotAt
+   *
+   * This strict inequality is intentional.
+   *
+   * Example:
+   * availableAt = 2011-04-13T23:59:59.999Z
+   * first eligible snapshot =
+   * 2011-04-14T00:00:00.000Z
+   *
+   * This preserves the conservative ALFRED convention.
+   */
 
-  for (const observation of observations) {
-    sourceCounts[observation.sourceId] =
-      (sourceCounts[observation.sourceId] || 0) + 1;
+  const firstAvailableTime = Math.min(
+    ...observations.map(
+      (observation) => observation._availableTime
+    )
+  );
+
+  const lastAvailableTime = Math.max(
+    ...observations.map(
+      (observation) => observation._availableTime
+    )
+  );
+
+  const firstSnapshotTime =
+    nextUtcDayStart(firstAvailableTime);
+
+  const finalSnapshotTime =
+    nextUtcDayStart(lastAvailableTime);
+
+  const sourceIds = [
+    ...new Set(
+      observations.map(
+        (observation) => observation.sourceId
+      )
+    )
+  ].sort();
+
+  const snapshots = [];
+
+  let eligibleIndex = 0;
+
+  const latestBySeries = new Map();
+
+  for (
+    let snapshotTime = firstSnapshotTime;
+    snapshotTime <= finalSnapshotTime;
+    snapshotTime += 24 * 60 * 60 * 1000
+  ) {
+    while (
+      eligibleIndex < observations.length &&
+      observations[eligibleIndex]._availableTime <
+        snapshotTime
+    ) {
+      const observation =
+        observations[eligibleIndex];
+
+      const seriesKey =
+        `${observation.sourceId}|${observation.seriesId}`;
+
+      const existing =
+        latestBySeries.get(seriesKey);
+
+      if (
+        !existing ||
+        parseTimestamp(
+          observation.observationDate,
+          `${observation.sourceId} observationDate`
+        ) >
+          parseTimestamp(
+            existing.observationDate,
+            `${existing.sourceId} observationDate`
+          ) ||
+        (
+          observation.observationDate ===
+            existing.observationDate &&
+          observation._availableTime >
+            existing._availableTime
+        )
+      ) {
+        latestBySeries.set(
+          seriesKey,
+          observation
+        );
+      }
+
+      eligibleIndex += 1;
+    }
+
+    const latestObservations = [
+      ...latestBySeries.values()
+    ]
+      .map((observation) => {
+        const {
+          _availableTime,
+          ...cleanObservation
+        } = observation;
+
+        return cleanObservation;
+      })
+      .sort((a, b) => {
+        const sourceDifference =
+          a.sourceId.localeCompare(b.sourceId);
+
+        if (sourceDifference !== 0) {
+          return sourceDifference;
+        }
+
+        return a.seriesId.localeCompare(
+          b.seriesId
+        );
+      });
+
+    const sourceCoverage = {};
+
+    for (const sourceId of sourceIds) {
+      sourceCoverage[sourceId] =
+        latestObservations.some(
+          (observation) =>
+            observation.sourceId === sourceId
+        );
+    }
+
+    snapshots.push({
+      snapshotAt:
+        new Date(snapshotTime).toISOString(),
+
+      eligibilityRule:
+        "availableAt < snapshotAt",
+
+      eligibleObservationCount:
+        eligibleIndex,
+
+      latestObservationCount:
+        latestObservations.length,
+
+      sourceCoverage,
+
+      latestObservations
+    });
   }
 
-  const availableAtValues =
-    observations.map((observation) =>
+  /*
+   * Structural leakage audit.
+   *
+   * Every observation exposed inside every snapshot must
+   * have been available strictly before that snapshot.
+   */
+
+  let leakageViolations = 0;
+
+  for (const snapshot of snapshots) {
+    const snapshotTime =
       parseTimestamp(
-        observation.availableAt,
-        `${observation.sourceId} availableAt`
-      )
+        snapshot.snapshotAt,
+        "snapshotAt"
+      );
+
+    for (
+      const observation of snapshot.latestObservations
+    ) {
+      const availableTime =
+        parseTimestamp(
+          observation.availableAt,
+          `${observation.sourceId} availableAt`
+        );
+
+      if (availableTime >= snapshotTime) {
+        leakageViolations += 1;
+      }
+    }
+  }
+
+  if (leakageViolations !== 0) {
+    throw new Error(
+      `Point-in-time leakage audit failed: ${leakageViolations} violation(s).`
     );
-
-  const earliestAvailableAt =
-    availableAtValues.length > 0
-      ? new Date(
-          Math.min(...availableAtValues)
-        ).toISOString()
-      : null;
-
-  const latestAvailableAt =
-    availableAtValues.length > 0
-      ? new Date(
-          Math.max(...availableAtValues)
-        ).toISOString()
-      : null;
+  }
 
   const output = {
     schemaVersion: "1.0",
-    status: "RESEARCH_DATASET_NOT_CALIBRATED",
+
+    status:
+      "POINT_IN_TIME_BACKTEST_DATASET_NOT_CALIBRATED",
+
     buildTimestamp,
-    leakageProtection: "ENABLED",
 
-    availableAtPolicy:
-      "Every record retains its original AvailableAt timestamp from the leakage-safe historical store. No historical availability timestamp is reconstructed, moved backward, or invented.",
-
-    summary: {
-      observationCount: observations.length,
-      sourceCounts,
-      earliestAvailableAt,
-      latestAvailableAt
+    sourceDataset: {
+      status: dataset.status,
+      buildTimestamp:
+        dataset.buildTimestamp || null,
+      observationCount:
+        dataset.observations.length,
+      leakageProtection:
+        dataset.leakageProtection
     },
 
-    observations,
+    pointInTimePolicy: {
+      enabled: true,
+
+      snapshotTimezone: "UTC",
+
+      snapshotMoment:
+        "START_OF_UTC_DAY",
+
+      eligibilityRule:
+        "An observation is eligible only when availableAt is strictly earlier than snapshotAt.",
+
+      sameTimestampEligibility: false,
+
+      availableAtReconstruction: false,
+
+      availableAtBackwardShift: false,
+
+      futureInformationAllowed: false
+    },
+
+    summary: {
+      sourceObservationCount:
+        observations.length,
+
+      snapshotCount:
+        snapshots.length,
+
+      firstSnapshotAt:
+        snapshots.length > 0
+          ? snapshots[0].snapshotAt
+          : null,
+
+      lastSnapshotAt:
+        snapshots.length > 0
+          ? snapshots[
+              snapshots.length - 1
+            ].snapshotAt
+          : null,
+
+      sources: sourceIds,
+
+      leakageViolations
+    },
+
+    snapshots,
+
+    safeguards: {
+      historicalDatasetModified: false,
+      calibrationPerformed: false,
+      modelWeightsModified: false,
+      thresholdsModified: false,
+      forecastModelTrained: false,
+      officialHesiModified: false,
+      dashboardOfficialHesiModified: false
+    },
 
     calibrationReadiness: {
       ready: false,
+
       reason:
-        "Dataset construction alone does not establish sufficient historical depth for calibration or out-of-sample validation."
+        "Point-in-time dataset construction establishes chronological information eligibility only. It does not establish calibration sufficiency, predictive validity or out-of-sample performance."
     },
 
-    promotion: {
-      officialHesiUpdated: false,
-      dashboardOfficialHesiUpdated: false
-    },
-
-    notes: [
-      "This file is derived only from the admitted leakage-safe historical observation store.",
-      "observationDate and availableAt remain separate concepts.",
-      "No synthetic historical observations are generated.",
-      "No AvailableAt timestamp is backfilled or reconstructed.",
-      "The dataset must not be interpreted as calibration-ready merely because it was successfully built.",
-      "Official HESI must remain unchanged until sufficient historical depth, chronological validation and out-of-sample testing are completed."
+    interpretationLimits: [
+      "Each snapshot contains only observations whose AvailableAt is strictly earlier than the snapshot timestamp.",
+      "The snapshot stores the latest eligible observation for each sourceId and seriesId.",
+      "The builder does not reconstruct, move backward or invent AvailableAt timestamps.",
+      "ALFRED date-level availability remains subject to the previously approved conservative end-of-day UTC research convention.",
+      "Passing the leakage audit validates the implemented eligibility rule; it does not independently prove the real-world historical accuracy of provider availability metadata.",
+      "No model calibration, weight optimization, threshold optimization or forecast training is performed by this builder.",
+      "This artifact must not be interpreted as evidence that the experimental HESI is scientifically validated.",
+      "Official HESI remains unchanged."
     ]
   };
 
@@ -220,34 +476,38 @@ async function main() {
     "utf8"
   );
 
-  console.log("HESI historical research dataset");
-  console.log("--------------------------------");
+  console.log(
+    "HESI point-in-time backtest dataset"
+  );
+  console.log(
+    "-----------------------------------"
+  );
   console.log(
     `Build timestamp: ${buildTimestamp}`
   );
   console.log(
-    `Observations: ${observations.length}`
+    `Source observations: ${observations.length}`
   );
   console.log(
-    `Sources: ${Object.keys(sourceCounts).length}`
+    `Snapshots: ${snapshots.length}`
   );
   console.log(
-    `Earliest AvailableAt: ${earliestAvailableAt}`
+    `First snapshot: ${output.summary.firstSnapshotAt}`
   );
   console.log(
-    `Latest AvailableAt: ${latestAvailableAt}`
+    `Last snapshot: ${output.summary.lastSnapshotAt}`
   );
   console.log(
-    "Leakage protection: ENABLED"
+    `Sources: ${sourceIds.join(", ")}`
   );
   console.log(
-    "Synthetic historical observations: NO"
+    `Leakage violations: ${leakageViolations}`
   );
   console.log(
-    "AvailableAt reconstruction: NO"
+    "Calibration performed: NO"
   );
   console.log(
-    "Calibration ready: NO"
+    "Model weights modified: NO"
   );
   console.log(
     "Official HESI modified: NO"
@@ -256,7 +516,7 @@ async function main() {
 
 main().catch((error) => {
   console.error(
-    "Historical dataset build failed:"
+    "Point-in-time backtest dataset build failed:"
   );
   console.error(error);
   process.exit(1);
