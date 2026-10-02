@@ -384,35 +384,63 @@ async function main() {
 
   /*
    * If ALFRED Brent history has been admitted,
-   * require the complete approved admission
-   * metadata. Merely changing the status is
-   * not sufficient.
+   * require the complete approved idempotent
+   * admission metadata.
+   *
+   * The validator must not assume that every
+   * pipeline run is the first historical
+   * admission.
    */
 
   if (
     historical.status ===
     "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
   ) {
+    const admission =
+      historical.alfredBrentAdmission;
+
     if (
-      historical.alfredBrentAdmission
-        ?.decisionRecorded !== true ||
-      historical.alfredBrentAdmission
-        ?.admissionAuthorized !== true ||
-      historical.alfredBrentAdmission
-        ?.preparedCandidates !== 3939 ||
-      historical.alfredBrentAdmission
-        ?.newlyAdmitted !== 3937 ||
-      historical.alfredBrentAdmission
-        ?.preservedExistingOverlaps !== 2 ||
-      historical.alfredBrentAdmission
-        ?.valueConflicts !== 0 ||
-      historical.alfredBrentAdmission
-        ?.calibrationAuthorized !== false ||
-      historical.alfredBrentAdmission
-        ?.officialHesiAuthorized !== false
+      admission?.decisionRecorded !== true ||
+      admission?.admissionAuthorized !== true ||
+      !Number.isInteger(
+        admission?.preparedCandidates
+      ) ||
+      admission.preparedCandidates <= 0 ||
+      !Number.isInteger(
+        admission?.newlyAdmittedThisRun
+      ) ||
+      admission.newlyAdmittedThisRun < 0 ||
+      !Number.isInteger(
+        admission?.existingCandidatesPreservedThisRun
+      ) ||
+      admission.existingCandidatesPreservedThisRun < 0 ||
+      admission?.allPreparedCandidatesPresent !== true ||
+      admission?.valueConflicts !== 0 ||
+      admission?.existingObservationsOverwritten !== 0 ||
+      admission?.idempotent !== true ||
+      admission?.calibrationAuthorized !== false ||
+      admission?.officialHesiAuthorized !== false
     ) {
       throw new Error(
         "Invalid approved ALFRED historical admission metadata."
+      );
+    }
+
+    /*
+     * Every prepared candidate must be
+     * accounted for exactly once:
+     *
+     * - newly admitted, or
+     * - already present and preserved.
+     */
+
+    if (
+      admission.newlyAdmittedThisRun +
+        admission.existingCandidatesPreservedThisRun !==
+      admission.preparedCandidates
+    ) {
+      throw new Error(
+        "ALFRED admission accounting consistency check failed."
       );
     }
   }
@@ -512,20 +540,36 @@ async function main() {
   /*
    * Additional ALFRED admission consistency.
    *
-   * The first approved admission starts from
-   * 5 existing observations and admits 3937
-   * non-overlapping ALFRED observations.
+   * Do not freeze the total historical-store
+   * size at the first-admission count because
+   * new leakage-safe observations may be added
+   * on later pipeline runs.
+   *
+   * Instead, require the admitted store to
+   * contain at least the approved ALFRED Brent
+   * candidate population.
    */
 
   if (
     historical.status ===
     "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
   ) {
+    const admission =
+      historical.alfredBrentAdmission;
+
+    const historicalBrentCount =
+      historical.observations.filter(
+        (observation) =>
+          observation.sourceId === "brent_market" &&
+          observation.seriesId === "DCOILBRENTEU"
+      ).length;
+
     if (
-      historical.observations.length !== 3942
+      historicalBrentCount <
+      admission.preparedCandidates
     ) {
       throw new Error(
-        `Unexpected historical observation count after ALFRED admission: ${historical.observations.length}`
+        `Historical Brent coverage is smaller than the approved ALFRED candidate set: ${historicalBrentCount} < ${admission.preparedCandidates}`
       );
     }
   }
@@ -863,11 +907,11 @@ async function main() {
     "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
   ) {
     console.log(
-      `ALFRED Brent newly admitted: ${historical.alfredBrentAdmission.newlyAdmitted}`
+      `ALFRED Brent newly admitted this run: ${historical.alfredBrentAdmission.newlyAdmittedThisRun}`
     );
 
     console.log(
-      `ALFRED overlaps preserved: ${historical.alfredBrentAdmission.preservedExistingOverlaps}`
+      `ALFRED existing candidates preserved this run: ${historical.alfredBrentAdmission.existingCandidatesPreservedThisRun}`
     );
 
     console.log(
