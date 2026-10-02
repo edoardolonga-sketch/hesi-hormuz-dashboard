@@ -5,6 +5,11 @@ const DECISION_GATE_FILE = new URL(
   import.meta.url
 );
 
+const HUMAN_DECISION_FILE = new URL(
+  "../data/brent-alfred-human-methodology-decision.json",
+  import.meta.url
+);
+
 const OUTPUT_FILE = new URL(
   "../data/brent-alfred-methodology-decision.json",
   import.meta.url
@@ -32,10 +37,15 @@ async function main() {
     "brent-alfred-admission-decision.json"
   );
 
+  const humanDecision = await readJson(
+    HUMAN_DECISION_FILE,
+    "brent-alfred-human-methodology-decision.json"
+  );
+
   requireCondition(
     gate.status ===
       "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
-    "Admission decision gate is not awaiting human approval."
+    "Admission decision gate is not in the expected pre-admission state."
   );
 
   requireCondition(
@@ -44,13 +54,8 @@ async function main() {
   );
 
   requireCondition(
-    gate.humanDecision?.methodologicalApproval === false,
-    "Gate already contains methodological approval."
-  );
-
-  requireCondition(
     gate.humanDecision?.admissionAuthorized === false,
-    "Gate already authorizes admission."
+    "Gate unexpectedly authorizes admission."
   );
 
   requireCondition(
@@ -68,17 +73,67 @@ async function main() {
     "Official HESI was unexpectedly modified."
   );
 
+  requireCondition(
+    humanDecision.schemaVersion === "1.0",
+    "Unexpected human decision schema version."
+  );
+
+  requireCondition(
+    humanDecision.decisionType ===
+      "ALFRED_BRENT_AVAILABLE_AT_METHODOLOGY",
+    "Unexpected human methodology decision type."
+  );
+
+  requireCondition(
+    humanDecision.admissionAuthorized === false,
+    "Human methodology decision must not authorize historical admission."
+  );
+
+  requireCondition(
+    humanDecision.historicalStoreModified === false,
+    "Human methodology decision unexpectedly modifies the historical store."
+  );
+
+  requireCondition(
+    humanDecision.calibrationDatasetModified === false,
+    "Human methodology decision unexpectedly modifies the calibration dataset."
+  );
+
+  requireCondition(
+    humanDecision.officialHesiModified === false,
+    "Human methodology decision unexpectedly modifies official HESI."
+  );
+
+  const decisionRecorded =
+    humanDecision.decisionRecorded === true;
+
+  const methodologyApproved =
+    decisionRecorded && humanDecision.approved === true;
+
+  let status = "HUMAN_METHODOLOGY_DECISION_NOT_RECORDED";
+
+  if (decisionRecorded && methodologyApproved) {
+    status =
+      "HUMAN_METHODOLOGY_APPROVED_ADMISSION_NOT_AUTHORIZED";
+  } else if (
+    decisionRecorded &&
+    humanDecision.approved === false
+  ) {
+    status = "HUMAN_METHODOLOGY_REJECTED";
+  }
+
   const output = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
 
-    status:
-      "HUMAN_METHODOLOGY_DECISION_NOT_RECORDED",
+    status,
 
-    createdAt:
-      new Date().toISOString(),
+    createdAt: new Date().toISOString(),
 
     sourceDecisionGate:
       "brent-alfred-admission-decision.json",
+
+    sourceHumanDecision:
+      "brent-alfred-human-methodology-decision.json",
 
     evidenceSnapshot: {
       preparedCandidates:
@@ -110,11 +165,24 @@ async function main() {
     },
 
     methodologicalDecision: {
-      decisionRecorded: false,
-      approved: false,
-      decidedBy: null,
-      decidedAt: null,
-      rationale: null
+      decisionRecorded,
+      approved: methodologyApproved,
+      decidedBy:
+        decisionRecorded
+          ? humanDecision.decidedBy
+          : null,
+      decidedAt:
+        decisionRecorded
+          ? humanDecision.decidedAt
+          : null,
+      rationale:
+        decisionRecorded
+          ? humanDecision.rationale
+          : null,
+      acknowledgements:
+        decisionRecorded
+          ? humanDecision.acknowledgements
+          : null
     },
 
     admissionDecision: {
@@ -131,20 +199,11 @@ async function main() {
       backwardAvailableAtAdjustmentAllowed: false
     },
 
-    requiredBeforeApproval: [
-      "Explicit human review of the ALFRED date-level availability methodology.",
-      "Explicit acceptance or rejection of the conservative end-of-day UTC AvailableAt convention.",
-      "Explicit acknowledgement that exact intraday publication timing is not established.",
-      "Explicit acknowledgement that long calendar lags are retained rather than shifted backward.",
-      "Explicit confirmation that the previously identified negative-lag anomaly remains excluded.",
-      "Separate explicit authorization before any candidate is admitted into the leakage-safe historical store."
-    ],
-
     notes: [
-      "This artifact records the state before a human methodological decision.",
-      "Creating this artifact does not constitute methodological approval.",
-      "Creating this artifact does not authorize historical admission.",
+      "This artifact mirrors the separately recorded human methodology decision.",
+      "Methodological approval does not authorize historical admission.",
       "No historical observation is promoted by this script.",
+      "A separate explicit admission decision is required before any ALFRED candidate can enter the leakage-safe historical store.",
       "No calibration dataset is modified by this script.",
       "Official HESI is not modified by this script."
     ]
@@ -167,8 +226,12 @@ async function main() {
   console.log(
     `Maximum lag: ${output.evidenceSnapshot.maximumLagCalendarDays} days`
   );
-  console.log("Human decision recorded: NO");
-  console.log("Methodology approved: NO");
+  console.log(
+    `Human decision recorded: ${decisionRecorded ? "YES" : "NO"}`
+  );
+  console.log(
+    `Methodology approved: ${methodologyApproved ? "YES" : "NO"}`
+  );
   console.log("Admission authorized: NO");
   console.log("Historical store modified: NO");
   console.log("Calibration dataset modified: NO");
