@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.1",
   "status": "AVAILABLE_AT_POLICY_VALIDATED_NOT_ADMITTED",
-  "validationTimestamp": "2026-10-02T07:09:30.220Z",
+  "validationTimestamp": "2026-10-02T07:15:31.498Z",
   "sourceDataset": "brent-alfred-admission-ready.json",
   "policy": {
     "providerEvidenceLevel": "DATE_LEVEL",
