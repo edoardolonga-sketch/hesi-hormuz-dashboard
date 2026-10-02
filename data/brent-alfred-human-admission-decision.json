@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0",
   "decisionType": "ALFRED_BRENT_HISTORICAL_ADMISSION",
-  "decisionRecorded": false,
-  "approved": false,
-  "decidedBy": null,
-  "decidedAt": null,
-  "rationale": null,
+  "decisionRecorded": true,
+  "approved": true,
+  "decidedBy": "Human admission review",
+  "decidedAt": "2026-10-02",
+  "rationale": "Historical admission approved for research use. The 3939 prepared ALFRED Brent candidates have passed the established methodological and leakage-safety review. The two identified overlaps with existing Brent observations have matching values but different AvailableAt timestamps; existing admitted observations must be preserved and must not be overwritten or replaced. Admission authorization applies only to eligible non-overlapping historical research observations and does not authorize calibration, model validation, or modification of official HESI.",
   "methodologyPrerequisite": {
     "methodologyDecisionRecorded": true,
     "methodologyApproved": true
@@ -18,7 +18,7 @@
     "admissionDoesNotImplyCalibrationApproval": true,
     "admissionDoesNotModifyOfficialHesi": true
   },
-  "admissionAuthorized": false,
+  "admissionAuthorized": true,
   "historicalStoreModified": false,
   "calibrationDatasetModified": false,
   "officialHesiModified": false
