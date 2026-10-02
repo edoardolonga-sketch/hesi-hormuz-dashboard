@@ -85,6 +85,7 @@ async function main() {
   /*
    * Validate official dashboard HESI
    */
+
   if (!data.hesi) {
     throw new Error(
       "Missing HESI block in dashboard-data.json"
@@ -123,6 +124,7 @@ async function main() {
   /*
    * Validate source registry
    */
+
   if (!sourceRegistry.availableAtPolicy) {
     throw new Error(
       "Missing AvailableAt policy in sources.json"
@@ -170,6 +172,7 @@ async function main() {
   /*
    * Validate latest observations
    */
+
   if (
     !Array.isArray(
       latestObservations.observations
@@ -224,6 +227,7 @@ async function main() {
     /*
      * EIA WPSR
      */
+
     if (
       observation.sourceId === "eia_wpsr"
     ) {
@@ -242,6 +246,7 @@ async function main() {
     /*
      * Brent
      */
+
     if (
       observation.sourceId === "brent_market"
     ) {
@@ -261,6 +266,7 @@ async function main() {
     /*
      * CFTC WTI Managed Money
      */
+
     if (
       observation.sourceId === "cftc_cot"
     ) {
@@ -318,6 +324,7 @@ async function main() {
     /*
      * AvailableAt
      */
+
     if (
       !observation.observationDate ||
       !observation.availableAt
@@ -351,6 +358,7 @@ async function main() {
   /*
    * Validate leakage-safe historical store
    */
+
   if (
     historical.schemaVersion !== "1.0"
   ) {
@@ -359,13 +367,54 @@ async function main() {
     );
   }
 
+  const allowedHistoricalStatuses = new Set([
+    "HISTORICAL_STORE_INITIALIZED",
+    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+  ]);
+
   if (
-    historical.status !==
-    "HISTORICAL_STORE_INITIALIZED"
+    !allowedHistoricalStatuses.has(
+      historical.status
+    )
   ) {
     throw new Error(
       "Unexpected historical-observations status."
     );
+  }
+
+  /*
+   * If ALFRED Brent history has been admitted,
+   * require the complete approved admission
+   * metadata. Merely changing the status is
+   * not sufficient.
+   */
+
+  if (
+    historical.status ===
+    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+  ) {
+    if (
+      historical.alfredBrentAdmission
+        ?.decisionRecorded !== true ||
+      historical.alfredBrentAdmission
+        ?.admissionAuthorized !== true ||
+      historical.alfredBrentAdmission
+        ?.preparedCandidates !== 3939 ||
+      historical.alfredBrentAdmission
+        ?.newlyAdmitted !== 3937 ||
+      historical.alfredBrentAdmission
+        ?.preservedExistingOverlaps !== 2 ||
+      historical.alfredBrentAdmission
+        ?.valueConflicts !== 0 ||
+      historical.alfredBrentAdmission
+        ?.calibrationAuthorized !== false ||
+      historical.alfredBrentAdmission
+        ?.officialHesiAuthorized !== false
+    ) {
+      throw new Error(
+        "Invalid approved ALFRED historical admission metadata."
+      );
+    }
   }
 
   if (!historical.availableAtPolicy) {
@@ -388,6 +437,7 @@ async function main() {
    * rules. It must not be filled with
    * reconstructed AvailableAt timestamps.
    */
+
   const historicalKeys = new Set();
 
   for (const observation of historical.observations) {
@@ -433,6 +483,7 @@ async function main() {
      * treated as available before the date
      * associated with the observation.
      */
+
     if (availableAt < observationDate) {
       throw new Error(
         `Historical AvailableAt precedes observationDate: ${observation.sourceId}`
@@ -443,6 +494,7 @@ async function main() {
      * Prevent accidental duplicate records
      * for the same source, series and date.
      */
+
     const historicalKey =
       `${observation.sourceId}|` +
       `${observation.seriesId}|` +
@@ -458,8 +510,30 @@ async function main() {
   }
 
   /*
+   * Additional ALFRED admission consistency.
+   *
+   * The first approved admission starts from
+   * 5 existing observations and admits 3937
+   * non-overlapping ALFRED observations.
+   */
+
+  if (
+    historical.status ===
+    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+  ) {
+    if (
+      historical.observations.length !== 3942
+    ) {
+      throw new Error(
+        `Unexpected historical observation count after ALFRED admission: ${historical.observations.length}`
+      );
+    }
+  }
+
+  /*
    * Validate physical event layer
    */
+
   if (
     physicalEvents.schemaVersion !== "1.0"
   ) {
@@ -496,6 +570,7 @@ async function main() {
    * been entered. It MUST NOT be interpreted
    * as Physical Stress = 0.
    */
+
   for (const event of physicalEvents.events) {
     if (
       !event.id ||
@@ -554,6 +629,7 @@ async function main() {
   /*
    * Validate experimental HESI computation
    */
+
   if (
     computed.status !==
     "EXPERIMENTAL_NOT_PROMOTED"
@@ -657,6 +733,7 @@ async function main() {
    * Verify computed inputs match accepted
    * observations.
    */
+
   const brentObservation =
     latestObservations.observations.find(
       (item) =>
@@ -740,64 +817,106 @@ async function main() {
   console.log(
     "HESI pipeline validation"
   );
+
   console.log(
     "------------------------"
   );
+
   console.log(
     `Available checkpoint: ${data.hesi.asOf}`
   );
+
   console.log(
     `Official HESI Effective: ${data.hesi.effective}`
   );
+
   console.log(
     `Official Physical Stress: ${data.hesi.physical}`
   );
+
   console.log(
     `Official Market Stress: ${data.hesi.market}`
   );
+
   console.log(
     `Experimental Market Stress: ${computed.marketStressExperimental}`
   );
+
   console.log(
     `Registered sources: ${sourceRegistry.sources.length}`
   );
+
   console.log(
     `Validated observations: ${latestObservations.observations.length}`
   );
+
+  console.log(
+    `Historical store status: ${historical.status}`
+  );
+
   console.log(
     `Leakage-safe historical observations: ${historical.observations.length}`
   );
+
+  if (
+    historical.status ===
+    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+  ) {
+    console.log(
+      `ALFRED Brent newly admitted: ${historical.alfredBrentAdmission.newlyAdmitted}`
+    );
+
+    console.log(
+      `ALFRED overlaps preserved: ${historical.alfredBrentAdmission.preservedExistingOverlaps}`
+    );
+
+    console.log(
+      "ALFRED historical admission validation: ENABLED"
+    );
+  }
+
   console.log(
     `Validated physical events: ${physicalEvents.events.length}`
   );
+
   console.log(
     "EIA validation: ENABLED"
   );
+
   console.log(
     "Brent validation: ENABLED"
   );
+
   console.log(
     "CFTC validation: ENABLED"
   );
+
   console.log(
     "Historical store validation: ENABLED"
   );
+
   console.log(
     "Physical event validation: ENABLED"
   );
+
   console.log(
     "Computed HESI validation: ENABLED"
   );
+
   console.log(
     "AvailableAt protection: ENABLED"
   );
+
   console.log(
     "Automatic promotion: DISABLED"
   );
+
   console.log("");
+
   console.log(
     "Validation passed."
   );
+
   console.log(
     "Official dashboard HESI was not modified."
   );
@@ -807,6 +926,8 @@ main().catch((error) => {
   console.error(
     "HESI pipeline failed:"
   );
+
   console.error(error);
+
   process.exit(1);
 });
