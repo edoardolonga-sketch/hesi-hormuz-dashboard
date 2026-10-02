@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1.0",
+  "decisionType": "ALFRED_BRENT_AVAILABLE_AT_METHODOLOGY",
+  "decisionRecorded": false,
+  "approved": false,
+  "decidedBy": null,
+  "decidedAt": null,
+  "rationale": null,
+  "acknowledgements": {
+    "dateLevelEvidenceOnly": false,
+    "exactIntradayTimeNotEstablished": false,
+    "endOfDayUtcIsResearchConvention": false,
+    "longLagsRetainedWithoutBackwardShift": false,
+    "negativeLagAnomalyExcluded": false
+  },
+  "admissionAuthorized": false,
+  "historicalStoreModified": false,
+  "calibrationDatasetModified": false,
+  "officialHesiModified": false
+}
