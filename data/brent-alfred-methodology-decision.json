@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0",
+  "status": "HUMAN_METHODOLOGY_DECISION_NOT_RECORDED",
+  "createdAt": "2026-10-02T06:47:54.633Z",
+  "sourceDecisionGate": "brent-alfred-admission-decision.json",
+  "evidenceSnapshot": {
+    "preparedCandidates": 3939,
+    "negativeLagCount": 0,
+    "overSevenDayLagCount": 738,
+    "medianLagCalendarDays": 6,
+    "maximumLagCalendarDays": 15,
+    "realtimeStartWednesdayThursdayShare": 0.9865448083269865,
+    "intradayAvailabilityEstablished": false,
+    "availableAtConvention": "ALFRED realtime_start date at 23:59:59.999 UTC"
+  },
+  "methodologicalDecision": {
+    "decisionRecorded": false,
+    "approved": false,
+    "decidedBy": null,
+    "decidedAt": null,
+    "rationale": null
+  },
+  "admissionDecision": {
+    "authorized": false,
+    "authorizedBy": null,
+    "authorizedAt": null
+  },
+  "safeguards": {
+    "automaticAdmission": false,
+    "historicalStoreModified": false,
+    "calibrationDatasetModified": false,
+    "officialHesiModified": false,
+    "backwardAvailableAtAdjustmentAllowed": false
+  },
+  "requiredBeforeApproval": [
+    "Explicit human review of the ALFRED date-level availability methodology.",
+    "Explicit acceptance or rejection of the conservative end-of-day UTC AvailableAt convention.",
+    "Explicit acknowledgement that exact intraday publication timing is not established.",
+    "Explicit acknowledgement that long calendar lags are retained rather than shifted backward.",
+    "Explicit confirmation that the previously identified negative-lag anomaly remains excluded.",
+    "Separate explicit authorization before any candidate is admitted into the leakage-safe historical store."
+  ],
+  "notes": [
+    "This artifact records the state before a human methodological decision.",
+    "Creating this artifact does not constitute methodological approval.",
+    "Creating this artifact does not authorize historical admission.",
+    "No historical observation is promoted by this script.",
+    "No calibration dataset is modified by this script.",
+    "Official HESI is not modified by this script."
+  ]
+}
