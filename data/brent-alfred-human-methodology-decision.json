@@ -1,17 +1,17 @@
 {
   "schemaVersion": "1.0",
   "decisionType": "ALFRED_BRENT_AVAILABLE_AT_METHODOLOGY",
-  "decisionRecorded": false,
-  "approved": false,
-  "decidedBy": null,
-  "decidedAt": null,
-  "rationale": null,
+  "decisionRecorded": true,
+  "approved": true,
+  "decidedBy": "Human methodological review",
+  "decidedAt": "2026-10-02",
+  "rationale": "Approved for research use as a conservative point-in-time methodology. ALFRED realtime_start is accepted as date-level evidence of historical availability. Because exact intraday publication time is not established, AvailableAt is represented conservatively as 23:59:59.999 UTC on the realtime_start date, making the observation usable from the following UTC day. Long observed lags are retained without backward adjustment, and the identified negative-lag anomaly remains excluded. This methodological approval does not authorize historical admission.",
   "acknowledgements": {
-    "dateLevelEvidenceOnly": false,
-    "exactIntradayTimeNotEstablished": false,
-    "endOfDayUtcIsResearchConvention": false,
-    "longLagsRetainedWithoutBackwardShift": false,
-    "negativeLagAnomalyExcluded": false
+    "dateLevelEvidenceOnly": true,
+    "exactIntradayTimeNotEstablished": true,
+    "endOfDayUtcIsResearchConvention": true,
+    "longLagsRetainedWithoutBackwardShift": true,
+    "negativeLagAnomalyExcluded": true
   },
   "admissionAuthorized": false,
   "historicalStoreModified": false,
