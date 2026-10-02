@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.2",
   "status": "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
-  "decisionTimestamp": "2026-10-02T07:07:35.088Z",
+  "decisionTimestamp": "2026-10-02T07:09:30.100Z",
   "sourceDataset": "brent-alfred-admission-ready.json",
   "candidateSummary": {
     "preparedCandidates": 3939,

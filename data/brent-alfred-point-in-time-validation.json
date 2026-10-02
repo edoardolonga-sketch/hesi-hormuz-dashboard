@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0",
+  "status": "POINT_IN_TIME_RULE_VALIDATED_NOT_ADMITTED",
+  "validationTimestamp": "2026-10-02T07:09:30.291Z",
+  "sourceDataset": "brent-alfred-admission-ready.json",
+  "prerequisite": "brent-alfred-availableat-policy-validation.json",
+  "rule": {
+    "description": "A historical observation may be used by a point-in-time process only when execution time is greater than or equal to its recorded AvailableAt timestamp.",
+    "beforeAvailableAt": "NOT_VISIBLE",
+    "atOrAfterAvailableAt": "VISIBLE",
+    "availableAtSource": "ALFRED date-level realtimeStart represented conservatively at 23:59:59.999 UTC",
+    "intradayPublicationTimeEstablished": false
+  },
+  "summary": {
+    "candidatesEvaluated": 3939,
+    "passedCandidates": 3939,
+    "failedCandidates": 0,
+    "visibleBeforeAvailableAtCount": 0,
+    "invisibleAtAvailableAtCount": 0,
+    "passed": true
+  },
+  "failures": [],
+  "safeguards": {
+    "methodologyApproved": false,
+    "admissionAuthorized": false,
+    "admissionPerformed": false,
+    "historicalStoreModified": false,
+    "calibrationDatasetModified": false,
+    "officialHesiModified": false
+  },
+  "notes": [
+    "This is a point-in-time eligibility validation only.",
+    "The validation does not establish an exact historical intraday publication time.",
+    "The recorded AvailableAt remains the conservative end-of-day UTC research convention.",
+    "An observation is ineligible before AvailableAt.",
+    "An observation becomes eligible at AvailableAt and remains eligible afterward.",
+    "No candidate is admitted by this script.",
+    "No historical dataset is modified by this script.",
+    "No calibration dataset is modified by this script.",
+    "No official HESI value is modified by this script."
+  ]
+}
