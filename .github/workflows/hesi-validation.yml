@@ -103,6 +103,9 @@ jobs:
       - name: Build point-in-time backtest dataset
         run: node scripts/build-point-in-time-backtest.mjs
 
+      - name: Analyze point-in-time source coverage
+        run: node scripts/analyze-point-in-time-coverage.mjs
+
       - name: Analyze historical temporal coverage
         run: node scripts/analyze-historical-temporal-coverage.mjs
 
@@ -117,7 +120,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/point-in-time-backtest.json data/historical-temporal-coverage.json data/brent-historical-quarantine.json data/brent-alfred-candidates.json data/brent-alfred-methodology-review.json data/brent-alfred-admission-ready.json data/brent-alfred-availability-analysis.json data/brent-alfred-methodology-evidence.json data/brent-alfred-lag-by-year.json data/brent-alfred-weekday-pattern.json data/brent-alfred-admission-decision.json data/brent-alfred-methodology-decision.json data/brent-alfred-admission-overlap.json data/brent-alfred-availableat-policy-validation.json data/brent-alfred-point-in-time-validation.json data/historical-admission-report.json data/hesi-computed.json
+          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/point-in-time-backtest.json data/point-in-time-coverage.json data/historical-temporal-coverage.json data/brent-historical-quarantine.json data/brent-alfred-candidates.json data/brent-alfred-methodology-review.json data/brent-alfred-admission-ready.json data/brent-alfred-availability-analysis.json data/brent-alfred-methodology-evidence.json data/brent-alfred-lag-by-year.json data/brent-alfred-weekday-pattern.json data/brent-alfred-admission-decision.json data/brent-alfred-methodology-decision.json data/brent-alfred-admission-overlap.json data/brent-alfred-availableat-policy-validation.json data/brent-alfred-point-in-time-validation.json data/historical-admission-report.json data/hesi-computed.json
 
           if git diff --cached --quiet; then
             echo "No pipeline output changes to persist."
