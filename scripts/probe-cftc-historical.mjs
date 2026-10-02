@@ -57,42 +57,6 @@ function cleanField(value) {
     .trim();
 }
 
-function parseInteger(value, fieldName) {
-  const cleaned = cleanField(value)
-    .replace(/,/g, "");
-
-  const parsed = Number(cleaned);
-
-  if (!Number.isFinite(parsed)) {
-    throw new Error(
-      `Invalid ${fieldName}: ${value}`
-    );
-  }
-
-  return parsed;
-}
-
-function validateObservationDate(value) {
-  if (
-    !/^\d{4}-\d{2}-\d{2}$/.test(value)
-  ) {
-    throw new Error(
-      `Invalid CFTC observation date: ${value}`
-    );
-  }
-
-  const timestamp =
-    Date.parse(`${value}T00:00:00.000Z`);
-
-  if (!Number.isFinite(timestamp)) {
-    throw new Error(
-      `Unparseable CFTC observation date: ${value}`
-    );
-  }
-
-  return value;
-}
-
 async function fetchBytes(url, label) {
   const response = await fetch(url, {
     headers: {
@@ -136,11 +100,7 @@ async function main() {
     new Date().toISOString();
 
   /*
-   * Verify the official CFTC historical index.
-   *
-   * This establishes the official historical
-   * source only. It does not establish historical
-   * AvailableAt timestamps.
+   * Verify official CFTC historical source.
    */
   const historicalIndex =
     await fetchText(
@@ -162,8 +122,7 @@ async function main() {
   }
 
   /*
-   * Download the official annual compressed
-   * Disaggregated Futures Only archive.
+   * Download official annual archive.
    */
   const archiveBytes =
     await fetchBytes(
@@ -177,10 +136,6 @@ async function main() {
     );
   }
 
-  /*
-   * Validate standard ZIP signature:
-   * 50 4B 03 04
-   */
   const zipSignatureValid =
     archiveBytes.length >= 4 &&
     archiveBytes[0] === 0x50 &&
@@ -194,11 +149,6 @@ async function main() {
     );
   }
 
-  /*
-   * GitHub Actions uses Ubuntu.
-   * We use the system unzip utility only for
-   * extracting this research probe archive.
-   */
   const {
     mkdtemp,
     writeFile: writeTempFile,
@@ -265,11 +215,6 @@ async function main() {
       );
     }
 
-    /*
-     * Locate the extracted Disaggregated
-     * Futures Only data file by its Managed
-     * Money column names.
-     */
     let dataFileName = null;
     let dataText = null;
 
@@ -294,10 +239,13 @@ async function main() {
 
       if (
         candidateText.includes(
-          "M_Money_Positions_Long_All"
+          "CFTC_Contract_Market_Code"
         ) &&
         candidateText.includes(
-          "M_Money_Positions_Short_All"
+          "CFTC_Market_Code"
+        ) &&
+        candidateText.includes(
+          "M_Money_Positions_Long_All"
         ) &&
         candidateText.includes(
           "Report_Date_as_YYYY-MM-DD"
@@ -333,13 +281,10 @@ async function main() {
       parseCsvLine(lines[0])
         .map(normalizeHeader);
 
-    /*
-     * These names were observed directly in the
-     * official CFTC 2025 historical archive.
-     */
     const requiredColumns = [
       "Market_and_Exchange_Names",
       "Report_Date_as_YYYY-MM-DD",
+      "CFTC_Contract_Market_Code",
       "CFTC_Market_Code",
       "M_Money_Positions_Long_All",
       "M_Money_Positions_Short_All",
@@ -362,29 +307,24 @@ async function main() {
         )
       );
 
-    const observations = [];
+    /*
+     * Diagnostic search.
+     *
+     * We do NOT decide yet which CFTC code
+     * column identifies WTI-PHYSICAL.
+     *
+     * Instead we search MARKET_CODE in both
+     * official columns and preserve the evidence.
+     */
+    const contractMarketMatches = [];
+    const marketCodeMatches = [];
+    const nameMatches = [];
 
     for (const line of lines.slice(1)) {
       const fields =
         parseCsvLine(line);
 
-      /*
-       * Skip structurally incomplete rows.
-       */
       if (fields.length < headers.length) {
-        continue;
-      }
-
-      const marketCode =
-        cleanField(
-          fields[
-            columnIndex[
-              "CFTC_Market_Code"
-            ]
-          ]
-        );
-
-      if (marketCode !== MARKET_CODE) {
         continue;
       }
 
@@ -398,146 +338,99 @@ async function main() {
         );
 
       const observationDate =
-        validateObservationDate(
-          cleanField(
-            fields[
-              columnIndex[
-                "Report_Date_as_YYYY-MM-DD"
-              ]
-            ]
-          )
-        );
-
-      const managedMoneyLong =
-        parseInteger(
+        cleanField(
           fields[
             columnIndex[
-              "M_Money_Positions_Long_All"
+              "Report_Date_as_YYYY-MM-DD"
             ]
-          ],
-          "Managed Money Long"
+          ]
         );
 
-      const managedMoneyShort =
-        parseInteger(
+      const contractMarketCode =
+        cleanField(
           fields[
             columnIndex[
-              "M_Money_Positions_Short_All"
+              "CFTC_Contract_Market_Code"
             ]
-          ],
-          "Managed Money Short"
+          ]
         );
 
-      const managedMoneySpreading =
-        parseInteger(
+      const cftcMarketCode =
+        cleanField(
           fields[
             columnIndex[
-              "M_Money_Positions_Spread_All"
+              "CFTC_Market_Code"
             ]
-          ],
-          "Managed Money Spreading"
+          ]
         );
+
+      const sample = {
+        observationDate,
+        marketName,
+        cftcContractMarketCode:
+          contractMarketCode,
+        cftcMarketCode
+      };
 
       if (
-        managedMoneyLong < 0 ||
-        managedMoneyShort < 0 ||
-        managedMoneySpreading < 0
+        contractMarketCode ===
+        MARKET_CODE
       ) {
-        throw new Error(
-          `Negative CFTC positioning value on ${observationDate}.`
+        contractMarketMatches.push(
+          sample
         );
       }
 
-      const managedMoneyNet =
-        managedMoneyLong -
-        managedMoneyShort;
+      if (
+        cftcMarketCode ===
+        MARKET_CODE
+      ) {
+        marketCodeMatches.push(
+          sample
+        );
+      }
 
-      observations.push({
-        observationDate,
-        marketCode,
-        marketName,
-        managedMoneyLong,
-        managedMoneyShort,
-        managedMoneySpreading,
-        managedMoneyNet
-      });
+      if (
+        marketName
+          .toUpperCase()
+          .includes("WTI") &&
+        marketName
+          .toUpperCase()
+          .includes("PHYSICAL")
+      ) {
+        nameMatches.push(
+          sample
+        );
+      }
     }
-
-    if (observations.length === 0) {
-      throw new Error(
-        `No CFTC observations found for market code ${MARKET_CODE}.`
-      );
-    }
-
-    observations.sort(
-      (a, b) =>
-        a.observationDate.localeCompare(
-          b.observationDate
-        )
-    );
 
     /*
-     * A weekly market series must not contain
-     * duplicate report dates for the same market.
+     * Keep the artifact compact.
+     * Counts cover the full file; samples retain
+     * only the first few matching rows.
      */
-    const uniqueDates =
-      new Set(
-        observations.map(
-          (observation) =>
-            observation.observationDate
-        )
-      );
+    const SAMPLE_LIMIT = 10;
 
-    if (
-      uniqueDates.size !==
-      observations.length
-    ) {
-      throw new Error(
-        "Duplicate WTI-PHYSICAL report dates detected."
-      );
-    }
-
-    const marketNames =
-      [
-        ...new Set(
-          observations.map(
-            (observation) =>
-              observation.marketName
-          )
-        )
-      ];
-
-    /*
-     * This probe establishes historical VALUES
-     * only.
-     *
-     * It deliberately does NOT assign historical
-     * AvailableAt timestamps and does NOT admit
-     * observations into the historical store.
-     */
-    const output = {
-      schemaVersion: "1.2",
+    const diagnostic = {
+      schemaVersion: "1.3",
 
       status:
-        "CFTC_HISTORICAL_VALUES_EXTRACTED_NOT_ADMITTED",
+        "CFTC_HISTORICAL_MARKET_CODE_DIAGNOSTIC_NOT_ADMITTED",
 
       executionTimestamp,
 
-      targetSeries: {
+      target: {
+        requestedMarketCode:
+          MARKET_CODE,
+
+        expectedMarketName:
+          "WTI-PHYSICAL",
+
         sourceId:
           "cftc_cot",
 
         seriesId:
-          "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-
-        marketCode:
-          MARKET_CODE,
-
-        reportType:
-          "Disaggregated Futures Only",
-
-        metric:
-          "Managed Money Long minus Managed Money Short"
+          "CFTC_WTI_PHYSICAL_MANAGED_MONEY"
       },
 
       officialHistoricalSource: {
@@ -562,48 +455,55 @@ async function main() {
           dataFileName
       },
 
-      extractionStatus: {
-        archiveExtractionPerformed:
-          true,
+      codeSearch: {
+        cftcContractMarketCode: {
+          column:
+            "CFTC_Contract_Market_Code",
 
-        marketCodeSearchPerformed:
-          true,
+          requestedCode:
+            MARKET_CODE,
 
-        marketCodeFound:
-          true,
+          matchCount:
+            contractMarketMatches.length,
 
-        observationsExtracted:
-          observations.length,
+          firstMatches:
+            contractMarketMatches.slice(
+              0,
+              SAMPLE_LIMIT
+            )
+        },
 
-        uniqueObservationDates:
-          uniqueDates.size,
+        cftcMarketCode: {
+          column:
+            "CFTC_Market_Code",
 
-        firstObservationDate:
-          observations[0]
-            .observationDate,
+          requestedCode:
+            MARKET_CODE,
 
-        lastObservationDate:
-          observations[
-            observations.length - 1
-          ].observationDate,
+          matchCount:
+            marketCodeMatches.length,
 
-        marketNames
+          firstMatches:
+            marketCodeMatches.slice(
+              0,
+              SAMPLE_LIMIT
+            )
+        },
+
+        marketNameSearch: {
+          rule:
+            "Market_and_Exchange_Names contains both WTI and PHYSICAL",
+
+          matchCount:
+            nameMatches.length,
+
+          firstMatches:
+            nameMatches.slice(
+              0,
+              SAMPLE_LIMIT
+            )
+        }
       },
-
-      columnValidation: {
-        dateColumn:
-          "Report_Date_as_YYYY-MM-DD",
-
-        requiredColumns,
-
-        allRequiredColumnsFound:
-          true,
-
-        historicalMetricMatchesLiveDefinition:
-          true
-      },
-
-      observations,
 
       availabilityEvidence: {
         exactHistoricalAvailableAtEstablished:
@@ -612,14 +512,8 @@ async function main() {
         syntheticAvailableAtAssigned:
           false,
 
-        observationDatePlusThreeDaysAssumed:
-          false,
-
-        historicalValuesReadyForAdmission:
-          false,
-
-        reason:
-          "Historical CFTC values are extracted and structurally validated, but no defensible historical AvailableAt has yet been assigned."
+        historicalValuesAdmitted:
+          false
       },
 
       safeguards: {
@@ -651,14 +545,14 @@ async function main() {
           false
       },
 
-      nextResearchQuestion:
-        "Determine and validate a defensible historical AvailableAt methodology before any historical CFTC observation is admitted."
+      interpretation:
+        "Diagnostic only. This artifact determines which official CFTC code column identifies the target WTI-PHYSICAL historical rows. It does not admit observations or assign historical AvailableAt."
     };
 
     await writeFile(
       OUTPUT_FILE,
       `${JSON.stringify(
-        output,
+        diagnostic,
         null,
         2
       )}\n`,
@@ -666,55 +560,65 @@ async function main() {
     );
 
     console.log(
-      "CFTC historical extraction probe"
+      "CFTC historical market-code diagnostic"
     );
 
     console.log(
-      "--------------------------------"
+      "--------------------------------------"
     );
 
     console.log(
-      `Year: ${TEST_YEAR}`
+      `Requested code: ${MARKET_CODE}`
     );
 
     console.log(
-      `Market code: ${MARKET_CODE}`
+      `CFTC_Contract_Market_Code matches: ${contractMarketMatches.length}`
     );
 
     console.log(
-      `Observations extracted: ${observations.length}`
+      `CFTC_Market_Code matches: ${marketCodeMatches.length}`
     );
 
     console.log(
-      `Unique observation dates: ${uniqueDates.size}`
+      `WTI-PHYSICAL name matches: ${nameMatches.length}`
     );
 
-    console.log(
-      `First observation: ${observations[0].observationDate}`
-    );
+    if (contractMarketMatches.length > 0) {
+      console.log(
+        "First Contract Market Code match:"
+      );
 
-    console.log(
-      `Last observation: ${
-        observations[
-          observations.length - 1
-        ].observationDate
-      }`
-    );
+      console.log(
+        contractMarketMatches[0]
+      );
+    }
 
-    console.log(
-      `Market names: ${marketNames.join(" | ")}`
-    );
+    if (marketCodeMatches.length > 0) {
+      console.log(
+        "First CFTC Market Code match:"
+      );
 
-    console.log(
-      "Historical metric definition: VERIFIED"
-    );
+      console.log(
+        marketCodeMatches[0]
+      );
+    }
 
-    console.log(
-      "Historical AvailableAt: NOT ESTABLISHED"
-    );
+    if (nameMatches.length > 0) {
+      console.log(
+        "First WTI-PHYSICAL name match:"
+      );
+
+      console.log(
+        nameMatches[0]
+      );
+    }
 
     console.log(
       "Historical observations admitted: 0"
+    );
+
+    console.log(
+      "Historical AvailableAt assigned: NO"
     );
 
     console.log(
@@ -733,7 +637,7 @@ async function main() {
 
 main().catch((error) => {
   console.error(
-    "CFTC historical extraction probe failed:"
+    "CFTC historical market-code diagnostic failed:"
   );
 
   console.error(error);
