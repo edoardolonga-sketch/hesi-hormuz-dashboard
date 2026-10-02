@@ -66,22 +66,47 @@ async function main() {
     "No prepared ALFRED candidates found."
   );
 
+  /*
+   * The human methodology decision has now been
+   * explicitly recorded and approved.
+   *
+   * This approval concerns only the AvailableAt
+   * methodology. It does NOT authorize admission.
+   */
   requireCondition(
     methodologyDecision.methodologicalDecision
-      ?.decisionRecorded === false,
-    "Human methodology decision state is not pending."
+      ?.decisionRecorded === true,
+    "Human methodology decision has not been recorded."
   );
 
   requireCondition(
     methodologyDecision.methodologicalDecision
-      ?.approved === false,
-    "Methodology has already been approved."
+      ?.approved === true,
+    "ALFRED AvailableAt methodology has not been approved."
   );
 
   requireCondition(
     methodologyDecision.admissionDecision
       ?.authorized === false,
-    "Admission has already been authorized."
+    "Historical admission has already been authorized."
+  );
+
+  requireCondition(
+    methodologyDecision.safeguards
+      ?.historicalStoreModified === false,
+    "Historical store was unexpectedly modified."
+  );
+
+  requireCondition(
+    methodologyDecision.safeguards
+      ?.calibrationDatasetModified === false,
+    "Calibration dataset was unexpectedly modified."
+  );
+
+  requireCondition(
+    methodologyDecision.safeguards
+      ?.officialHesiModified === false,
+    "Official HESI was unexpectedly modified."
   );
 
   let validCount = 0;
@@ -96,11 +121,8 @@ async function main() {
       candidate.observationDate;
 
     /*
-     * IMPORTANT:
-     * realtimeStart is historical ALFRED evidence
-     * stored inside availableAtEvidence.
-     *
-     * It is NOT a top-level candidate field.
+     * Historical ALFRED evidence is date-level.
+     * realtimeStart is stored inside availableAtEvidence.
      */
     const realtimeStart =
       candidate.availableAtEvidence?.realtimeStart;
@@ -125,19 +147,21 @@ async function main() {
     }
 
     /*
-     * Conservative research convention:
+     * Approved conservative research convention:
      *
-     * ALFRED gives date-level realtimeStart evidence.
-     * We assign end-of-day UTC to avoid pretending that
-     * an exact intraday publication timestamp is known.
+     * ALFRED provides the realtimeStart date but not
+     * an established exact intraday publication time.
+     *
+     * Therefore AvailableAt is assigned to the end
+     * of that UTC day.
      */
     const matchesConservativeConvention =
       expectedAvailableAt !== null &&
       availableAt === expectedAvailableAt;
 
     /*
-     * We never move AvailableAt earlier than the
-     * historical evidence supplied by ALFRED.
+     * No AvailableAt value may be moved backward
+     * relative to the ALFRED date-level evidence.
      */
     const noBackwardAdjustment =
       matchesConservativeConvention;
@@ -158,14 +182,14 @@ async function main() {
       availableAtBeforeObservationCount += 1;
     }
 
-    const passed =
+    const candidatePassed =
       validObservationDate &&
       validRealtimeStart &&
       validAvailableAt &&
       matchesConservativeConvention &&
       availableAtNotBeforeObservation;
 
-    if (passed) {
+    if (candidatePassed) {
       validCount += 1;
     } else {
       invalidCount += 1;
@@ -202,10 +226,10 @@ async function main() {
     availableAtBeforeObservationCount === 0;
 
   const output = {
-    schemaVersion: "1.1",
+    schemaVersion: "1.2",
 
     status: passed
-      ? "AVAILABLE_AT_POLICY_VALIDATED_NOT_ADMITTED"
+      ? "AVAILABLE_AT_POLICY_VALIDATED_METHOD_APPROVED_NOT_ADMITTED"
       : "AVAILABLE_AT_POLICY_VALIDATION_FAILED",
 
     validationTimestamp:
@@ -213,6 +237,9 @@ async function main() {
 
     sourceDataset:
       "brent-alfred-admission-ready.json",
+
+    sourceMethodologyDecision:
+      "brent-alfred-methodology-decision.json",
 
     policy: {
       providerEvidenceLevel:
@@ -283,14 +310,16 @@ async function main() {
 
     notes: [
       "This validation checks the prepared ALFRED candidates only.",
-      "ALFRED realtimeStart is read from availableAtEvidence.realtimeStart.",
-      "It does not establish an exact intraday publication time.",
-      "It requires AvailableAt to equal realtimeStart at 23:59:59.999 UTC.",
-      "It rejects any candidate whose AvailableAt precedes its observation date.",
-      "It does not move any AvailableAt timestamp backward.",
-      "Passing this validation does not constitute human methodological approval.",
-      "Passing this validation does not authorize admission.",
-      "No historical observation is promoted by this script."
+      "The human AvailableAt methodology decision has been recorded and approved.",
+      "ALFRED realtimeStart is treated as date-level historical availability evidence.",
+      "Exact intraday publication timing is not established.",
+      "AvailableAt must equal realtimeStart at 23:59:59.999 UTC.",
+      "No AvailableAt timestamp may be shifted backward.",
+      "Candidates whose AvailableAt precedes the observation date are rejected.",
+      "Methodological approval does not authorize historical admission.",
+      "No historical observation is promoted by this script.",
+      "No calibration dataset is modified by this script.",
+      "Official HESI is not modified by this script."
     ]
   };
 
@@ -333,7 +362,11 @@ async function main() {
   );
 
   console.log(
-    "Human methodology approval: NO"
+    "Human methodology decision recorded: YES"
+  );
+
+  console.log(
+    "Human methodology approval: YES"
   );
 
   console.log(
@@ -342,6 +375,10 @@ async function main() {
 
   console.log(
     "Historical store modified: NO"
+  );
+
+  console.log(
+    "Calibration dataset modified: NO"
   );
 
   console.log(
