@@ -49,10 +49,16 @@ async function main() {
     "brent-alfred-availableat-policy-validation.json"
   );
 
+  /*
+   * The AvailableAt methodology has been explicitly
+   * approved by human review.
+   *
+   * Historical admission remains separately unauthorized.
+   */
   requireCondition(
     policyValidation.status ===
-      "AVAILABLE_AT_POLICY_VALIDATED_NOT_ADMITTED",
-    "AvailableAt policy has not passed validation."
+      "AVAILABLE_AT_POLICY_VALIDATED_METHOD_APPROVED_NOT_ADMITTED",
+    "AvailableAt policy has not passed the approved-methodology validation."
   );
 
   requireCondition(
@@ -62,14 +68,44 @@ async function main() {
 
   requireCondition(
     policyValidation.humanDecisionState
-      ?.methodologyApproved === false,
-    "Methodology is no longer in the expected unapproved state."
+      ?.decisionRecorded === true,
+    "Human methodology decision has not been recorded."
+  );
+
+  requireCondition(
+    policyValidation.humanDecisionState
+      ?.methodologyApproved === true,
+    "ALFRED AvailableAt methodology has not been approved."
   );
 
   requireCondition(
     policyValidation.humanDecisionState
       ?.admissionAuthorized === false,
-    "Admission is already authorized."
+    "Historical admission is already authorized."
+  );
+
+  requireCondition(
+    policyValidation.safeguards
+      ?.historicalStoreModified === false,
+    "Historical store was unexpectedly modified."
+  );
+
+  requireCondition(
+    policyValidation.safeguards
+      ?.calibrationDatasetModified === false,
+    "Calibration dataset was unexpectedly modified."
+  );
+
+  requireCondition(
+    policyValidation.safeguards
+      ?.officialHesiModified === false,
+    "Official HESI was unexpectedly modified."
+  );
+
+  requireCondition(
+    policyValidation.safeguards
+      ?.admissionPerformed === false,
+    "Historical admission was unexpectedly performed."
   );
 
   const candidates =
@@ -107,13 +143,15 @@ async function main() {
       isValidTimestamp(availableAt);
 
     /*
-     * Point-in-time rule:
+     * Point-in-time eligibility boundary:
      *
-     * A historical observation must not be usable
-     * before its recorded AvailableAt timestamp.
+     * executionTime < AvailableAt  -> NOT VISIBLE
+     * executionTime >= AvailableAt -> VISIBLE
      *
-     * Immediately before AvailableAt -> invisible.
-     * At AvailableAt -> visible.
+     * IMPORTANT:
+     * This validates implementation of the eligibility
+     * boundary. It does not independently prove the
+     * historical correctness of AvailableAt.
      */
     let invisibleImmediatelyBefore = false;
     let visibleAtAvailableAt = false;
@@ -140,12 +178,12 @@ async function main() {
       invisibleAtAvailableAtCount += 1;
     }
 
-    const passed =
+    const candidatePassed =
       validAvailableAt &&
       invisibleImmediatelyBefore &&
       visibleAtAvailableAt;
 
-    if (passed) {
+    if (candidatePassed) {
       passedCount += 1;
     } else {
       failedCount += 1;
@@ -172,10 +210,10 @@ async function main() {
     invisibleAtAvailableAtCount === 0;
 
   const output = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
 
     status: passed
-      ? "POINT_IN_TIME_RULE_VALIDATED_NOT_ADMITTED"
+      ? "POINT_IN_TIME_RULE_VALIDATED_METHOD_APPROVED_NOT_ADMITTED"
       : "POINT_IN_TIME_RULE_VALIDATION_FAILED",
 
     validationTimestamp:
@@ -201,7 +239,10 @@ async function main() {
         "ALFRED date-level realtimeStart represented conservatively at 23:59:59.999 UTC",
 
       intradayPublicationTimeEstablished:
-        false
+        false,
+
+      validationScope:
+        "ELIGIBILITY_BOUNDARY_IMPLEMENTATION"
     },
 
     summary: {
@@ -221,11 +262,17 @@ async function main() {
       passed
     },
 
+    humanDecisionState: {
+      decisionRecorded: true,
+      methodologyApproved: true,
+      admissionAuthorized: false
+    },
+
     failures,
 
     safeguards: {
       methodologyApproved:
-        false,
+        true,
 
       admissionAuthorized:
         false,
@@ -244,11 +291,14 @@ async function main() {
     },
 
     notes: [
-      "This is a point-in-time eligibility validation only.",
+      "This is a point-in-time eligibility-boundary validation only.",
+      "Human approval of the ALFRED AvailableAt methodology has been recorded.",
+      "The validation does not independently establish the historical correctness of AvailableAt.",
       "The validation does not establish an exact historical intraday publication time.",
-      "The recorded AvailableAt remains the conservative end-of-day UTC research convention.",
+      "The recorded AvailableAt remains the approved conservative end-of-day UTC research convention.",
       "An observation is ineligible before AvailableAt.",
       "An observation becomes eligible at AvailableAt and remains eligible afterward.",
+      "Methodological approval does not authorize historical admission.",
       "No candidate is admitted by this script.",
       "No historical dataset is modified by this script.",
       "No calibration dataset is modified by this script.",
@@ -292,6 +342,10 @@ async function main() {
 
   console.log(
     `Point-in-time validation: ${passed ? "PASS" : "FAIL"}`
+  );
+
+  console.log(
+    "Human methodology approval: YES"
   );
 
   console.log(
