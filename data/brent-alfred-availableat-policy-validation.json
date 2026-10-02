@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.1",
+  "status": "AVAILABLE_AT_POLICY_VALIDATED_NOT_ADMITTED",
+  "validationTimestamp": "2026-10-02T06:59:34.498Z",
+  "sourceDataset": "brent-alfred-admission-ready.json",
+  "policy": {
+    "providerEvidenceLevel": "DATE_LEVEL",
+    "realtimeStartField": "availableAtEvidence.realtimeStart",
+    "intradayPublicationTimeEstablished": false,
+    "conservativeAvailableAtConvention": "ALFRED realtimeStart date at 23:59:59.999 UTC",
+    "backwardAdjustmentAllowed": false,
+    "interpretation": "The candidate AvailableAt timestamp is a conservative research convention derived from the ALFRED realtimeStart date stored in availableAtEvidence. It is not represented as a provider-supplied intraday publication timestamp."
+  },
+  "summary": {
+    "candidatesEvaluated": 3939,
+    "validCandidates": 3939,
+    "invalidCandidates": 0,
+    "backwardAdjustmentCount": 0,
+    "availableAtBeforeObservationCount": 0,
+    "passed": true
+  },
+  "humanDecisionState": {
+    "decisionRecorded": false,
+    "methodologyApproved": false,
+    "admissionAuthorized": false
+  },
+  "failures": [],
+  "safeguards": {
+    "historicalStoreModified": false,
+    "calibrationDatasetModified": false,
+    "officialHesiModified": false,
+    "admissionPerformed": false
+  },
+  "notes": [
+    "This validation checks the prepared ALFRED candidates only.",
+    "ALFRED realtimeStart is read from availableAtEvidence.realtimeStart.",
+    "It does not establish an exact intraday publication time.",
+    "It requires AvailableAt to equal realtimeStart at 23:59:59.999 UTC.",
+    "It rejects any candidate whose AvailableAt precedes its observation date.",
+    "It does not move any AvailableAt timestamp backward.",
+    "Passing this validation does not constitute human methodological approval.",
+    "Passing this validation does not authorize admission.",
+    "No historical observation is promoted by this script."
+  ]
+}
