@@ -25,6 +25,11 @@ const STAGING_FILE = new URL(
   import.meta.url
 );
 
+const HUMAN_DECISION_FILE = new URL(
+  "../data/brent-alfred-human-methodology-decision.json",
+  import.meta.url
+);
+
 const OUTPUT_FILE = new URL(
   "../data/brent-alfred-admission-decision.json",
   import.meta.url
@@ -72,6 +77,11 @@ async function main() {
     "brent-alfred-admission-ready.json"
   );
 
+  const humanDecision = await readJson(
+    HUMAN_DECISION_FILE,
+    "brent-alfred-human-methodology-decision.json"
+  );
+
   const preparedCount =
     Array.isArray(staging.preparedCandidates)
       ? staging.preparedCandidates.length
@@ -80,6 +90,24 @@ async function main() {
   requireCondition(
     preparedCount > 0,
     "No prepared ALFRED candidates found."
+  );
+
+  requireCondition(
+    staging.methodologyState
+      ?.decisionRecorded === true,
+    "Staging does not contain a recorded methodology decision."
+  );
+
+  requireCondition(
+    staging.methodologyState
+      ?.humanMethodologicalApproval === true,
+    "Staging does not reflect methodology approval."
+  );
+
+  requireCondition(
+    staging.methodologyState
+      ?.admissionAuthorized === false,
+    "Staging unexpectedly authorizes admission."
   );
 
   requireCondition(
@@ -147,17 +175,98 @@ async function main() {
     "Weekday diagnostic contains negative lags."
   );
 
+  /*
+   * The older methodology evidence artifact remains
+   * evidence-only. It must not independently authorize
+   * admission.
+   */
   const methodologyDecision =
     methodology.methodologyDecision || {};
 
   requireCondition(
-    methodologyDecision.humanMethodologicalApproval === false,
-    "Methodology evidence unexpectedly contains human approval."
+    methodologyDecision.admissionAuthorized === false,
+    "Methodology evidence unexpectedly authorizes admission."
+  );
+
+  /*
+   * The authoritative human methodology decision is
+   * stored separately and must now be recorded and approved.
+   */
+  requireCondition(
+    humanDecision.schemaVersion === "1.0",
+    "Unexpected human decision schema version."
   );
 
   requireCondition(
-    methodologyDecision.admissionAuthorized === false,
-    "Methodology evidence unexpectedly authorizes admission."
+    humanDecision.decisionType ===
+      "ALFRED_BRENT_AVAILABLE_AT_METHODOLOGY",
+    "Unexpected human methodology decision type."
+  );
+
+  requireCondition(
+    humanDecision.decisionRecorded === true,
+    "Human methodology decision has not been recorded."
+  );
+
+  requireCondition(
+    humanDecision.approved === true,
+    "ALFRED AvailableAt methodology has not been approved."
+  );
+
+  requireCondition(
+    humanDecision.acknowledgements
+      ?.dateLevelEvidenceOnly === true,
+    "Date-level evidence acknowledgement is missing."
+  );
+
+  requireCondition(
+    humanDecision.acknowledgements
+      ?.exactIntradayTimeNotEstablished === true,
+    "Intraday timing acknowledgement is missing."
+  );
+
+  requireCondition(
+    humanDecision.acknowledgements
+      ?.endOfDayUtcIsResearchConvention === true,
+    "End-of-day UTC convention acknowledgement is missing."
+  );
+
+  requireCondition(
+    humanDecision.acknowledgements
+      ?.longLagsRetainedWithoutBackwardShift === true,
+    "Long-lag acknowledgement is missing."
+  );
+
+  requireCondition(
+    humanDecision.acknowledgements
+      ?.negativeLagAnomalyExcluded === true,
+    "Negative-lag anomaly acknowledgement is missing."
+  );
+
+  /*
+   * Critical separation:
+   *
+   * Methodology approval = YES
+   * Admission authorization = NO
+   */
+  requireCondition(
+    humanDecision.admissionAuthorized === false,
+    "Historical admission is already authorized."
+  );
+
+  requireCondition(
+    humanDecision.historicalStoreModified === false,
+    "Historical store was unexpectedly modified."
+  );
+
+  requireCondition(
+    humanDecision.calibrationDatasetModified === false,
+    "Calibration dataset was unexpectedly modified."
+  );
+
+  requireCondition(
+    humanDecision.officialHesiModified === false,
+    "Official HESI was unexpectedly modified."
   );
 
   const weekdayRealtime =
@@ -177,10 +286,10 @@ async function main() {
     wednesdayThursdayCount / preparedCount;
 
   const output = {
-    schemaVersion: "1.2",
+    schemaVersion: "1.3",
 
     status:
-      "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
+      "METHODOLOGY_APPROVED_ADMISSION_DECISION_PENDING",
 
     decisionTimestamp:
       new Date().toISOString(),
@@ -188,11 +297,19 @@ async function main() {
     sourceDataset:
       "brent-alfred-admission-ready.json",
 
+    sourceHumanDecision:
+      "brent-alfred-human-methodology-decision.json",
+
     candidateSummary: {
-      preparedCandidates: preparedCount,
+      preparedCandidates:
+        preparedCount,
+
       negativeLagCount,
+
       overSevenDayLagCount,
+
       medianLagCalendarDays,
+
       maximumLagCalendarDays
     },
 
@@ -211,6 +328,12 @@ async function main() {
         true,
 
       yearlyEvidencePresent:
+        true,
+
+      methodologyDecisionRecorded:
+        true,
+
+      methodologyApproved:
         true,
 
       negativeLagCount,
@@ -272,10 +395,10 @@ async function main() {
 
     unresolvedLimitations: [
       "ALFRED evidence is date-level and does not establish an exact intraday publication timestamp.",
-      "The end-of-day UTC AvailableAt value is a conservative research convention rather than a provider-supplied timestamp.",
+      "The end-of-day UTC AvailableAt value is an approved conservative research convention rather than a provider-supplied timestamp.",
       "The previously identified candidate with AvailableAt preceding its observation date remains excluded.",
       "This artifact does not prove predictive validity or model calibration.",
-      "Admission into the leakage-safe historical store still requires an explicit human methodological decision."
+      "Methodological approval does not constitute authorization to admit historical observations."
     ],
 
     proposedAdmissionRule: {
@@ -300,16 +423,16 @@ async function main() {
 
     humanDecision: {
       methodologicalApproval:
-        false,
+        true,
 
       admissionAuthorized:
         false,
 
       decisionRecorded:
-        false,
+        true,
 
       decisionBasis:
-        null
+        "brent-alfred-human-methodology-decision.json"
     },
 
     promotion: {
@@ -324,15 +447,16 @@ async function main() {
     },
 
     notes: [
-      "This file consolidates evidence for a later explicit admission decision.",
-      "It does not admit historical observations.",
-      "It does not modify the leakage-safe historical store.",
-      "It does not modify the calibration dataset.",
-      "It does not modify official HESI.",
+      "The human ALFRED AvailableAt methodology decision has been recorded and approved.",
+      "This artifact prepares the separate historical admission decision.",
+      "Methodological approval does not authorize historical admission.",
+      "The 3,939 prepared candidates remain outside the leakage-safe historical store.",
+      "No historical observation is admitted by this script.",
+      "No calibration dataset is modified by this script.",
+      "Official HESI is not modified by this script.",
       "No historical AvailableAt value is moved backward.",
       "Current staging is cross-checked against the weekday diagnostic generated in the same pipeline run.",
-      "Lag statistics are read directly from availability.lagStatistics.",
-      "Human methodological approval remains required."
+      "Lag statistics are read directly from availability.lagStatistics."
     ]
   };
 
@@ -383,11 +507,9 @@ async function main() {
   );
 
   console.log(
-    `Wednesday + Thursday share: ${
-      (
-        wednesdayThursdayShare * 100
-      ).toFixed(2)
-    }%`
+    `Wednesday + Thursday share: ${(
+      wednesdayThursdayShare * 100
+    ).toFixed(2)}%`
   );
 
   console.log(
@@ -395,7 +517,15 @@ async function main() {
   );
 
   console.log(
-    "Human methodological approval: NO"
+    "Human methodology decision recorded: YES"
+  );
+
+  console.log(
+    "Human methodological approval: YES"
+  );
+
+  console.log(
+    "Admission decision: PENDING"
   );
 
   console.log(
