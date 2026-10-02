@@ -1,14 +1,14 @@
 {
-  "schemaVersion": "1.1",
+  "schemaVersion": "1.2",
   "status": "METHODOLOGY_DECISION_PENDING_HUMAN_APPROVAL",
-  "decisionTimestamp": "2026-10-02T06:32:53.412Z",
+  "decisionTimestamp": "2026-10-02T06:41:33.517Z",
   "sourceDataset": "brent-alfred-admission-ready.json",
   "candidateSummary": {
     "preparedCandidates": 3939,
     "negativeLagCount": 0,
     "overSevenDayLagCount": 738,
-    "medianLagCalendarDays": null,
-    "maximumLagCalendarDays": null
+    "medianLagCalendarDays": 6,
+    "maximumLagCalendarDays": 15
   },
   "consistencyChecks": {
     "currentStagingCount": 3939,
@@ -17,6 +17,8 @@
     "availabilityEvidencePresent": true,
     "yearlyEvidencePresent": true,
     "negativeLagCount": 0,
+    "medianLagPresent": true,
+    "maximumLagPresent": true,
     "passed": true
   },
   "evidenceSummary": {
@@ -68,6 +70,7 @@
     "It does not modify official HESI.",
     "No historical AvailableAt value is moved backward.",
     "Current staging is cross-checked against the weekday diagnostic generated in the same pipeline run.",
+    "Lag statistics are read directly from availability.lagStatistics.",
     "Human methodological approval remains required."
   ]
 }
