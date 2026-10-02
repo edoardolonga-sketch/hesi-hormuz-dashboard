@@ -1,10 +1,10 @@
 {
   "schemaVersion": "1.0",
   "status": "POINT_IN_TIME_COVERAGE_ANALYZED_NOT_CALIBRATED",
-  "analysisTimestamp": "2026-10-02T17:53:38.015Z",
+  "analysisTimestamp": "2026-10-02T17:56:40.396Z",
   "sourceArtifact": {
     "status": "POINT_IN_TIME_BACKTEST_DATASET_NOT_CALIBRATED",
-    "buildTimestamp": "2026-10-02T17:53:37.873Z",
+    "buildTimestamp": "2026-10-02T17:56:40.227Z",
     "snapshotCount": 5651,
     "leakageViolations": 0
   },
