@@ -95,8 +95,15 @@ async function main() {
     const observationDate =
       candidate.observationDate;
 
+    /*
+     * IMPORTANT:
+     * realtimeStart is historical ALFRED evidence
+     * stored inside availableAtEvidence.
+     *
+     * It is NOT a top-level candidate field.
+     */
     const realtimeStart =
-      candidate.realtimeStart;
+      candidate.availableAtEvidence?.realtimeStart;
 
     const availableAt =
       candidate.availableAt;
@@ -117,10 +124,21 @@ async function main() {
         `${realtimeStart}T23:59:59.999Z`;
     }
 
+    /*
+     * Conservative research convention:
+     *
+     * ALFRED gives date-level realtimeStart evidence.
+     * We assign end-of-day UTC to avoid pretending that
+     * an exact intraday publication timestamp is known.
+     */
     const matchesConservativeConvention =
       expectedAvailableAt !== null &&
       availableAt === expectedAvailableAt;
 
+    /*
+     * We never move AvailableAt earlier than the
+     * historical evidence supplied by ALFRED.
+     */
     const noBackwardAdjustment =
       matchesConservativeConvention;
 
@@ -164,6 +182,9 @@ async function main() {
 
         expectedAvailableAt,
 
+        availableAtMethod:
+          candidate.availableAtMethod ?? null,
+
         checks: {
           validObservationDate,
           validRealtimeStart,
@@ -181,7 +202,7 @@ async function main() {
     availableAtBeforeObservationCount === 0;
 
   const output = {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
 
     status: passed
       ? "AVAILABLE_AT_POLICY_VALIDATED_NOT_ADMITTED"
@@ -197,6 +218,9 @@ async function main() {
       providerEvidenceLevel:
         "DATE_LEVEL",
 
+      realtimeStartField:
+        "availableAtEvidence.realtimeStart",
+
       intradayPublicationTimeEstablished:
         false,
 
@@ -207,7 +231,7 @@ async function main() {
         false,
 
       interpretation:
-        "The candidate AvailableAt timestamp is a conservative research convention derived from the ALFRED realtimeStart date. It is not represented as a provider-supplied intraday publication timestamp."
+        "The candidate AvailableAt timestamp is a conservative research convention derived from the ALFRED realtimeStart date stored in availableAtEvidence. It is not represented as a provider-supplied intraday publication timestamp."
     },
 
     summary: {
@@ -259,6 +283,7 @@ async function main() {
 
     notes: [
       "This validation checks the prepared ALFRED candidates only.",
+      "ALFRED realtimeStart is read from availableAtEvidence.realtimeStart.",
       "It does not establish an exact intraday publication time.",
       "It requires AvailableAt to equal realtimeStart at 23:59:59.999 UTC.",
       "It rejects any candidate whose AvailableAt precedes its observation date.",
