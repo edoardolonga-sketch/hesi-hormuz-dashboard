@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "status": "POINT_IN_TIME_BACKTEST_DATASET_NOT_CALIBRATED",
-  "buildTimestamp": "2026-10-02T17:47:25.233Z",
+  "buildTimestamp": "2026-10-02T17:49:11.114Z",
   "sourceDataset": {
     "status": "RESEARCH_DATASET_NOT_CALIBRATED",
     "buildTimestamp": "2026-10-02T17:40:22.622Z",
