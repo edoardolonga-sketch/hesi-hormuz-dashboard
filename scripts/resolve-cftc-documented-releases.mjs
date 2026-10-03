@@ -18,10 +18,14 @@ const OUTPUT_FILE = new URL(
 const SPECIAL_ANNOUNCEMENTS_URL =
   "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm";
 
-const EXPECTED_SOURCE_ID = "cftc_cot";
+const EXPECTED_SOURCE_ID =
+  "cftc_cot";
+
 const EXPECTED_SERIES_ID =
   "CFTC_WTI_PHYSICAL_MANAGED_MONEY";
-const EXPECTED_MARKET_CODE = "067651";
+
+const EXPECTED_MARKET_CODE =
+  "067651";
 
 function assert(condition, message) {
   if (!condition) {
@@ -30,7 +34,8 @@ function assert(condition, message) {
 }
 
 async function readJson(url, label) {
-  const text = await readFile(url, "utf8");
+  const text =
+    await readFile(url, "utf8");
 
   try {
     return JSON.parse(text);
@@ -42,11 +47,13 @@ async function readJson(url, label) {
 }
 
 async function fetchOfficialPage(url) {
-  const response = await fetch(url, {
-    headers: {
-      "User-Agent": "hesi-hormuz-dashboard/1.0"
-    }
-  });
+  const response =
+    await fetch(url, {
+      headers: {
+        "User-Agent":
+          "hesi-hormuz-dashboard/1.0"
+      }
+    });
 
   if (!response.ok) {
     throw new Error(
@@ -54,7 +61,8 @@ async function fetchOfficialPage(url) {
     );
   }
 
-  const html = await response.text();
+  const html =
+    await response.text();
 
   assert(
     html.length > 0,
@@ -79,21 +87,20 @@ function decodeHtml(value) {
     .replace(/&mdash;/gi, "-");
 }
 
-function normalizeHtml(html) {
-  return decodeHtml(html)
+function stripHtml(value) {
+  return decodeHtml(value)
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<\/p>/gi, "\n")
-    .replace(/<\/div>/gi, "\n")
-    .replace(/<\/li>/gi, "\n")
-    .replace(/<\/tr>/gi, "\n")
-    .replace(/<\/td>/gi, " ")
+    .replace(/<br\s*\/?>/gi, " ")
     .replace(/<[^>]+>/g, " ")
-    .replace(/\r/g, "")
-    .replace(/[ \t]+/g, " ")
-    .replace(/\n\s+/g, "\n")
-    .replace(/\n{2,}/g, "\n")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function normalizeText(value) {
+  return stripHtml(value)
+    .replace(/\u00a0/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
@@ -106,18 +113,29 @@ function isIsoDate(value) {
   }
 
   return Number.isFinite(
-    Date.parse(`${value}T00:00:00.000Z`)
+    Date.parse(
+      `${value}T00:00:00.000Z`
+    )
   );
 }
 
-function isoDateFromParts(year, month, day) {
+function isoDateFromParts(
+  year,
+  month,
+  day
+) {
   const y = Number(year);
   const m = Number(month);
   const d = Number(day);
 
-  const date = new Date(
-    Date.UTC(y, m - 1, d)
-  );
+  const date =
+    new Date(
+      Date.UTC(
+        y,
+        m - 1,
+        d
+      )
+    );
 
   if (
     date.getUTCFullYear() !== y ||
@@ -146,243 +164,391 @@ const MONTHS = {
   september: 9,
   october: 10,
   november: 11,
-  december: 12
+  december: 12,
+
+  jan: 1,
+  feb: 2,
+  mar: 3,
+  apr: 4,
+  jun: 6,
+  jul: 7,
+  aug: 8,
+  sep: 9,
+  sept: 9,
+  oct: 10,
+  nov: 11,
+  dec: 12
 };
 
-function parseEnglishDate(text) {
-  if (typeof text !== "string") {
+function parseDateCell(value) {
+  const text =
+    normalizeText(value)
+      .replace(/\./g, "");
+
+  if (!text) {
     return null;
   }
 
-  const match = text
-    .trim()
-    .match(
-      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s+(20\d{2})\b/i
+  /*
+   * ISO:
+   * 2025-09-30
+   */
+  let match =
+    text.match(
+      /\b(20\d{2})-(\d{1,2})-(\d{1,2})\b/
     );
 
-  if (!match) {
-    return null;
+  if (match) {
+    return isoDateFromParts(
+      match[1],
+      match[2],
+      match[3]
+    );
   }
 
-  const month =
-    MONTHS[match[1].toLowerCase()];
-
-  return isoDateFromParts(
-    match[3],
-    month,
-    match[2]
-  );
-}
-
-function englishDateVariants(isoDate) {
-  assert(
-    isIsoDate(isoDate),
-    `Invalid ISO date: ${isoDate}`
-  );
-
-  const date =
-    new Date(`${isoDate}T00:00:00.000Z`);
-
-  const month =
-    new Intl.DateTimeFormat("en-US", {
-      month: "long",
-      timeZone: "UTC"
-    }).format(date);
-
-  const monthShort =
-    new Intl.DateTimeFormat("en-US", {
-      month: "short",
-      timeZone: "UTC"
-    }).format(date);
-
-  const day = date.getUTCDate();
-  const year = date.getUTCFullYear();
-
-  return [
-    `${month} ${day}, ${year}`,
-    `${month} ${String(day).padStart(2, "0")}, ${year}`,
-    `${monthShort} ${day}, ${year}`,
-    `${monthShort} ${String(day).padStart(2, "0")}, ${year}`
-  ];
-}
-
-function findContexts(
-  text,
-  observationDate,
-  radius = 650
-) {
-  const lowerText = text.toLowerCase();
-
-  const variants =
-    englishDateVariants(observationDate);
-
-  const contexts = [];
-
-  for (const variant of variants) {
-    const lowerVariant =
-      variant.toLowerCase();
-
-    let startIndex = 0;
-
-    while (true) {
-      const index =
-        lowerText.indexOf(
-          lowerVariant,
-          startIndex
-        );
-
-      if (index === -1) {
-        break;
-      }
-
-      const from =
-        Math.max(0, index - radius);
-
-      const to =
-        Math.min(
-          text.length,
-          index +
-            variant.length +
-            radius
-        );
-
-      contexts.push(
-        text
-          .slice(from, to)
-          .replace(/\s+/g, " ")
-          .trim()
-      );
-
-      startIndex =
-        index + lowerVariant.length;
-    }
-  }
-
-  return [...new Set(contexts)];
-}
-
-/*
- * We only accept explicit linguistic evidence linking
- * a report/positions date to a release/publication date.
- *
- * Examples of concepts accepted:
- *
- *   "... report for September 30, 2025 ...
- *        will be released November 19, 2025 ..."
- *
- *   "... positions as of September 30, 2025 ...
- *        publication on November 19, 2025 ..."
- *
- * A nearby date by itself is NOT sufficient.
- */
-function extractExplicitReleaseCandidates(
-  context,
-  observationDate
-) {
-  const observationVariants =
-    englishDateVariants(
-      observationDate
+  /*
+   * Numeric US:
+   * 9/30/2025
+   * 09/30/2025
+   */
+  match =
+    text.match(
+      /\b(\d{1,2})\/(\d{1,2})\/(20\d{2})\b/
     );
 
-  const observationPattern =
-    observationVariants
-      .map(escapeRegExp)
-      .join("|");
+  if (match) {
+    return isoDateFromParts(
+      match[3],
+      match[1],
+      match[2]
+    );
+  }
 
-  const monthPattern =
-    "(January|February|March|April|May|June|July|August|September|October|November|December)";
+  /*
+   * September 30, 2025
+   * Sep 30, 2025
+   */
+  match =
+    text.match(
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+(\d{1,2}),?\s+(20\d{2})\b/i
+    );
 
-  const releaseDatePattern =
-    `${monthPattern}\\s+(\\d{1,2}),\\s+(20\\d{2})`;
+  if (match) {
+    const month =
+      MONTHS[
+        match[1].toLowerCase()
+      ];
 
-  const patterns = [
-    new RegExp(
-      `(?:report|positions|data)[^.!?]{0,250}(?:${observationPattern})[^.!?]{0,350}(?:released|release|published|publication|publish)[^.!?]{0,120}(${releaseDatePattern})`,
-      "ig"
-    ),
+    return isoDateFromParts(
+      match[3],
+      month,
+      match[2]
+    );
+  }
 
-    new RegExp(
-      `(?:${observationPattern})[^.!?]{0,350}(?:released|release|published|publication|publish)[^.!?]{0,120}(${releaseDatePattern})`,
-      "ig"
-    ),
+  /*
+   * 30 September 2025
+   * 30 Sep 2025
+   */
+  match =
+    text.match(
+      /\b(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec),?\s+(20\d{2})\b/i
+    );
 
-    new RegExp(
-      `(?:released|release|published|publication|publish)[^.!?]{0,120}(${releaseDatePattern})[^.!?]{0,350}(?:${observationPattern})`,
-      "ig"
-    )
-  ];
+  if (match) {
+    const month =
+      MONTHS[
+        match[2].toLowerCase()
+      ];
 
-  const results = [];
+    return isoDateFromParts(
+      match[3],
+      month,
+      match[1]
+    );
+  }
 
-  for (const pattern of patterns) {
-    let match;
+  return null;
+}
+
+function extractTableRows(html) {
+  const rows = [];
+
+  const rowRegex =
+    /<tr\b[^>]*>([\s\S]*?)<\/tr>/gi;
+
+  let rowMatch;
+
+  while (
+    (rowMatch =
+      rowRegex.exec(html)) !== null
+  ) {
+    const rowHtml =
+      rowMatch[1];
+
+    const cells = [];
+
+    const cellRegex =
+      /<(td|th)\b[^>]*>([\s\S]*?)<\/\1>/gi;
+
+    let cellMatch;
 
     while (
-      (match = pattern.exec(context)) !==
+      (cellMatch =
+        cellRegex.exec(rowHtml)) !==
       null
     ) {
-      const matchedText =
-        match[0]
-          .replace(/\s+/g, " ")
-          .trim();
+      cells.push(
+        normalizeText(
+          cellMatch[2]
+        )
+      );
+    }
 
-      const dateMatches =
-        [
-          ...matchedText.matchAll(
-            /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+20\d{2}\b/gi
-          )
-        ];
-
-      const parsedDates =
-        dateMatches
-          .map((item) =>
-            parseEnglishDate(item[0])
-          )
-          .filter(Boolean);
-
-      const releaseCandidates =
-        parsedDates.filter(
-          (date) =>
-            date !== observationDate
-        );
-
-      for (
-        const releaseDate of
-        releaseCandidates
-      ) {
-        results.push({
-          releaseDate,
-          matchedText
-        });
-      }
+    if (cells.length > 0) {
+      rows.push({
+        cells,
+        rowText:
+          cells.join(" | ")
+      });
     }
   }
 
-  const unique = new Map();
-
-  for (const result of results) {
-    const key =
-      `${result.releaseDate}|${result.matchedText}`;
-
-    unique.set(key, result);
-  }
-
-  return [...unique.values()];
+  return rows;
 }
 
-function escapeRegExp(value) {
-  return value.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&"
+function normalizeHeader(value) {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isReportDateHeader(value) {
+  const header =
+    normalizeHeader(value);
+
+  return (
+    header.includes(
+      "cot report date"
+    ) ||
+    header.includes(
+      "report date"
+    )
   );
 }
 
+function isOriginalPublishHeader(
+  value
+) {
+  const header =
+    normalizeHeader(value);
+
+  return (
+    header.includes(
+      "original publish date"
+    ) ||
+    header.includes(
+      "original publication date"
+    ) ||
+    header.includes(
+      "original release date"
+    )
+  );
+}
+
+function isNewPublishHeader(value) {
+  const header =
+    normalizeHeader(value);
+
+  return (
+    header.includes(
+      "new publish date"
+    ) ||
+    header.includes(
+      "new publication date"
+    ) ||
+    header.includes(
+      "new release date"
+    ) ||
+    header.includes(
+      "actual publish date"
+    ) ||
+    header.includes(
+      "actual publication date"
+    ) ||
+    header.includes(
+      "actual release date"
+    )
+  );
+}
+
+function findHeaderLayout(rows) {
+  for (
+    let index = 0;
+    index < rows.length;
+    index += 1
+  ) {
+    const cells =
+      rows[index].cells;
+
+    const reportDateIndex =
+      cells.findIndex(
+        isReportDateHeader
+      );
+
+    const originalPublishDateIndex =
+      cells.findIndex(
+        isOriginalPublishHeader
+      );
+
+    const newPublishDateIndex =
+      cells.findIndex(
+        isNewPublishHeader
+      );
+
+    if (
+      reportDateIndex !== -1 &&
+      newPublishDateIndex !== -1
+    ) {
+      return {
+        headerRowIndex:
+          index,
+
+        headerCells:
+          cells,
+
+        reportDateIndex,
+
+        originalPublishDateIndex,
+
+        newPublishDateIndex
+      };
+    }
+  }
+
+  return null;
+}
+
+function buildStructuredReleaseMap(
+  rows,
+  layout
+) {
+  const map =
+    new Map();
+
+  const parsedRows = [];
+
+  for (
+    let index =
+      layout.headerRowIndex + 1;
+    index < rows.length;
+    index += 1
+  ) {
+    const row =
+      rows[index];
+
+    const maxRequiredIndex =
+      Math.max(
+        layout.reportDateIndex,
+        layout.newPublishDateIndex,
+        layout.originalPublishDateIndex
+      );
+
+    if (
+      row.cells.length <=
+      Math.max(
+        layout.reportDateIndex,
+        layout.newPublishDateIndex
+      )
+    ) {
+      continue;
+    }
+
+    const reportDate =
+      parseDateCell(
+        row.cells[
+          layout.reportDateIndex
+        ]
+      );
+
+    const newPublishDate =
+      parseDateCell(
+        row.cells[
+          layout.newPublishDateIndex
+        ]
+      );
+
+    let originalPublishDate =
+      null;
+
+    if (
+      layout.originalPublishDateIndex !==
+        -1 &&
+      row.cells.length >
+        layout.originalPublishDateIndex
+    ) {
+      originalPublishDate =
+        parseDateCell(
+          row.cells[
+            layout.originalPublishDateIndex
+          ]
+        );
+    }
+
+    /*
+     * Once we are beyond the relevant table,
+     * arbitrary rows may follow. We simply ignore
+     * rows that do not contain both required dates.
+     */
+    if (
+      !reportDate ||
+      !newPublishDate
+    ) {
+      continue;
+    }
+
+    const parsed = {
+      reportDate,
+      originalPublishDate,
+      newPublishDate,
+
+      rowIndex:
+        index,
+
+      rowText:
+        row.rowText,
+
+      rawCells:
+        row.cells
+    };
+
+    parsedRows.push(parsed);
+
+    if (!map.has(reportDate)) {
+      map.set(
+        reportDate,
+        []
+      );
+    }
+
+    map
+      .get(reportDate)
+      .push(parsed);
+  }
+
+  return {
+    map,
+    parsedRows
+  };
+}
+
 /*
- * Converts 15:30 America/New_York to UTC without
- * hardcoding EST/EDT.
- *
- * Node's Intl implementation provides the timezone
- * offset for the requested historical date.
+ * Convert 15:30 America/New_York to UTC
+ * using the historical timezone rules supplied
+ * by Node/Intl. We deliberately do not hardcode
+ * EST or EDT.
  */
 function localNewYork1530ToUtc(
   isoDate
@@ -396,16 +562,11 @@ function localNewYork1530ToUtc(
     year,
     month,
     day
-  ] = isoDate
-    .split("-")
-    .map(Number);
+  ] =
+    isoDate
+      .split("-")
+      .map(Number);
 
-  /*
-   * Start with a UTC approximation corresponding
-   * to 15:30 local. Then determine what local
-   * New York time that instant represents and
-   * adjust by the difference.
-   */
   let utcMillis =
     Date.UTC(
       year,
@@ -423,17 +584,35 @@ function localNewYork1530ToUtc(
       {
         timeZone:
           "America/New_York",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hourCycle: "h23"
+
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit",
+
+        second:
+          "2-digit",
+
+        hourCycle:
+          "h23"
       }
     );
 
-  for (let i = 0; i < 3; i += 1) {
+  for (
+    let i = 0;
+    i < 3;
+    i += 1
+  ) {
     const parts =
       formatter.formatToParts(
         new Date(utcMillis)
@@ -475,7 +654,7 @@ function localNewYork1530ToUtc(
   const finalDate =
     new Date(utcMillis);
 
-  const verificationParts =
+  const verification =
     Object.fromEntries(
       formatter
         .formatToParts(finalDate)
@@ -486,19 +665,20 @@ function localNewYork1530ToUtc(
     );
 
   assert(
-    Number(verificationParts.year) ===
-      year &&
+    Number(
+      verification.year
+    ) === year &&
       Number(
-        verificationParts.month
+        verification.month
       ) === month &&
       Number(
-        verificationParts.day
+        verification.day
       ) === day &&
       Number(
-        verificationParts.hour
+        verification.hour
       ) === 15 &&
       Number(
-        verificationParts.minute
+        verification.minute
       ) === 30,
     `Timezone conversion verification failed for ${isoDate}.`
   );
@@ -506,125 +686,31 @@ function localNewYork1530ToUtc(
   return finalDate.toISOString();
 }
 
-function resolveRecord(
+function resolveCandidate(
   record,
-  officialText
+  structuredReleaseMap
 ) {
   assert(
     record.evidenceStatus ===
       "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-    `Record ${record.observationDate} is not an evidence candidate.`
+    `Record ${record.observationDate} is not an official-page candidate.`
   );
 
-  const contexts =
-    findContexts(
-      officialText,
+  const matches =
+    structuredReleaseMap.get(
       record.observationDate
-    );
-
-  const candidates = [];
-
-  for (const context of contexts) {
-    const extracted =
-      extractExplicitReleaseCandidates(
-        context,
-        record.observationDate
-      );
-
-    for (const item of extracted) {
-      candidates.push({
-        ...item,
-        context
-      });
-    }
-  }
-
-  const releaseDates =
-    [
-      ...new Set(
-        candidates.map(
-          (item) =>
-            item.releaseDate
-        )
-      )
-    ];
+    ) ?? [];
 
   /*
-   * Conservative rule:
-   *
-   * Exactly one explicit release date must be
-   * recoverable for automatic DOCUMENTED status.
-   *
-   * Zero = unresolved.
-   * More than one = ambiguous, human review required.
+   * No structured row:
+   * leave AvailableAt unresolved.
    */
-  if (releaseDates.length === 1) {
-    const releaseDate =
-      releaseDates[0];
-
-    const proposedAvailableAt =
-      localNewYork1530ToUtc(
-        releaseDate
-      );
-
+  if (matches.length === 0) {
     return {
       ...record,
 
       resolutionStatus:
-        "DOCUMENTED_RELEASE_CANDIDATE",
-
-      documentedReleaseDate:
-        releaseDate,
-
-      proposedAvailableAt,
-
-      publicationTimeLocal:
-        "15:30:00",
-
-      publicationTimezone:
-        "America/New_York",
-
-      evidence: {
-        officialSource:
-          SPECIAL_ANNOUNCEMENTS_URL,
-
-        contextsFound:
-          contexts.length,
-
-        explicitReleaseCandidates:
-          candidates.length,
-
-        uniqueReleaseDates:
-          releaseDates,
-
-        actualReleaseDateEstablished:
-          true,
-
-        requiresHumanReviewBeforeAdmission:
-          true
-      },
-
-      matchedEvidence:
-        candidates.map(
-          (item) => ({
-            releaseDate:
-              item.releaseDate,
-            matchedText:
-              item.matchedText
-          })
-        ),
-
-      admissionStatus:
-        "NOT_AUTHORIZED"
-    };
-  }
-
-  if (releaseDates.length > 1) {
-    return {
-      ...record,
-
-      resolutionStatus:
-        "AMBIGUOUS_OFFICIAL_EVIDENCE",
+        "UNRESOLVED_NO_STRUCTURED_RELEASE_ROW",
 
       documentedReleaseDate:
         null,
@@ -633,17 +719,14 @@ function resolveRecord(
         null,
 
       evidence: {
+        evidenceType:
+          "OFFICIAL_CFTC_TABLE",
+
         officialSource:
           SPECIAL_ANNOUNCEMENTS_URL,
 
-        contextsFound:
-          contexts.length,
-
-        explicitReleaseCandidates:
-          candidates.length,
-
-        uniqueReleaseDates:
-          releaseDates,
+        structuredRowsFound:
+          0,
 
         actualReleaseDateEstablished:
           false,
@@ -653,54 +736,123 @@ function resolveRecord(
       },
 
       matchedEvidence:
-        candidates.map(
-          (item) => ({
-            releaseDate:
-              item.releaseDate,
-            matchedText:
-              item.matchedText
-          })
-        ),
+        [],
 
       admissionStatus:
         "NOT_AUTHORIZED"
     };
   }
 
+  const uniqueNewPublishDates =
+    [
+      ...new Set(
+        matches.map(
+          (match) =>
+            match.newPublishDate
+        )
+      )
+    ];
+
+  /*
+   * Multiple different release dates for the same
+   * report date are not resolved automatically.
+   */
+  if (
+    uniqueNewPublishDates.length !== 1
+  ) {
+    return {
+      ...record,
+
+      resolutionStatus:
+        "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+
+      documentedReleaseDate:
+        null,
+
+      proposedAvailableAt:
+        null,
+
+      evidence: {
+        evidenceType:
+          "OFFICIAL_CFTC_TABLE",
+
+        officialSource:
+          SPECIAL_ANNOUNCEMENTS_URL,
+
+        structuredRowsFound:
+          matches.length,
+
+        uniqueNewPublishDates,
+
+        actualReleaseDateEstablished:
+          false,
+
+        requiresHumanReviewBeforeAdmission:
+          true
+      },
+
+      matchedEvidence:
+        matches,
+
+      admissionStatus:
+        "NOT_AUTHORIZED"
+    };
+  }
+
+  const releaseDate =
+    uniqueNewPublishDates[0];
+
+  /*
+   * The official table supplies the release date.
+   * Our already-approved methodology supplies the
+   * standard 15:30 America/New_York publication time.
+   */
+  const proposedAvailableAt =
+    localNewYork1530ToUtc(
+      releaseDate
+    );
+
   return {
     ...record,
 
     resolutionStatus:
-      "UNRESOLVED_AFTER_DEEP_REVIEW",
+      "DOCUMENTED_RELEASE_CANDIDATE",
 
     documentedReleaseDate:
-      null,
+      releaseDate,
 
-    proposedAvailableAt:
-      null,
+    proposedAvailableAt,
+
+    publicationTimeLocal:
+      "15:30:00",
+
+    publicationTimezone:
+      "America/New_York",
 
     evidence: {
+      evidenceType:
+        "OFFICIAL_CFTC_TABLE",
+
       officialSource:
         SPECIAL_ANNOUNCEMENTS_URL,
 
-      contextsFound:
-        contexts.length,
+      structuredRowsFound:
+        matches.length,
 
-      explicitReleaseCandidates:
-        0,
-
-      uniqueReleaseDates:
-        [],
+      uniqueNewPublishDates,
 
       actualReleaseDateEstablished:
-        false,
+        true,
+
+      publicationTimeBasis:
+        "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
 
       requiresHumanReviewBeforeAdmission:
         true
     },
 
     matchedEvidence:
-      [],
+      matches,
 
     admissionStatus:
       "NOT_AUTHORIZED"
@@ -724,11 +876,24 @@ async function main() {
     );
 
   /*
-   * Validate methodology gate.
+   * Methodology gate.
    */
   assert(
-    methodology.schemaVersion === "1.0",
+    methodology.schemaVersion ===
+      "1.0",
     "Unexpected CFTC methodology schema version."
+  );
+
+  assert(
+    methodology.decisionType ===
+      "CFTC_HISTORICAL_AVAILABLE_AT_METHODOLOGY",
+    "Unexpected CFTC methodology decision type."
+  );
+
+  assert(
+    methodology.decisionRecorded ===
+      true,
+    "CFTC methodology decision has not been recorded."
   );
 
   assert(
@@ -737,7 +902,8 @@ async function main() {
   );
 
   assert(
-    methodology.admissionAuthorized === false,
+    methodology.admissionAuthorized ===
+      false,
     "Historical CFTC admission must remain unauthorized."
   );
 
@@ -751,47 +917,111 @@ async function main() {
 
   assert(
     methodology.policy
+      ?.documentedRelease
+      ?.requiredEvidenceType ===
+      "OFFICIAL_CFTC",
+    "Unexpected required CFTC evidence type."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.publicationTimeLocal ===
+      "15:30:00",
+    "Unexpected approved CFTC publication time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.publicationTimezone ===
+      "America/New_York",
+    "Unexpected approved CFTC publication timezone."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.utcConversion ===
+      "TIMEZONE_AWARE",
+    "CFTC methodology does not require timezone-aware UTC conversion."
+  );
+
+  assert(
+    methodology.policy
       ?.undocumentedRelease
       ?.availableAt === null,
     "Undocumented CFTC AvailableAt must remain null."
   );
 
+  assert(
+    methodology.policy
+      ?.undocumentedRelease
+      ?.observationDatePlusThreeDaysAssumed ===
+      false,
+    "Observation date + 3 days must not be assumed."
+  );
+
+  assert(
+    methodology.policy
+      ?.undocumentedRelease
+      ?.normalFridayReleaseAssumed ===
+      false,
+    "Normal Friday publication must not be assumed historically."
+  );
+
+  assert(
+    methodology.policy
+      ?.undocumentedRelease
+      ?.syntheticHistoricalTimestampAllowed ===
+      false,
+    "Synthetic historical CFTC timestamps must remain forbidden."
+  );
+
   /*
-   * Validate input artifact.
+   * Validate first-pass evidence artifact.
    */
   assert(
-    input.schemaVersion === "1.0",
-    "Unexpected release-evidence schema."
+    input.schemaVersion ===
+      "1.0",
+    "Unexpected CFTC release-evidence schema."
   );
 
   assert(
     input.status ===
       "CFTC_HISTORICAL_RELEASE_EVIDENCE_ANALYZED_NOT_ADMITTED",
-    "Unexpected release-evidence status."
-  );
-
-  assert(
-    input.summary
-      ?.observationsAnalyzed === 52,
-    "Expected 52 CFTC observations."
-  );
-
-  assert(
-    input.summary
-      ?.observationsAdmitted === 0,
-    "Input artifact unexpectedly contains admitted observations."
+    "Unexpected CFTC release-evidence status."
   );
 
   assert(
     Array.isArray(input.records),
-    "Input records missing."
+    "CFTC release-evidence records are missing."
+  );
+
+  assert(
+    input.summary
+      ?.observationsAnalyzed ===
+      input.records.length,
+    "CFTC observation count does not match evidence records."
+  );
+
+  assert(
+    input.summary
+      ?.observationsAdmitted ===
+      0,
+    "Input artifact unexpectedly contains admitted observations."
   );
 
   /*
-   * Revalidate identities and select ONLY the
-   * candidates already discovered in the first pass.
+   * Revalidate every historical record before
+   * considering official evidence.
    */
-  for (const record of input.records) {
+  const seenDates =
+    new Set();
+
+  for (
+    const record of input.records
+  ) {
     assert(
       record.sourceId ===
         EXPECTED_SOURCE_ID,
@@ -818,6 +1048,17 @@ async function main() {
     );
 
     assert(
+      !seenDates.has(
+        record.observationDate
+      ),
+      `Duplicate CFTC observation date: ${record.observationDate}`
+    );
+
+    seenDates.add(
+      record.observationDate
+    );
+
+    assert(
       record.existingAvailableAt ===
         null,
       `Historical AvailableAt already exists on ${record.observationDate}.`
@@ -830,6 +1071,11 @@ async function main() {
     );
   }
 
+  /*
+   * We continue to deep-review only records already
+   * identified by the first-pass evidence analysis.
+   * The remaining records are deliberately untouched.
+   */
   const candidates =
     input.records.filter(
       (record) =>
@@ -858,21 +1104,20 @@ async function main() {
   );
 
   /*
-   * Retrieve the official CFTC special-announcement
-   * history and perform deeper evidence extraction.
+   * Fetch official CFTC evidence.
    */
   const officialHtml =
     await fetchOfficialPage(
       SPECIAL_ANNOUNCEMENTS_URL
     );
 
-  const officialText =
-    normalizeHtml(
+  const pageText =
+    normalizeText(
       officialHtml
     );
 
   assert(
-    officialText
+    pageText
       .toLowerCase()
       .includes(
         "commitments of traders"
@@ -880,12 +1125,56 @@ async function main() {
     "Official CFTC page identity check failed."
   );
 
+  /*
+   * Parse the HTML table structurally.
+   */
+  const tableRows =
+    extractTableRows(
+      officialHtml
+    );
+
+  assert(
+    tableRows.length > 0,
+    "No HTML table rows found on official CFTC page."
+  );
+
+  const headerLayout =
+    findHeaderLayout(
+      tableRows
+    );
+
+  assert(
+    headerLayout !== null,
+    "Could not identify CFTC table headers for report date and new publish date."
+  );
+
+  const {
+    map:
+      structuredReleaseMap,
+
+    parsedRows:
+      structuredReleaseRows
+  } =
+    buildStructuredReleaseMap(
+      tableRows,
+      headerLayout
+    );
+
+  assert(
+    structuredReleaseRows.length >
+      0,
+    "CFTC release table was found but no structured release rows could be parsed."
+  );
+
+  /*
+   * Resolve only the prior evidence candidates.
+   */
   const resolvedCandidates =
     candidates.map(
       (record) =>
-        resolveRecord(
+        resolveCandidate(
           record,
-          officialText
+          structuredReleaseMap
         )
     );
 
@@ -896,22 +1185,22 @@ async function main() {
         "DOCUMENTED_RELEASE_CANDIDATE"
     );
 
-  const ambiguous =
+  const ambiguousCandidates =
     resolvedCandidates.filter(
       (record) =>
         record.resolutionStatus ===
-        "AMBIGUOUS_OFFICIAL_EVIDENCE"
+        "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE"
     );
 
-  const unresolvedAfterReview =
+  const unresolvedCandidates =
     resolvedCandidates.filter(
       (record) =>
         record.resolutionStatus ===
-        "UNRESOLVED_AFTER_DEEP_REVIEW"
+        "UNRESOLVED_NO_STRUCTURED_RELEASE_ROW"
     );
 
   /*
-   * Safety checks on automatically resolved candidates.
+   * Safety validation for documented candidates.
    */
   for (
     const record of
@@ -946,16 +1235,29 @@ async function main() {
     );
 
     assert(
+      record.evidence
+        ?.evidenceType ===
+        "OFFICIAL_CFTC_TABLE",
+      `Unexpected evidence type on ${record.observationDate}.`
+    );
+
+    assert(
+      record.evidence
+        ?.actualReleaseDateEstablished ===
+        true,
+      `Release date not established on ${record.observationDate}.`
+    );
+
+    assert(
       record.admissionStatus ===
         "NOT_AUTHORIZED",
-      `Resolved candidate unexpectedly authorized for admission: ${record.observationDate}.`
+      `Documented candidate unexpectedly authorized for admission: ${record.observationDate}.`
     );
   }
 
   /*
-   * The 35 records that did not have official-page
-   * evidence in the first pass are deliberately NOT
-   * reinterpreted here.
+   * Records that had no first-pass official evidence
+   * remain unresolved and are not reinterpreted.
    */
   const untouchedRecords =
     untouchedUnresolved.map(
@@ -976,12 +1278,30 @@ async function main() {
       })
     );
 
+  const proposedAvailableAtCount =
+    documentedCandidates.filter(
+      (record) =>
+        typeof record.proposedAvailableAt ===
+        "string"
+    ).length;
+
+  assert(
+    proposedAvailableAtCount ===
+      documentedCandidates.length,
+    "Not every documented release candidate has exactly one proposed AvailableAt."
+  );
+
+  /*
+   * Important:
+   * proposed AvailableAt values are evidence-derived
+   * candidates only. Nothing is admitted here.
+   */
   const output = {
     schemaVersion:
-      "1.0",
+      "2.0",
 
     status:
-      "CFTC_DOCUMENTED_RELEASE_CANDIDATES_REVIEWED_NOT_ADMITTED",
+      "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
 
     analysisTimestamp,
 
@@ -1005,6 +1325,12 @@ async function main() {
         true,
 
       syntheticHistoricalTimestampAllowed:
+        false,
+
+      observationDatePlusThreeDaysUsed:
+        false,
+
+      normalFridayScheduleUsedAsHistoricalProof:
         false
     },
 
@@ -1023,6 +1349,9 @@ async function main() {
       url:
         SPECIAL_ANNOUNCEMENTS_URL,
 
+      evidenceType:
+        "OFFICIAL_CFTC_TABLE",
+
       retrieved:
         true,
 
@@ -1030,7 +1359,25 @@ async function main() {
         Buffer.byteLength(
           officialHtml,
           "utf8"
-        )
+        ),
+
+      tableRowsFound:
+        tableRows.length,
+
+      structuredReleaseRowsParsed:
+        structuredReleaseRows.length,
+
+      detectedHeaders:
+        headerLayout.headerCells,
+
+      reportDateColumnIndex:
+        headerLayout.reportDateIndex,
+
+      originalPublishDateColumnIndex:
+        headerLayout.originalPublishDateIndex,
+
+      newPublishDateColumnIndex:
+        headerLayout.newPublishDateIndex
     },
 
     summary: {
@@ -1044,16 +1391,16 @@ async function main() {
         documentedCandidates.length,
 
       ambiguousOfficialEvidence:
-        ambiguous.length,
+        ambiguousCandidates.length,
 
-      unresolvedAfterDeepReview:
-        unresolvedAfterReview.length,
+      unresolvedAfterStructuredReview:
+        unresolvedCandidates.length,
 
       priorUnresolvedLeftUntouched:
         untouchedRecords.length,
 
       availableAtCandidatesProposed:
-        documentedCandidates.length,
+        proposedAvailableAtCount,
 
       observationsAdmitted:
         0
@@ -1061,16 +1408,20 @@ async function main() {
 
     documentedCandidates,
 
-    ambiguousCandidates:
-      ambiguous,
+    ambiguousCandidates,
 
-    unresolvedCandidates:
-      unresolvedAfterReview,
+    unresolvedCandidates,
 
     priorUnresolvedRecords:
       untouchedRecords,
 
+    structuredOfficialReleaseRows:
+      structuredReleaseRows,
+
     interpretation: {
+      structuredTableEvidenceUsed:
+        true,
+
       documentedReleaseCandidateIsNotAdmission:
         true,
 
@@ -1078,6 +1429,9 @@ async function main() {
         true,
 
       officialEvidenceRequired:
+        true,
+
+      publicationTimeComesFromApprovedMethodology:
         true,
 
       normalFridayScheduleNotUsedAsHistoricalProof:
@@ -1123,7 +1477,7 @@ async function main() {
     },
 
     nextResearchQuestion:
-      "Human-review each documented or ambiguous candidate against the quoted official CFTC evidence before authorizing any historical AvailableAt or admission."
+      "Human-review each structured documented release candidate against the official CFTC table before authorizing any historical CFTC admission."
   };
 
   await writeFile(
@@ -1137,11 +1491,11 @@ async function main() {
   );
 
   console.log(
-    "CFTC documented release resolution"
+    "CFTC structured release evidence resolution"
   );
 
   console.log(
-    "----------------------------------"
+    "-------------------------------------------"
   );
 
   console.log(
@@ -1149,7 +1503,11 @@ async function main() {
   );
 
   console.log(
-    `Candidates deep-reviewed: ${resolvedCandidates.length}`
+    `Prior evidence candidates reviewed: ${resolvedCandidates.length}`
+  );
+
+  console.log(
+    `Official structured release rows parsed: ${structuredReleaseRows.length}`
   );
 
   console.log(
@@ -1157,11 +1515,11 @@ async function main() {
   );
 
   console.log(
-    `Ambiguous official evidence: ${ambiguous.length}`
+    `Ambiguous official evidence: ${ambiguousCandidates.length}`
   );
 
   console.log(
-    `Unresolved after deep review: ${unresolvedAfterReview.length}`
+    `Unresolved after structured review: ${unresolvedCandidates.length}`
   );
 
   console.log(
@@ -1169,7 +1527,7 @@ async function main() {
   );
 
   console.log(
-    `AvailableAt candidates proposed: ${documentedCandidates.length}`
+    `AvailableAt candidates proposed: ${proposedAvailableAtCount}`
   );
 
   console.log(
@@ -1195,7 +1553,7 @@ async function main() {
 
 main().catch((error) => {
   console.error(
-    "CFTC documented release resolution failed:"
+    "CFTC structured release evidence resolution failed:"
   );
 
   console.error(error);
