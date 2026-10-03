@@ -27,6 +27,12 @@ const EXPECTED_SERIES_ID =
 const EXPECTED_MARKET_CODE =
   "067651";
 
+const CONSERVATIVE_AVAILABLE_AT_TIME =
+  "23:59:59.999Z";
+
+const CONSERVATIVE_AVAILABLE_AT_CONVENTION =
+  "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC";
+
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
@@ -449,13 +455,6 @@ function buildStructuredReleaseMap(
     const row =
       rows[index];
 
-    const maxRequiredIndex =
-      Math.max(
-        layout.reportDateIndex,
-        layout.newPublishDateIndex,
-        layout.originalPublishDateIndex
-      );
-
     if (
       row.cells.length <=
       Math.max(
@@ -499,8 +498,10 @@ function buildStructuredReleaseMap(
 
     /*
      * Once we are beyond the relevant table,
-     * arbitrary rows may follow. We simply ignore
-     * rows that do not contain both required dates.
+     * arbitrary rows may follow.
+     *
+     * Ignore rows that do not contain both
+     * required dates.
      */
     if (
       !reportDate ||
@@ -545,12 +546,22 @@ function buildStructuredReleaseMap(
 }
 
 /*
- * Convert 15:30 America/New_York to UTC
- * using the historical timezone rules supplied
- * by Node/Intl. We deliberately do not hardcode
- * EST or EDT.
+ * Methodology schema 1.1:
+ *
+ * If a historical CFTC release DATE is established
+ * from official CFTC evidence, AvailableAt is assigned
+ * conservatively to the end of that documented date
+ * in UTC.
+ *
+ * IMPORTANT:
+ *
+ * This is NOT the actual CFTC publication timestamp.
+ * It is a conservative daily point-in-time convention.
+ *
+ * It intentionally prevents the observation from being
+ * eligible until the following UTC day.
  */
-function localNewYork1530ToUtc(
+function documentedReleaseDateToAvailableAt(
   isoDate
 ) {
   assert(
@@ -558,132 +569,17 @@ function localNewYork1530ToUtc(
     `Invalid release date: ${isoDate}`
   );
 
-  const [
-    year,
-    month,
-    day
-  ] =
-    isoDate
-      .split("-")
-      .map(Number);
-
-  let utcMillis =
-    Date.UTC(
-      year,
-      month - 1,
-      day,
-      15,
-      30,
-      0,
-      0
-    );
-
-  const formatter =
-    new Intl.DateTimeFormat(
-      "en-US",
-      {
-        timeZone:
-          "America/New_York",
-
-        year:
-          "numeric",
-
-        month:
-          "2-digit",
-
-        day:
-          "2-digit",
-
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        second:
-          "2-digit",
-
-        hourCycle:
-          "h23"
-      }
-    );
-
-  for (
-    let i = 0;
-    i < 3;
-    i += 1
-  ) {
-    const parts =
-      formatter.formatToParts(
-        new Date(utcMillis)
-      );
-
-    const map =
-      Object.fromEntries(
-        parts.map(
-          ({ type, value }) =>
-            [type, value]
-        )
-      );
-
-    const representedLocalAsUtc =
-      Date.UTC(
-        Number(map.year),
-        Number(map.month) - 1,
-        Number(map.day),
-        Number(map.hour),
-        Number(map.minute),
-        Number(map.second)
-      );
-
-    const desiredLocalAsUtc =
-      Date.UTC(
-        year,
-        month - 1,
-        day,
-        15,
-        30,
-        0
-      );
-
-    utcMillis +=
-      desiredLocalAsUtc -
-      representedLocalAsUtc;
-  }
-
-  const finalDate =
-    new Date(utcMillis);
-
-  const verification =
-    Object.fromEntries(
-      formatter
-        .formatToParts(finalDate)
-        .map(
-          ({ type, value }) =>
-            [type, value]
-        )
-    );
+  const availableAt =
+    `${isoDate}T${CONSERVATIVE_AVAILABLE_AT_TIME}`;
 
   assert(
-    Number(
-      verification.year
-    ) === year &&
-      Number(
-        verification.month
-      ) === month &&
-      Number(
-        verification.day
-      ) === day &&
-      Number(
-        verification.hour
-      ) === 15 &&
-      Number(
-        verification.minute
-      ) === 30,
-    `Timezone conversion verification failed for ${isoDate}.`
+    Number.isFinite(
+      Date.parse(availableAt)
+    ),
+    `Could not build conservative AvailableAt for ${isoDate}.`
   );
 
-  return finalDate.toISOString();
+  return availableAt;
 }
 
 function resolveCandidate(
@@ -728,7 +624,10 @@ function resolveCandidate(
         structuredRowsFound:
           0,
 
-        actualReleaseDateEstablished:
+        documentedReleaseDateEstablished:
+          false,
+
+        conservativeAvailableAtConventionApplicable:
           false,
 
         requiresHumanReviewBeforeAdmission:
@@ -784,7 +683,10 @@ function resolveCandidate(
 
         uniqueNewPublishDates,
 
-        actualReleaseDateEstablished:
+        documentedReleaseDateEstablished:
+          false,
+
+        conservativeAvailableAtConventionApplicable:
           false,
 
         requiresHumanReviewBeforeAdmission:
@@ -803,12 +705,20 @@ function resolveCandidate(
     uniqueNewPublishDates[0];
 
   /*
-   * The official table supplies the release date.
-   * Our already-approved methodology supplies the
-   * standard 15:30 America/New_York publication time.
+   * The official CFTC table supplies the release DATE.
+   *
+   * Methodology schema 1.1 supplies only the
+   * conservative daily AvailableAt convention:
+   *
+   * documented release date
+   * +
+   * 23:59:59.999 UTC
+   *
+   * This timestamp MUST NOT be interpreted as the
+   * actual historical CFTC publication time.
    */
   const proposedAvailableAt =
-    localNewYork1530ToUtc(
+    documentedReleaseDateToAvailableAt(
       releaseDate
     );
 
@@ -823,11 +733,14 @@ function resolveCandidate(
 
     proposedAvailableAt,
 
-    publicationTimeLocal:
-      "15:30:00",
+    availableAtConvention:
+      CONSERVATIVE_AVAILABLE_AT_CONVENTION,
 
-    publicationTimezone:
-      "America/New_York",
+    availableAtTimeUtc:
+      CONSERVATIVE_AVAILABLE_AT_TIME,
+
+    availableAtRepresentsActualPublicationTimestamp:
+      false,
 
     evidence: {
       evidenceType:
@@ -841,11 +754,20 @@ function resolveCandidate(
 
       uniqueNewPublishDates,
 
-      actualReleaseDateEstablished:
+      documentedReleaseDateEstablished:
         true,
 
-      publicationTimeBasis:
-        "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+      availableAtBasis:
+        "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+
+      actualIntradayReleaseTimeRequired:
+        false,
+
+      actualIntradayReleaseTimeEstablished:
+        false,
+
+      availableAtRepresentsActualPublicationTimestamp:
+        false,
 
       requiresHumanReviewBeforeAdmission:
         true
@@ -877,10 +799,16 @@ async function main() {
 
   /*
    * Methodology gate.
+   *
+   * Schema 1.1 explicitly authorizes conservative
+   * end-of-documented-release-date UTC AvailableAt
+   * for daily point-in-time research.
+   *
+   * It does NOT authorize admission.
    */
   assert(
     methodology.schemaVersion ===
-      "1.0",
+      "1.1",
     "Unexpected CFTC methodology schema version."
   );
 
@@ -910,6 +838,14 @@ async function main() {
   assert(
     methodology.policy
       ?.documentedRelease
+      ?.eligibleForAvailableAt ===
+      true,
+    "Documented CFTC releases are not eligible for AvailableAt under methodology."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
       ?.releaseDateEvidenceRequired ===
       true,
     "Official release-date evidence is not required by methodology."
@@ -926,31 +862,64 @@ async function main() {
   assert(
     methodology.policy
       ?.documentedRelease
-      ?.publicationTimeLocal ===
-      "15:30:00",
-    "Unexpected approved CFTC publication time."
+      ?.availableAtConvention ===
+      CONSERVATIVE_AVAILABLE_AT_CONVENTION,
+    "Unexpected documented-release AvailableAt convention."
   );
 
   assert(
     methodology.policy
       ?.documentedRelease
-      ?.publicationTimezone ===
-      "America/New_York",
-    "Unexpected approved CFTC publication timezone."
+      ?.availableAtTimeUtc ===
+      CONSERVATIVE_AVAILABLE_AT_TIME,
+    "Unexpected conservative CFTC AvailableAt time."
   );
 
   assert(
     methodology.policy
       ?.documentedRelease
-      ?.utcConversion ===
-      "TIMEZONE_AWARE",
-    "CFTC methodology does not require timezone-aware UTC conversion."
+      ?.actualIntradayReleaseTimeRequired ===
+      false,
+    "Methodology unexpectedly requires exact historical intraday publication time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    "Conservative AvailableAt must not be represented as the actual CFTC publication timestamp."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.documentedExceptionsOverrideNormalSchedule ===
+      true,
+    "Documented CFTC exceptions must override the normal schedule."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.laterOfficialScheduleRevisionOverridesEarlierSchedule ===
+      true,
+    "Later official CFTC schedule revisions must override earlier schedules."
   );
 
   assert(
     methodology.policy
       ?.undocumentedRelease
-      ?.availableAt === null,
+      ?.eligibleForAvailableAt ===
+      false,
+    "Undocumented CFTC releases must not be eligible for AvailableAt."
+  );
+
+  assert(
+    methodology.policy
+      ?.undocumentedRelease
+      ?.availableAt ===
+      null,
     "Undocumented CFTC AvailableAt must remain null."
   );
 
@@ -973,9 +942,9 @@ async function main() {
   assert(
     methodology.policy
       ?.undocumentedRelease
-      ?.syntheticHistoricalTimestampAllowed ===
+      ?.syntheticHistoricalReleaseDateAllowed ===
       false,
-    "Synthetic historical CFTC timestamps must remain forbidden."
+    "Synthetic historical CFTC release dates must remain forbidden."
   );
 
   /*
@@ -1072,9 +1041,10 @@ async function main() {
   }
 
   /*
-   * We continue to deep-review only records already
+   * Continue deep review only for records already
    * identified by the first-pass evidence analysis.
-   * The remaining records are deliberately untouched.
+   *
+   * Remaining records are deliberately untouched.
    */
   const candidates =
     input.records.filter(
@@ -1216,12 +1186,30 @@ async function main() {
     assert(
       typeof record.proposedAvailableAt ===
         "string" &&
-        Number.isFinite(
-          Date.parse(
-            record.proposedAvailableAt
-          )
-        ),
+      Number.isFinite(
+        Date.parse(
+          record.proposedAvailableAt
+        )
+      ),
       `Invalid proposed AvailableAt on ${record.observationDate}.`
+    );
+
+    const expectedAvailableAt =
+      documentedReleaseDateToAvailableAt(
+        record.documentedReleaseDate
+      );
+
+    assert(
+      record.proposedAvailableAt ===
+        expectedAvailableAt,
+      `Proposed AvailableAt does not use conservative end-of-day UTC on ${record.observationDate}.`
+    );
+
+    assert(
+      record.proposedAvailableAt.endsWith(
+        "T23:59:59.999Z"
+      ),
+      `Proposed AvailableAt is not end-of-day UTC on ${record.observationDate}.`
     );
 
     assert(
@@ -1235,6 +1223,12 @@ async function main() {
     );
 
     assert(
+      record.availableAtRepresentsActualPublicationTimestamp ===
+        false,
+      `AvailableAt is incorrectly represented as actual publication time on ${record.observationDate}.`
+    );
+
+    assert(
       record.evidence
         ?.evidenceType ===
         "OFFICIAL_CFTC_TABLE",
@@ -1243,9 +1237,23 @@ async function main() {
 
     assert(
       record.evidence
-        ?.actualReleaseDateEstablished ===
+        ?.documentedReleaseDateEstablished ===
         true,
       `Release date not established on ${record.observationDate}.`
+    );
+
+    assert(
+      record.evidence
+        ?.actualIntradayReleaseTimeRequired ===
+        false,
+      `Exact intraday publication time unexpectedly required on ${record.observationDate}.`
+    );
+
+    assert(
+      record.evidence
+        ?.availableAtRepresentsActualPublicationTimestamp ===
+        false,
+      `Evidence incorrectly identifies AvailableAt as actual publication timestamp on ${record.observationDate}.`
     );
 
     assert(
@@ -1282,7 +1290,7 @@ async function main() {
     documentedCandidates.filter(
       (record) =>
         typeof record.proposedAvailableAt ===
-        "string"
+          "string"
     ).length;
 
   assert(
@@ -1292,13 +1300,16 @@ async function main() {
   );
 
   /*
-   * Important:
-   * proposed AvailableAt values are evidence-derived
-   * candidates only. Nothing is admitted here.
+   * IMPORTANT:
+   *
+   * proposedAvailableAt values are evidence-derived
+   * research candidates only.
+   *
+   * Nothing is admitted here.
    */
   const output = {
     schemaVersion:
-      "2.0",
+      "2.1",
 
     status:
       "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
@@ -1306,6 +1317,9 @@ async function main() {
     analysisTimestamp,
 
     methodology: {
+      decisionSchemaVersion:
+        methodology.schemaVersion,
+
       approved:
         true,
 
@@ -1315,16 +1329,25 @@ async function main() {
       officialReleaseEvidenceRequired:
         true,
 
-      publicationTimeLocal:
-        "15:30:00",
+      availableAtConvention:
+        CONSERVATIVE_AVAILABLE_AT_CONVENTION,
 
-      publicationTimezone:
-        "America/New_York",
+      availableAtTimeUtc:
+        CONSERVATIVE_AVAILABLE_AT_TIME,
 
-      timezoneAwareUtcConversion:
+      actualIntradayReleaseTimeRequired:
+        false,
+
+      availableAtRepresentsActualPublicationTimestamp:
+        false,
+
+      documentedExceptionsOverrideNormalSchedule:
         true,
 
-      syntheticHistoricalTimestampAllowed:
+      laterOfficialScheduleRevisionOverridesEarlierSchedule:
+        true,
+
+      syntheticHistoricalReleaseDateAllowed:
         false,
 
       observationDatePlusThreeDaysUsed:
@@ -1431,8 +1454,14 @@ async function main() {
       officialEvidenceRequired:
         true,
 
-      publicationTimeComesFromApprovedMethodology:
+      conservativeEndOfDayUtcComesFromApprovedMethodology:
         true,
+
+      conservativeAvailableAtIsActualPublicationTimestamp:
+        false,
+
+      exactHistoricalIntradayPublicationTimeRequired:
+        false,
 
       normalFridayScheduleNotUsedAsHistoricalProof:
         true,
@@ -1477,7 +1506,7 @@ async function main() {
     },
 
     nextResearchQuestion:
-      "Human-review each structured documented release candidate against the official CFTC table before authorizing any historical CFTC admission."
+      "Human-review structured CFTC release-date evidence before authorizing any historical CFTC admission. Conservative end-of-day UTC AvailableAt values are research candidates, not actual publication timestamps."
   };
 
   await writeFile(
@@ -1528,6 +1557,14 @@ async function main() {
 
   console.log(
     `AvailableAt candidates proposed: ${proposedAvailableAtCount}`
+  );
+
+  console.log(
+    "AvailableAt convention: DOCUMENTED RELEASE DATE END-OF-DAY UTC"
+  );
+
+  console.log(
+    "AvailableAt represents actual publication timestamp: NO"
   );
 
   console.log(
