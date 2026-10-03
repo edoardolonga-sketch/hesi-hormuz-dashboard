@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0",
-  "status": "CFTC_DOCUMENTED_RELEASE_CANDIDATES_REVIEWED_NOT_ADMITTED",
-  "analysisTimestamp": "2026-10-03T17:36:07.799Z",
+  "schemaVersion": "2.0",
+  "status": "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
+  "analysisTimestamp": "2026-10-03T17:43:26.659Z",
   "methodology": {
     "approved": true,
     "admissionAuthorized": false,
@@ -9,7 +9,9 @@
     "publicationTimeLocal": "15:30:00",
     "publicationTimezone": "America/New_York",
     "timezoneAwareUtcConversion": true,
-    "syntheticHistoricalTimestampAllowed": false
+    "syntheticHistoricalTimestampAllowed": false,
+    "observationDatePlusThreeDaysUsed": false,
+    "normalFridayScheduleUsedAsHistoricalProof": false
   },
   "targetSeries": {
     "sourceId": "cftc_cot",
@@ -18,21 +20,820 @@
   },
   "officialEvidenceSource": {
     "url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+    "evidenceType": "OFFICIAL_CFTC_TABLE",
     "retrieved": true,
-    "byteLength": 125398
+    "byteLength": 125398,
+    "tableRowsFound": 103,
+    "structuredReleaseRowsParsed": 30,
+    "detectedHeaders": [
+      "COT Report Date",
+      "Original Publish Date",
+      "New Publish Date"
+    ],
+    "reportDateColumnIndex": 0,
+    "originalPublishDateColumnIndex": 1,
+    "newPublishDateColumnIndex": 2
   },
   "summary": {
     "totalHistoricalObservations": 52,
     "candidatesDeepReviewed": 17,
-    "documentedReleaseCandidates": 0,
-    "ambiguousOfficialEvidence": 0,
-    "unresolvedAfterDeepReview": 17,
+    "documentedReleaseCandidates": 7,
+    "ambiguousOfficialEvidence": 7,
+    "unresolvedAfterStructuredReview": 3,
     "priorUnresolvedLeftUntouched": 35,
-    "availableAtCandidatesProposed": 0,
+    "availableAtCandidatesProposed": 7,
     "observationsAdmitted": 0
   },
-  "documentedCandidates": [],
-  "ambiguousCandidates": [],
+  "documentedCandidates": [
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-09-30",
+      "value": 14053,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2025-11-19",
+      "proposedAvailableAt": "2025-11-19T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-11-19"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-09-30",
+          "originalPublishDate": "2025-10-03",
+          "newPublishDate": "2025-11-19",
+          "rowIndex": 1,
+          "rowText": "09/30/2025 | 10/03/2025 | 11/19/2025+",
+          "rawCells": [
+            "09/30/2025",
+            "10/03/2025",
+            "11/19/2025+"
+          ]
+        },
+        {
+          "reportDate": "2025-09-30",
+          "originalPublishDate": "2025-10-03",
+          "newPublishDate": "2025-11-19",
+          "rowIndex": 15,
+          "rowText": "09/30/2025 | 10/03/2025 | 11/19/2025 +",
+          "rawCells": [
+            "09/30/2025",
+            "10/03/2025",
+            "11/19/2025 +"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-10-07",
+      "value": -17481,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2025-11-21",
+      "proposedAvailableAt": "2025-11-21T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-11-21"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-10-07",
+          "originalPublishDate": "2025-10-10",
+          "newPublishDate": "2025-11-21",
+          "rowIndex": 2,
+          "rowText": "10/07/2025 | 10/10/2025 | 11/21/2025",
+          "rawCells": [
+            "10/07/2025",
+            "10/10/2025",
+            "11/21/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-10-07",
+          "originalPublishDate": "2025-10-10",
+          "newPublishDate": "2025-11-21",
+          "rowIndex": 16,
+          "rowText": "10/07/2025 | 10/10/2025 | 11/21/2025",
+          "rawCells": [
+            "10/07/2025",
+            "10/10/2025",
+            "11/21/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-10-14",
+      "value": -18766,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2025-11-25",
+      "proposedAvailableAt": "2025-11-25T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-11-25"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-10-14",
+          "originalPublishDate": "2025-10-17",
+          "newPublishDate": "2025-11-25",
+          "rowIndex": 3,
+          "rowText": "10/14/2025 | 10/17/2025 | 11/25/2025",
+          "rawCells": [
+            "10/14/2025",
+            "10/17/2025",
+            "11/25/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-10-14",
+          "originalPublishDate": "2025-10-17",
+          "newPublishDate": "2025-11-25",
+          "rowIndex": 17,
+          "rowText": "10/14/2025 | 10/17/2025 | 11/25/2025",
+          "rawCells": [
+            "10/14/2025",
+            "10/17/2025",
+            "11/25/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-10-21",
+      "value": -38154,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2025-12-02",
+      "proposedAvailableAt": "2025-12-02T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-02"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-10-21",
+          "originalPublishDate": "2025-10-24",
+          "newPublishDate": "2025-12-02",
+          "rowIndex": 4,
+          "rowText": "10/21/2025 | 10/24/2025 | 12/02/2025",
+          "rawCells": [
+            "10/21/2025",
+            "10/24/2025",
+            "12/02/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-10-21",
+          "originalPublishDate": "2025-10-24",
+          "newPublishDate": "2025-12-02",
+          "rowIndex": 18,
+          "rowText": "10/21/2025 | 10/24/2025 | 12/02/2025",
+          "rawCells": [
+            "10/21/2025",
+            "10/24/2025",
+            "12/02/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-10-28",
+      "value": -8600,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2025-12-05",
+      "proposedAvailableAt": "2025-12-05T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-05"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-10-28",
+          "originalPublishDate": "2025-10-31",
+          "newPublishDate": "2025-12-05",
+          "rowIndex": 5,
+          "rowText": "10/28/2025 | 10/31/2025 | 12/05/2025",
+          "rawCells": [
+            "10/28/2025",
+            "10/31/2025",
+            "12/05/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-10-28",
+          "originalPublishDate": "2025-10-31",
+          "newPublishDate": "2025-12-05",
+          "rowIndex": 19,
+          "rowText": "10/28/2025 | 10/31/2025 | 12/05/2025",
+          "rawCells": [
+            "10/28/2025",
+            "10/31/2025",
+            "12/05/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-04",
+      "value": 7737,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2025-12-09",
+      "proposedAvailableAt": "2025-12-09T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-09"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-11-04",
+          "originalPublishDate": "2025-11-07",
+          "newPublishDate": "2025-12-09",
+          "rowIndex": 6,
+          "rowText": "11/04/2025 | 11/07/2025 | 12/09/2025",
+          "rawCells": [
+            "11/04/2025",
+            "11/07/2025",
+            "12/09/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-11-04",
+          "originalPublishDate": "2025-11-07",
+          "newPublishDate": "2025-12-09",
+          "rowIndex": 20,
+          "rowText": "11/04/2025 | 11/07/2025 | 12/09/2025",
+          "rawCells": [
+            "11/04/2025",
+            "11/07/2025",
+            "12/09/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-30",
+      "value": 15743,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": "2026-01-13",
+      "proposedAvailableAt": "2026-01-13T20:30:00.000Z",
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 1,
+        "uniqueNewPublishDates": [
+          "2026-01-13"
+        ],
+        "actualReleaseDateEstablished": true,
+        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-12-30",
+          "originalPublishDate": "2026-01-05",
+          "newPublishDate": "2026-01-13",
+          "rowIndex": 28,
+          "rowText": "12/30/2025 | 01/05/2026 | 01/13/2026",
+          "rawCells": [
+            "12/30/2025",
+            "01/05/2026",
+            "01/13/2026"
+          ]
+        }
+      ]
+    }
+  ],
+  "ambiguousCandidates": [
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-10",
+      "value": -11646,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-10",
+          "2025-12-12"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-11-10",
+          "originalPublishDate": "2025-11-14",
+          "newPublishDate": "2025-12-10",
+          "rowIndex": 7,
+          "rowText": "11/10/2025 | 11/14/2025 | 12/10/2025",
+          "rawCells": [
+            "11/10/2025",
+            "11/14/2025",
+            "12/10/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-11-10",
+          "originalPublishDate": "2025-11-14",
+          "newPublishDate": "2025-12-12",
+          "rowIndex": 21,
+          "rowText": "11/10/2025 | 11/14/2025 | 12/12/2025",
+          "rawCells": [
+            "11/10/2025",
+            "11/14/2025",
+            "12/12/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-18",
+      "value": -12671,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-12",
+          "2025-12-16"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-11-18",
+          "originalPublishDate": "2025-11-21",
+          "newPublishDate": "2025-12-12",
+          "rowIndex": 8,
+          "rowText": "11/18/2025 | 11/21/2025 | 12/12/2025",
+          "rawCells": [
+            "11/18/2025",
+            "11/21/2025",
+            "12/12/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-11-18",
+          "originalPublishDate": "2025-11-21",
+          "newPublishDate": "2025-12-16",
+          "rowIndex": 22,
+          "rowText": "11/18/2025 | 11/21/2025 | 12/16/2025",
+          "rawCells": [
+            "11/18/2025",
+            "11/21/2025",
+            "12/16/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-25",
+      "value": -37010,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-15",
+          "2025-12-19"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-11-25",
+          "originalPublishDate": "2025-12-01",
+          "newPublishDate": "2025-12-15",
+          "rowIndex": 9,
+          "rowText": "11/25/2025 | 12/01/2025 | 12/15/2025",
+          "rawCells": [
+            "11/25/2025",
+            "12/01/2025",
+            "12/15/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-11-25",
+          "originalPublishDate": "2025-12-01",
+          "newPublishDate": "2025-12-19",
+          "rowIndex": 23,
+          "rowText": "11/25/2025 | 12/01/2025 | 12/19/2025",
+          "rawCells": [
+            "11/25/2025",
+            "12/01/2025",
+            "12/19/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-02",
+      "value": -34768,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-17",
+          "2025-12-23"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-12-02",
+          "originalPublishDate": "2025-12-05",
+          "newPublishDate": "2025-12-17",
+          "rowIndex": 10,
+          "rowText": "12/02/2025 | 12/05/2025 | 12/17/2025",
+          "rawCells": [
+            "12/02/2025",
+            "12/05/2025",
+            "12/17/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-12-02",
+          "originalPublishDate": "2025-12-05",
+          "newPublishDate": "2025-12-23",
+          "rowIndex": 24,
+          "rowText": "12/02/2025 | 12/05/2025 | 12/23/2025",
+          "rawCells": [
+            "12/02/2025",
+            "12/05/2025",
+            "12/23/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-09",
+      "value": 6878,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-19",
+          "2025-12-30"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-12-09",
+          "originalPublishDate": "2025-12-12",
+          "newPublishDate": "2025-12-19",
+          "rowIndex": 11,
+          "rowText": "12/09/2025 | 12/12/2025 | 12/19/2025",
+          "rawCells": [
+            "12/09/2025",
+            "12/12/2025",
+            "12/19/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-12-09",
+          "originalPublishDate": "2025-12-12",
+          "newPublishDate": "2025-12-30",
+          "rowIndex": 25,
+          "rowText": "12/09/2025 | 12/12/2025 | 12/30/2025",
+          "rawCells": [
+            "12/09/2025",
+            "12/12/2025",
+            "12/30/2025"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-16",
+      "value": 74,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-23",
+          "2026-01-06"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-12-16",
+          "originalPublishDate": "2025-12-19",
+          "newPublishDate": "2025-12-23",
+          "rowIndex": 12,
+          "rowText": "12/16/2025 | 12/19/2025 | 12/23/2025",
+          "rawCells": [
+            "12/16/2025",
+            "12/19/2025",
+            "12/23/2025"
+          ]
+        },
+        {
+          "reportDate": "2025-12-16",
+          "originalPublishDate": "2025-12-19",
+          "newPublishDate": "2026-01-06",
+          "rowIndex": 26,
+          "rowText": "12/16/2025 | 12/19/2025 | 01/06/2026",
+          "rawCells": [
+            "12/16/2025",
+            "12/19/2025",
+            "01/06/2026"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-23",
+      "value": 11360,
+      "existingAvailableAt": null,
+      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
+      "documentedReleaseDate": null,
+      "proposedAvailableAt": null,
+      "officialEvidence": {
+        "releaseSchedulePageMentionsObservationDate": false,
+        "specialAnnouncementsPageMentionsObservationDate": true,
+        "actualReleaseDateEstablished": false,
+        "publicationTimeEstablishedForThisRecord": false
+      },
+      "admissionStatus": "NOT_AUTHORIZED",
+      "resolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
+      "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
+        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
+        "structuredRowsFound": 2,
+        "uniqueNewPublishDates": [
+          "2025-12-29",
+          "2026-01-09"
+        ],
+        "actualReleaseDateEstablished": false,
+        "requiresHumanReviewBeforeAdmission": true
+      },
+      "matchedEvidence": [
+        {
+          "reportDate": "2025-12-23",
+          "originalPublishDate": "2025-12-29",
+          "newPublishDate": "2025-12-29",
+          "rowIndex": 13,
+          "rowText": "12/23/2025 | 12/29/2025 | 12/29/2025++",
+          "rawCells": [
+            "12/23/2025",
+            "12/29/2025",
+            "12/29/2025++"
+          ]
+        },
+        {
+          "reportDate": "2025-12-23",
+          "originalPublishDate": "2025-12-29",
+          "newPublishDate": "2026-01-09",
+          "rowIndex": 27,
+          "rowText": "12/23/2025 | 12/29/2025 | 01/09/2026",
+          "rawCells": [
+            "12/23/2025",
+            "12/29/2025",
+            "01/09/2026"
+          ]
+        }
+      ]
+    }
+  ],
   "unresolvedCandidates": [
     {
       "sourceId": "cftc_cot",
@@ -51,12 +852,11 @@
         "publicationTimeEstablishedForThisRecord": false
       },
       "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
+      "resolutionStatus": "UNRESOLVED_NO_STRUCTURED_RELEASE_ROW",
       "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 1,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
+        "structuredRowsFound": 0,
         "actualReleaseDateEstablished": false,
         "requiresHumanReviewBeforeAdmission": true
       },
@@ -79,12 +879,11 @@
         "publicationTimeEstablishedForThisRecord": false
       },
       "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
+      "resolutionStatus": "UNRESOLVED_NO_STRUCTURED_RELEASE_ROW",
       "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
+        "structuredRowsFound": 0,
         "actualReleaseDateEstablished": false,
         "requiresHumanReviewBeforeAdmission": true
       },
@@ -107,404 +906,11 @@
         "publicationTimeEstablishedForThisRecord": false
       },
       "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
+      "resolutionStatus": "UNRESOLVED_NO_STRUCTURED_RELEASE_ROW",
       "evidence": {
+        "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-09-30",
-      "value": 14053,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-10-07",
-      "value": -17481,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-10-14",
-      "value": -18766,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-10-21",
-      "value": -38154,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-10-28",
-      "value": -8600,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-11-04",
-      "value": 7737,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-11-10",
-      "value": -11646,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-11-18",
-      "value": -12671,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 1,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-11-25",
-      "value": -37010,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-12-02",
-      "value": -34768,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-12-09",
-      "value": 6878,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 1,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-12-16",
-      "value": 74,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-12-23",
-      "value": 11360,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
-        "actualReleaseDateEstablished": false,
-        "requiresHumanReviewBeforeAdmission": true
-      },
-      "matchedEvidence": []
-    },
-    {
-      "sourceId": "cftc_cot",
-      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
-      "marketCode": "067651",
-      "observationDate": "2025-12-30",
-      "value": 15743,
-      "existingAvailableAt": null,
-      "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
-      "documentedReleaseDate": null,
-      "proposedAvailableAt": null,
-      "officialEvidence": {
-        "releaseSchedulePageMentionsObservationDate": false,
-        "specialAnnouncementsPageMentionsObservationDate": true,
-        "actualReleaseDateEstablished": false,
-        "publicationTimeEstablishedForThisRecord": false
-      },
-      "admissionStatus": "NOT_AUTHORIZED",
-      "resolutionStatus": "UNRESOLVED_AFTER_DEEP_REVIEW",
-      "evidence": {
-        "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
-        "contextsFound": 0,
-        "explicitReleaseCandidates": 0,
-        "uniqueReleaseDates": [],
+        "structuredRowsFound": 0,
         "actualReleaseDateEstablished": false,
         "requiresHumanReviewBeforeAdmission": true
       },
@@ -1178,10 +1584,374 @@
       "resolutionStatus": "UNRESOLVED_NOT_REINTERPRETED"
     }
   ],
+  "structuredOfficialReleaseRows": [
+    {
+      "reportDate": "2025-09-30",
+      "originalPublishDate": "2025-10-03",
+      "newPublishDate": "2025-11-19",
+      "rowIndex": 1,
+      "rowText": "09/30/2025 | 10/03/2025 | 11/19/2025+",
+      "rawCells": [
+        "09/30/2025",
+        "10/03/2025",
+        "11/19/2025+"
+      ]
+    },
+    {
+      "reportDate": "2025-10-07",
+      "originalPublishDate": "2025-10-10",
+      "newPublishDate": "2025-11-21",
+      "rowIndex": 2,
+      "rowText": "10/07/2025 | 10/10/2025 | 11/21/2025",
+      "rawCells": [
+        "10/07/2025",
+        "10/10/2025",
+        "11/21/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-10-14",
+      "originalPublishDate": "2025-10-17",
+      "newPublishDate": "2025-11-25",
+      "rowIndex": 3,
+      "rowText": "10/14/2025 | 10/17/2025 | 11/25/2025",
+      "rawCells": [
+        "10/14/2025",
+        "10/17/2025",
+        "11/25/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-10-21",
+      "originalPublishDate": "2025-10-24",
+      "newPublishDate": "2025-12-02",
+      "rowIndex": 4,
+      "rowText": "10/21/2025 | 10/24/2025 | 12/02/2025",
+      "rawCells": [
+        "10/21/2025",
+        "10/24/2025",
+        "12/02/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-10-28",
+      "originalPublishDate": "2025-10-31",
+      "newPublishDate": "2025-12-05",
+      "rowIndex": 5,
+      "rowText": "10/28/2025 | 10/31/2025 | 12/05/2025",
+      "rawCells": [
+        "10/28/2025",
+        "10/31/2025",
+        "12/05/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-04",
+      "originalPublishDate": "2025-11-07",
+      "newPublishDate": "2025-12-09",
+      "rowIndex": 6,
+      "rowText": "11/04/2025 | 11/07/2025 | 12/09/2025",
+      "rawCells": [
+        "11/04/2025",
+        "11/07/2025",
+        "12/09/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-10",
+      "originalPublishDate": "2025-11-14",
+      "newPublishDate": "2025-12-10",
+      "rowIndex": 7,
+      "rowText": "11/10/2025 | 11/14/2025 | 12/10/2025",
+      "rawCells": [
+        "11/10/2025",
+        "11/14/2025",
+        "12/10/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-18",
+      "originalPublishDate": "2025-11-21",
+      "newPublishDate": "2025-12-12",
+      "rowIndex": 8,
+      "rowText": "11/18/2025 | 11/21/2025 | 12/12/2025",
+      "rawCells": [
+        "11/18/2025",
+        "11/21/2025",
+        "12/12/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-25",
+      "originalPublishDate": "2025-12-01",
+      "newPublishDate": "2025-12-15",
+      "rowIndex": 9,
+      "rowText": "11/25/2025 | 12/01/2025 | 12/15/2025",
+      "rawCells": [
+        "11/25/2025",
+        "12/01/2025",
+        "12/15/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-02",
+      "originalPublishDate": "2025-12-05",
+      "newPublishDate": "2025-12-17",
+      "rowIndex": 10,
+      "rowText": "12/02/2025 | 12/05/2025 | 12/17/2025",
+      "rawCells": [
+        "12/02/2025",
+        "12/05/2025",
+        "12/17/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-09",
+      "originalPublishDate": "2025-12-12",
+      "newPublishDate": "2025-12-19",
+      "rowIndex": 11,
+      "rowText": "12/09/2025 | 12/12/2025 | 12/19/2025",
+      "rawCells": [
+        "12/09/2025",
+        "12/12/2025",
+        "12/19/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-16",
+      "originalPublishDate": "2025-12-19",
+      "newPublishDate": "2025-12-23",
+      "rowIndex": 12,
+      "rowText": "12/16/2025 | 12/19/2025 | 12/23/2025",
+      "rawCells": [
+        "12/16/2025",
+        "12/19/2025",
+        "12/23/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-23",
+      "originalPublishDate": "2025-12-29",
+      "newPublishDate": "2025-12-29",
+      "rowIndex": 13,
+      "rowText": "12/23/2025 | 12/29/2025 | 12/29/2025++",
+      "rawCells": [
+        "12/23/2025",
+        "12/29/2025",
+        "12/29/2025++"
+      ]
+    },
+    {
+      "reportDate": "2025-09-30",
+      "originalPublishDate": "2025-10-03",
+      "newPublishDate": "2025-11-19",
+      "rowIndex": 15,
+      "rowText": "09/30/2025 | 10/03/2025 | 11/19/2025 +",
+      "rawCells": [
+        "09/30/2025",
+        "10/03/2025",
+        "11/19/2025 +"
+      ]
+    },
+    {
+      "reportDate": "2025-10-07",
+      "originalPublishDate": "2025-10-10",
+      "newPublishDate": "2025-11-21",
+      "rowIndex": 16,
+      "rowText": "10/07/2025 | 10/10/2025 | 11/21/2025",
+      "rawCells": [
+        "10/07/2025",
+        "10/10/2025",
+        "11/21/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-10-14",
+      "originalPublishDate": "2025-10-17",
+      "newPublishDate": "2025-11-25",
+      "rowIndex": 17,
+      "rowText": "10/14/2025 | 10/17/2025 | 11/25/2025",
+      "rawCells": [
+        "10/14/2025",
+        "10/17/2025",
+        "11/25/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-10-21",
+      "originalPublishDate": "2025-10-24",
+      "newPublishDate": "2025-12-02",
+      "rowIndex": 18,
+      "rowText": "10/21/2025 | 10/24/2025 | 12/02/2025",
+      "rawCells": [
+        "10/21/2025",
+        "10/24/2025",
+        "12/02/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-10-28",
+      "originalPublishDate": "2025-10-31",
+      "newPublishDate": "2025-12-05",
+      "rowIndex": 19,
+      "rowText": "10/28/2025 | 10/31/2025 | 12/05/2025",
+      "rawCells": [
+        "10/28/2025",
+        "10/31/2025",
+        "12/05/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-04",
+      "originalPublishDate": "2025-11-07",
+      "newPublishDate": "2025-12-09",
+      "rowIndex": 20,
+      "rowText": "11/04/2025 | 11/07/2025 | 12/09/2025",
+      "rawCells": [
+        "11/04/2025",
+        "11/07/2025",
+        "12/09/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-10",
+      "originalPublishDate": "2025-11-14",
+      "newPublishDate": "2025-12-12",
+      "rowIndex": 21,
+      "rowText": "11/10/2025 | 11/14/2025 | 12/12/2025",
+      "rawCells": [
+        "11/10/2025",
+        "11/14/2025",
+        "12/12/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-18",
+      "originalPublishDate": "2025-11-21",
+      "newPublishDate": "2025-12-16",
+      "rowIndex": 22,
+      "rowText": "11/18/2025 | 11/21/2025 | 12/16/2025",
+      "rawCells": [
+        "11/18/2025",
+        "11/21/2025",
+        "12/16/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-11-25",
+      "originalPublishDate": "2025-12-01",
+      "newPublishDate": "2025-12-19",
+      "rowIndex": 23,
+      "rowText": "11/25/2025 | 12/01/2025 | 12/19/2025",
+      "rawCells": [
+        "11/25/2025",
+        "12/01/2025",
+        "12/19/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-02",
+      "originalPublishDate": "2025-12-05",
+      "newPublishDate": "2025-12-23",
+      "rowIndex": 24,
+      "rowText": "12/02/2025 | 12/05/2025 | 12/23/2025",
+      "rawCells": [
+        "12/02/2025",
+        "12/05/2025",
+        "12/23/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-09",
+      "originalPublishDate": "2025-12-12",
+      "newPublishDate": "2025-12-30",
+      "rowIndex": 25,
+      "rowText": "12/09/2025 | 12/12/2025 | 12/30/2025",
+      "rawCells": [
+        "12/09/2025",
+        "12/12/2025",
+        "12/30/2025"
+      ]
+    },
+    {
+      "reportDate": "2025-12-16",
+      "originalPublishDate": "2025-12-19",
+      "newPublishDate": "2026-01-06",
+      "rowIndex": 26,
+      "rowText": "12/16/2025 | 12/19/2025 | 01/06/2026",
+      "rawCells": [
+        "12/16/2025",
+        "12/19/2025",
+        "01/06/2026"
+      ]
+    },
+    {
+      "reportDate": "2025-12-23",
+      "originalPublishDate": "2025-12-29",
+      "newPublishDate": "2026-01-09",
+      "rowIndex": 27,
+      "rowText": "12/23/2025 | 12/29/2025 | 01/09/2026",
+      "rawCells": [
+        "12/23/2025",
+        "12/29/2025",
+        "01/09/2026"
+      ]
+    },
+    {
+      "reportDate": "2025-12-30",
+      "originalPublishDate": "2026-01-05",
+      "newPublishDate": "2026-01-13",
+      "rowIndex": 28,
+      "rowText": "12/30/2025 | 01/05/2026 | 01/13/2026",
+      "rawCells": [
+        "12/30/2025",
+        "01/05/2026",
+        "01/13/2026"
+      ]
+    },
+    {
+      "reportDate": "2026-01-06",
+      "originalPublishDate": "2026-01-09",
+      "newPublishDate": "2026-01-16",
+      "rowIndex": 29,
+      "rowText": "01/06/2026 | 01/09/2026 | 01/16/2026",
+      "rawCells": [
+        "01/06/2026",
+        "01/09/2026",
+        "01/16/2026"
+      ]
+    },
+    {
+      "reportDate": "2026-01-13",
+      "originalPublishDate": "2026-01-16",
+      "newPublishDate": "2026-01-20",
+      "rowIndex": 30,
+      "rowText": "01/13/2026 | 01/16/2026 | 01/20/2026",
+      "rawCells": [
+        "01/13/2026",
+        "01/16/2026",
+        "01/20/2026"
+      ]
+    },
+    {
+      "reportDate": "2026-01-20",
+      "originalPublishDate": "2026-01-23",
+      "newPublishDate": "2026-01-23",
+      "rowIndex": 31,
+      "rowText": "01/20/2026 ++ | 01/23/2026 | 01/23/2026",
+      "rawCells": [
+        "01/20/2026 ++",
+        "01/23/2026",
+        "01/23/2026"
+      ]
+    }
+  ],
   "interpretation": {
+    "structuredTableEvidenceUsed": true,
     "documentedReleaseCandidateIsNotAdmission": true,
     "humanReviewStillRequired": true,
     "officialEvidenceRequired": true,
+    "publicationTimeComesFromApprovedMethodology": true,
     "normalFridayScheduleNotUsedAsHistoricalProof": true,
     "observationDatePlusThreeDaysNotUsed": true,
     "unresolvedRecordsRetainNullAvailableAt": true
@@ -1198,5 +1968,5 @@
     "officialHesiModified": false,
     "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "Human-review each documented or ambiguous candidate against the quoted official CFTC evidence before authorizing any historical AvailableAt or admission."
+  "nextResearchQuestion": "Human-review each structured documented release candidate against the official CFTC table before authorizing any historical CFTC admission."
 }
