@@ -27,14 +27,32 @@ const EXPECTED_SERIES_ID =
 const EXPECTED_MARKET_CODE =
   "067651";
 
+const EXPECTED_AVAILABLE_AT_CONVENTION =
+  "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC";
+
+const EXPECTED_AVAILABLE_AT_TIME_UTC =
+  "23:59:59.999Z";
+
 /*
- * These seven mappings come from the official CFTC
- * post-shutdown publication schedules already preserved
- * in the upstream evidence artifact.
+ * These seven mappings come from official CFTC
+ * publication schedules already preserved in the
+ * upstream evidence artifact.
+ *
+ * They classify the earlier and later official
+ * schedule versions.
  *
  * IMPORTANT:
- * They classify schedule versions only.
- * They do NOT establish actual first publication.
+ *
+ * Under methodology 1.1, a later official schedule
+ * revision may supersede an earlier official schedule
+ * when it documents the release date.
+ *
+ * This classification script still does NOT:
+ *
+ * - authorize historical admission,
+ * - modify the historical store,
+ * - modify the point-in-time dataset,
+ * - perform calibration.
  */
 const SCHEDULE_CLASSIFICATION = {
   "2025-11-10": {
@@ -123,6 +141,27 @@ function sameDateSet(a, b) {
   );
 }
 
+function conservativeAvailableAt(
+  releaseDate
+) {
+  assert(
+    isIsoDate(releaseDate),
+    `Invalid documented release date: ${releaseDate}.`
+  );
+
+  const availableAt =
+    `${releaseDate}T${EXPECTED_AVAILABLE_AT_TIME_UTC}`;
+
+  assert(
+    Number.isFinite(
+      Date.parse(availableAt)
+    ),
+    `Invalid conservative AvailableAt for ${releaseDate}.`
+  );
+
+  return availableAt;
+}
+
 function classifyRecord(record) {
   const mapping =
     SCHEDULE_CLASSIFICATION[
@@ -173,15 +212,27 @@ function classifyRecord(record) {
   );
 
   assert(
-    record.actualReleaseDateEstablished ===
+    record.documentedReleaseDateEstablished ===
       false,
-    `Actual release unexpectedly established for ${record.observationDate}.`
+    `Documented release unexpectedly established upstream for ${record.observationDate}.`
   );
 
   assert(
     record.admissionStatus ===
       "NOT_AUTHORIZED",
     `Admission unexpectedly authorized for ${record.observationDate}.`
+  );
+
+  assert(
+    record.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    `AvailableAt must not represent actual publication timestamp on ${record.observationDate}.`
+  );
+
+  assert(
+    record.actualIntradayReleaseTimeRequired ===
+      false,
+    `Exact intraday publication time must not be required on ${record.observationDate}.`
   );
 
   const evidenceRows =
@@ -220,6 +271,25 @@ function classifyRecord(record) {
       }
     );
 
+  /*
+   * Methodology 1.1 says a later official schedule
+   * revision overrides an earlier schedule when it
+   * documents the release date.
+   *
+   * We therefore classify the revised date as the
+   * documented release-date candidate for subsequent
+   * explicit human/admission review.
+   *
+   * This is still NOT admission.
+   */
+  const documentedReleaseDateCandidate =
+    mapping.revisedScheduleDate;
+
+  const conservativeAvailableAtCandidate =
+    conservativeAvailableAt(
+      documentedReleaseDateCandidate
+    );
+
   return {
     sourceId:
       record.sourceId,
@@ -250,18 +320,28 @@ function classifyRecord(record) {
 
     evidenceRows,
 
-    actualReleaseEvidence: {
+    documentedReleaseEvidence: {
       status:
-        "NOT_ESTABLISHED",
+        "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
 
-      actualReleaseDate:
-        null,
+      documentedReleaseDateCandidate,
 
-      availableAt:
-        null,
+      conservativeAvailableAtCandidate,
+
+      availableAtConvention:
+        EXPECTED_AVAILABLE_AT_CONVENTION,
+
+      availableAtTimeUtc:
+        EXPECTED_AVAILABLE_AT_TIME_UTC,
+
+      actualIntradayReleaseTimeRequired:
+        false,
+
+      availableAtRepresentsActualPublicationTimestamp:
+        false,
 
       reason:
-        "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+        "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
     },
 
     selectedReleaseDate:
@@ -274,7 +354,7 @@ function classifyRecord(record) {
       "NOT_AUTHORIZED",
 
     classificationStatus:
-      "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
   };
 }
 
@@ -295,11 +375,11 @@ async function main() {
     );
 
   /*
-   * Methodology gate.
+   * Methodology gate — schema 1.1.
    */
   assert(
     methodology.schemaVersion ===
-      "1.0",
+      "1.1",
     "Unexpected CFTC methodology schema version."
   );
 
@@ -330,9 +410,81 @@ async function main() {
   assert(
     methodology.policy
       ?.documentedRelease
+      ?.eligibleForAvailableAt ===
+      true,
+    "Documented CFTC releases must be eligible for AvailableAt."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
       ?.releaseDateEvidenceRequired ===
       true,
-    "Actual release-date evidence must remain required."
+    "Official release-date evidence must remain required."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.requiredEvidenceType ===
+      "OFFICIAL_CFTC",
+    "Unexpected required CFTC evidence type."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtConvention ===
+      EXPECTED_AVAILABLE_AT_CONVENTION,
+    "Unexpected CFTC AvailableAt convention."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtTimeUtc ===
+      EXPECTED_AVAILABLE_AT_TIME_UTC,
+    "Unexpected conservative AvailableAt time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.actualIntradayReleaseTimeRequired ===
+      false,
+    "Exact historical intraday publication time must not be required."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    "Conservative AvailableAt must not be represented as actual publication time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.documentedExceptionsOverrideNormalSchedule ===
+      true,
+    "Documented CFTC exceptions must override the normal schedule."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.laterOfficialScheduleRevisionOverridesEarlierSchedule ===
+      true,
+    "Later official CFTC schedule revisions must override earlier schedules."
+  );
+
+  assert(
+    methodology.policy
+      ?.undocumentedRelease
+      ?.eligibleForAvailableAt ===
+      false,
+    "Undocumented releases must not be eligible for AvailableAt."
   );
 
   assert(
@@ -362,9 +514,9 @@ async function main() {
   assert(
     methodology.policy
       ?.undocumentedRelease
-      ?.syntheticHistoricalTimestampAllowed ===
+      ?.syntheticHistoricalReleaseDateAllowed ===
       false,
-    "Synthetic historical timestamps remain forbidden."
+    "Synthetic historical release dates remain forbidden."
   );
 
   /*
@@ -372,7 +524,7 @@ async function main() {
    */
   assert(
     input.schemaVersion ===
-      "1.0",
+      "1.1",
     "Unexpected ambiguous-review schema."
   );
 
@@ -384,9 +536,44 @@ async function main() {
 
   assert(
     input.methodology
+      ?.decisionSchemaVersion ===
+      "1.1",
+    "Input was not produced under methodology 1.1."
+  );
+
+  assert(
+    input.methodology
       ?.admissionAuthorized ===
       false,
     "Input unexpectedly authorizes admission."
+  );
+
+  assert(
+    input.methodology
+      ?.availableAtConvention ===
+      EXPECTED_AVAILABLE_AT_CONVENTION,
+    "Input uses an unexpected AvailableAt convention."
+  );
+
+  assert(
+    input.methodology
+      ?.availableAtTimeUtc ===
+      EXPECTED_AVAILABLE_AT_TIME_UTC,
+    "Input uses an unexpected AvailableAt time."
+  );
+
+  assert(
+    input.methodology
+      ?.actualIntradayReleaseTimeRequired ===
+      false,
+    "Input unexpectedly requires exact intraday publication time."
+  );
+
+  assert(
+    input.methodology
+      ?.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    "Input incorrectly represents AvailableAt as actual publication timestamp."
   );
 
   assert(
@@ -482,6 +669,24 @@ async function main() {
     );
 
     assert(
+      record.selectedReleaseDate ===
+        null,
+      `Input unexpectedly selected release date on ${record.observationDate}.`
+    );
+
+    assert(
+      record.proposedAvailableAt ===
+        null,
+      `Input unexpectedly proposed AvailableAt on ${record.observationDate}.`
+    );
+
+    assert(
+      record.admissionStatus ===
+        "NOT_AUTHORIZED",
+      `Input unexpectedly authorized admission on ${record.observationDate}.`
+    );
+
+    assert(
       Array.isArray(
         record.evidenceRows
       ) &&
@@ -523,19 +728,28 @@ async function main() {
       0
     );
 
-  const actualReleaseEstablished =
+  const documentedReleaseCandidates =
     records.filter(
       (record) =>
-        record.actualReleaseEvidence
-          .status ===
-        "ESTABLISHED"
+        record.documentedReleaseEvidence
+          ?.status ===
+        "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED"
+    ).length;
+
+  const conservativeAvailableAtCandidates =
+    records.filter(
+      (record) =>
+        typeof record
+          .documentedReleaseEvidence
+          ?.conservativeAvailableAtCandidate ===
+          "string"
     ).length;
 
   const availableAtAssigned =
     records.filter(
       (record) =>
-        record.actualReleaseEvidence
-          .availableAt !== null
+        record.proposedAvailableAt !==
+          null
     ).length;
 
   const observationsAuthorized =
@@ -556,14 +770,19 @@ async function main() {
   );
 
   assert(
-    actualReleaseEstablished ===
-      0,
-    "Schedule classification must not establish actual release dates."
+    documentedReleaseCandidates === 7,
+    `Expected 7 documented release-date candidates, found ${documentedReleaseCandidates}.`
+  );
+
+  assert(
+    conservativeAvailableAtCandidates ===
+      7,
+    `Expected 7 conservative AvailableAt candidates, found ${conservativeAvailableAtCandidates}.`
   );
 
   assert(
     availableAtAssigned === 0,
-    "Schedule classification must not assign AvailableAt."
+    "Schedule classification must not assign final AvailableAt."
   );
 
   assert(
@@ -571,12 +790,35 @@ async function main() {
     "Schedule classification must not authorize admission."
   );
 
+  for (const record of records) {
+    const releaseDate =
+      record.documentedReleaseEvidence
+        .documentedReleaseDateCandidate;
+
+    const availableAt =
+      record.documentedReleaseEvidence
+        .conservativeAvailableAtCandidate;
+
+    assert(
+      availableAt ===
+        `${releaseDate}T23:59:59.999Z`,
+      `Conservative AvailableAt mismatch on ${record.observationDate}.`
+    );
+
+    assert(
+      record.documentedReleaseEvidence
+        .availableAtRepresentsActualPublicationTimestamp ===
+        false,
+      `AvailableAt incorrectly represented as actual publication time on ${record.observationDate}.`
+    );
+  }
+
   const output = {
     schemaVersion:
-      "1.0",
+      "1.1",
 
     status:
-      "CFTC_RELEASE_SCHEDULES_CLASSIFIED_ACTUAL_RELEASE_NOT_ESTABLISHED_NOT_ADMITTED",
+      "CFTC_RELEASE_SCHEDULES_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATES_NOT_ADMITTED",
 
     classificationTimestamp,
 
@@ -592,19 +834,34 @@ async function main() {
     },
 
     methodology: {
+      decisionSchemaVersion:
+        methodology.schemaVersion,
+
       approved:
         true,
 
       admissionAuthorized:
         false,
 
-      officialActualReleaseEvidenceRequired:
+      officialReleaseDateEvidenceRequired:
         true,
 
-      scheduleDateAloneEstablishesAvailableAt:
+      availableAtConvention:
+        EXPECTED_AVAILABLE_AT_CONVENTION,
+
+      availableAtTimeUtc:
+        EXPECTED_AVAILABLE_AT_TIME_UTC,
+
+      actualIntradayReleaseTimeRequired:
         false,
 
-      syntheticHistoricalTimestampAllowed:
+      availableAtRepresentsActualPublicationTimestamp:
+        false,
+
+      laterOfficialScheduleRevisionOverridesEarlierSchedule:
+        true,
+
+      syntheticHistoricalReleaseDateAllowed:
         false,
 
       observationDatePlusThreeDaysUsed:
@@ -632,8 +889,11 @@ async function main() {
       REVISED_SCHEDULE:
         "Later official CFTC revised publication schedule.",
 
-      ACTUAL_RELEASE_EVIDENCE:
-        "Independent official evidence sufficient to establish actual historical first availability."
+      DOCUMENTED_RELEASE_DATE_CANDIDATE:
+        "Release-date candidate derived from the later official CFTC schedule revision under methodology 1.1. Separate admission authorization is still required.",
+
+      CONSERVATIVE_AVAILABLE_AT_CANDIDATE:
+        "Documented release date at 23:59:59.999 UTC. This is a conservative daily research convention and not the actual CFTC publication timestamp."
     },
 
     summary: {
@@ -647,10 +907,12 @@ async function main() {
       scheduleRevisionsEstablished:
         records.length,
 
-      actualReleaseDatesEstablished:
-        0,
+      documentedReleaseDateCandidates:
+        documentedReleaseCandidates,
 
-      availableAtAssigned:
+      conservativeAvailableAtCandidates,
+
+      finalAvailableAtAssigned:
         0,
 
       observationsAdmitted:
@@ -660,19 +922,34 @@ async function main() {
     records,
 
     interpretation: {
-      scheduleRevisionIsNotActualReleaseProof:
+      scheduleRevisionEstablished:
         true,
 
-      revisedScheduleNotAutomaticallySelectedAsAvailableAt:
+      laterOfficialScheduleRevisionOverridesEarlierSchedule:
         true,
 
-      initialScheduleNotAutomaticallySelectedAsAvailableAt:
+      revisedScheduleClassifiedAsDocumentedReleaseDateCandidate:
         true,
 
-      actualReleaseEvidenceStillRequired:
+      exactHistoricalIntradayPublicationTimeRequired:
+        false,
+
+      conservativeEndOfDayUtcConventionAppliedToCandidate:
         true,
 
-      unresolvedAvailableAtRemainsNull:
+      conservativeAvailableAtIsActualPublicationTimestamp:
+        false,
+
+      candidateIsNotFinalAdmission:
+        true,
+
+      historicalAdmissionStillRequiresSeparateAuthorization:
+        true,
+
+      observationDatePlusThreeDaysNotUsed:
+        true,
+
+      normalFridayScheduleNotUsedAsHistoricalProof:
         true,
 
       classificationDoesNotEstablishPredictiveValue:
@@ -715,7 +992,7 @@ async function main() {
     },
 
     nextResearchQuestion:
-      "For each classified schedule revision, determine whether independent official CFTC evidence establishes the actual first historical availability date. Until then, AvailableAt remains null."
+      "Perform a separate explicit human admission review of the seven documented CFTC release-date candidates. Until that authorization exists, the conservative AvailableAt candidates must not enter the historical store."
   };
 
   await writeFile(
@@ -749,15 +1026,27 @@ async function main() {
   );
 
   console.log(
-    "Actual release dates established: 0"
+    `Documented release-date candidates: ${documentedReleaseCandidates}`
   );
 
   console.log(
-    "AvailableAt assigned: 0"
+    `Conservative AvailableAt candidates: ${conservativeAvailableAtCandidates}`
+  );
+
+  console.log(
+    "Final AvailableAt assigned: 0"
   );
 
   console.log(
     "Historical observations admitted: 0"
+  );
+
+  console.log(
+    "AvailableAt represents actual publication timestamp: NO"
+  );
+
+  console.log(
+    "Historical store modified: NO"
   );
 
   console.log(
