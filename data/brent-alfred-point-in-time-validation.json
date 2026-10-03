@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.1",
   "status": "POINT_IN_TIME_RULE_VALIDATED_METHOD_APPROVED_NOT_ADMITTED",
-  "validationTimestamp": "2026-10-03T17:26:52.051Z",
+  "validationTimestamp": "2026-10-03T17:29:19.074Z",
   "sourceDataset": "brent-alfred-admission-ready.json",
   "prerequisite": "brent-alfred-availableat-policy-validation.json",
   "rule": {
