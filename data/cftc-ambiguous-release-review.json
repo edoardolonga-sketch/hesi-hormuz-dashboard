@@ -1,17 +1,24 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "status": "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
-  "reviewTimestamp": "2026-10-03T18:06:17.101Z",
+  "reviewTimestamp": "2026-10-03T18:33:31.228Z",
   "sourceArtifact": {
-    "schemaVersion": "2.0",
+    "schemaVersion": "2.1",
     "status": "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
-    "analysisTimestamp": "2026-10-03T18:06:16.891Z"
+    "analysisTimestamp": "2026-10-03T18:33:31.035Z"
   },
   "methodology": {
+    "decisionSchemaVersion": "1.1",
     "approved": true,
     "admissionAuthorized": false,
     "officialEvidenceRequired": true,
-    "syntheticHistoricalTimestampAllowed": false,
+    "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "availableAtTimeUtc": "23:59:59.999Z",
+    "actualIntradayReleaseTimeRequired": false,
+    "availableAtRepresentsActualPublicationTimestamp": false,
+    "documentedExceptionsOverrideNormalSchedule": true,
+    "laterOfficialScheduleRevisionOverridesEarlierSchedule": true,
+    "syntheticHistoricalReleaseDateAllowed": false,
     "normalFridayScheduleUsedAsHistoricalProof": false,
     "observationDatePlusThreeDaysUsed": false
   },
@@ -72,10 +79,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -83,7 +94,7 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     },
     {
       "sourceId": "cftc_cot",
@@ -129,10 +140,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -140,7 +155,7 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     },
     {
       "sourceId": "cftc_cot",
@@ -186,10 +201,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -197,7 +216,7 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     },
     {
       "sourceId": "cftc_cot",
@@ -243,10 +262,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -254,7 +277,7 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     },
     {
       "sourceId": "cftc_cot",
@@ -300,10 +323,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -311,7 +338,7 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     },
     {
       "sourceId": "cftc_cot",
@@ -357,10 +384,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -368,7 +399,7 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     },
     {
       "sourceId": "cftc_cot",
@@ -414,10 +445,14 @@
         }
       ],
       "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "documentedReleaseDateEstablished": false,
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "availableAtStatus": "NOT_ESTABLISHED",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "actualIntradayReleaseTimeRequired": false,
       "admissionStatus": "NOT_AUTHORIZED",
       "automaticResolutionAllowed": false,
       "automaticSelectionRuleUsed": false,
@@ -425,15 +460,18 @@
       "latestCandidateAutomaticallySelected": false,
       "normalFridayScheduleUsed": false,
       "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "reviewQuestion": "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
     }
   ],
   "interpretation": {
     "ambiguityPreserved": true,
-    "multipleOfficialRowsDoNotAutomaticallyEstablishActualReleaseDate": true,
+    "multipleOfficialRowsDoNotAutomaticallyEstablishDocumentedReleaseDate": true,
     "earliestCandidateNotAutomaticallyPreferred": true,
     "latestCandidateNotAutomaticallyPreferred": true,
     "humanOrStrongerOfficialEvidenceRequired": true,
+    "exactHistoricalIntradayPublicationTimeRequired": false,
+    "conservativeEndOfDayUtcAppliesOnlyAfterReleaseDateEstablished": true,
+    "conservativeAvailableAtIsActualPublicationTimestamp": false,
     "unresolvedAvailableAtRemainsNull": true,
     "reviewDoesNotEstablishPredictiveValue": true,
     "reviewDoesNotAuthorizeCalibration": true
@@ -450,5 +488,5 @@
     "officialHesiModified": false,
     "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "For each ambiguous observation, determine whether stronger official CFTC evidence identifies one candidate as the actual historical release date. Until then, AvailableAt remains null."
+  "nextResearchQuestion": "For each ambiguous observation, determine which candidate release date, if any, is sufficiently supported by official CFTC evidence. If a documented release date is established, methodology 1.1 permits conservative end-of-day UTC AvailableAt; this convention is not the actual CFTC publication timestamp. Historical admission remains separately unauthorized."
 }

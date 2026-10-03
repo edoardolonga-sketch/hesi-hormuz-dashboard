@@ -1,15 +1,19 @@
 {
-  "schemaVersion": "2.0",
+  "schemaVersion": "2.1",
   "status": "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
-  "analysisTimestamp": "2026-10-03T18:06:16.891Z",
+  "analysisTimestamp": "2026-10-03T18:33:31.035Z",
   "methodology": {
+    "decisionSchemaVersion": "1.1",
     "approved": true,
     "admissionAuthorized": false,
     "officialReleaseEvidenceRequired": true,
-    "publicationTimeLocal": "15:30:00",
-    "publicationTimezone": "America/New_York",
-    "timezoneAwareUtcConversion": true,
-    "syntheticHistoricalTimestampAllowed": false,
+    "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "availableAtTimeUtc": "23:59:59.999Z",
+    "actualIntradayReleaseTimeRequired": false,
+    "availableAtRepresentsActualPublicationTimestamp": false,
+    "documentedExceptionsOverrideNormalSchedule": true,
+    "laterOfficialScheduleRevisionOverridesEarlierSchedule": true,
+    "syntheticHistoricalReleaseDateAllowed": false,
     "observationDatePlusThreeDaysUsed": false,
     "normalFridayScheduleUsedAsHistoricalProof": false
   },
@@ -54,7 +58,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2025-11-19",
-      "proposedAvailableAt": "2025-11-19T20:30:00.000Z",
+      "proposedAvailableAt": "2025-11-19T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -63,8 +67,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -72,8 +77,11 @@
         "uniqueNewPublishDates": [
           "2025-11-19"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -112,7 +120,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2025-11-21",
-      "proposedAvailableAt": "2025-11-21T20:30:00.000Z",
+      "proposedAvailableAt": "2025-11-21T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -121,8 +129,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -130,8 +139,11 @@
         "uniqueNewPublishDates": [
           "2025-11-21"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -170,7 +182,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2025-11-25",
-      "proposedAvailableAt": "2025-11-25T20:30:00.000Z",
+      "proposedAvailableAt": "2025-11-25T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -179,8 +191,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -188,8 +201,11 @@
         "uniqueNewPublishDates": [
           "2025-11-25"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -228,7 +244,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2025-12-02",
-      "proposedAvailableAt": "2025-12-02T20:30:00.000Z",
+      "proposedAvailableAt": "2025-12-02T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -237,8 +253,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -246,8 +263,11 @@
         "uniqueNewPublishDates": [
           "2025-12-02"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -286,7 +306,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2025-12-05",
-      "proposedAvailableAt": "2025-12-05T20:30:00.000Z",
+      "proposedAvailableAt": "2025-12-05T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -295,8 +315,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -304,8 +325,11 @@
         "uniqueNewPublishDates": [
           "2025-12-05"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -344,7 +368,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2025-12-09",
-      "proposedAvailableAt": "2025-12-09T20:30:00.000Z",
+      "proposedAvailableAt": "2025-12-09T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -353,8 +377,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -362,8 +387,11 @@
         "uniqueNewPublishDates": [
           "2025-12-09"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -402,7 +430,7 @@
       "existingAvailableAt": null,
       "evidenceStatus": "OFFICIAL_PAGE_DATE_MENTION_FOUND",
       "documentedReleaseDate": "2026-01-13",
-      "proposedAvailableAt": "2026-01-13T20:30:00.000Z",
+      "proposedAvailableAt": "2026-01-13T23:59:59.999Z",
       "officialEvidence": {
         "releaseSchedulePageMentionsObservationDate": false,
         "specialAnnouncementsPageMentionsObservationDate": true,
@@ -411,8 +439,9 @@
       },
       "admissionStatus": "NOT_AUTHORIZED",
       "resolutionStatus": "DOCUMENTED_RELEASE_CANDIDATE",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "availableAtRepresentsActualPublicationTimestamp": false,
       "evidence": {
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
@@ -420,8 +449,11 @@
         "uniqueNewPublishDates": [
           "2026-01-13"
         ],
-        "actualReleaseDateEstablished": true,
-        "publicationTimeBasis": "APPROVED_CFTC_AVAILABLE_AT_METHODOLOGY",
+        "documentedReleaseDateEstablished": true,
+        "availableAtBasis": "APPROVED_CFTC_METHODOLOGY_1_1_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "actualIntradayReleaseTimeEstablished": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -467,7 +499,8 @@
           "2025-12-10",
           "2025-12-12"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -523,7 +556,8 @@
           "2025-12-12",
           "2025-12-16"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -579,7 +613,8 @@
           "2025-12-15",
           "2025-12-19"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -635,7 +670,8 @@
           "2025-12-17",
           "2025-12-23"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -691,7 +727,8 @@
           "2025-12-19",
           "2025-12-30"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -747,7 +784,8 @@
           "2025-12-23",
           "2026-01-06"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -803,7 +841,8 @@
           "2025-12-29",
           "2026-01-09"
         ],
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": [
@@ -857,7 +896,8 @@
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
         "structuredRowsFound": 0,
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": []
@@ -884,7 +924,8 @@
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
         "structuredRowsFound": 0,
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": []
@@ -911,7 +952,8 @@
         "evidenceType": "OFFICIAL_CFTC_TABLE",
         "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
         "structuredRowsFound": 0,
-        "actualReleaseDateEstablished": false,
+        "documentedReleaseDateEstablished": false,
+        "conservativeAvailableAtConventionApplicable": false,
         "requiresHumanReviewBeforeAdmission": true
       },
       "matchedEvidence": []
@@ -1951,7 +1993,9 @@
     "documentedReleaseCandidateIsNotAdmission": true,
     "humanReviewStillRequired": true,
     "officialEvidenceRequired": true,
-    "publicationTimeComesFromApprovedMethodology": true,
+    "conservativeEndOfDayUtcComesFromApprovedMethodology": true,
+    "conservativeAvailableAtIsActualPublicationTimestamp": false,
+    "exactHistoricalIntradayPublicationTimeRequired": false,
     "normalFridayScheduleNotUsedAsHistoricalProof": true,
     "observationDatePlusThreeDaysNotUsed": true,
     "unresolvedRecordsRetainNullAvailableAt": true
@@ -1968,5 +2012,5 @@
     "officialHesiModified": false,
     "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "Human-review each structured documented release candidate against the official CFTC table before authorizing any historical CFTC admission."
+  "nextResearchQuestion": "Human-review structured CFTC release-date evidence before authorizing any historical CFTC admission. Conservative end-of-day UTC AvailableAt values are research candidates, not actual publication timestamps."
 }

@@ -1,12 +1,16 @@
 {
   "schemaVersion": "1.0",
   "status": "CFTC_HISTORICAL_RELEASE_EVIDENCE_ANALYZED_NOT_ADMITTED",
-  "analysisTimestamp": "2026-10-03T18:06:16.395Z",
+  "analysisTimestamp": "2026-10-03T18:33:30.785Z",
   "methodology": {
+    "decisionSchemaVersion": "1.1",
     "decisionRecorded": true,
     "approved": true,
     "admissionAuthorized": false,
     "documentedReleaseEvidenceRequired": true,
+    "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "actualIntradayReleaseTimeRequired": false,
+    "conservativeAvailableAtIsActualPublicationTimestamp": false,
     "undocumentedAvailableAtRemainsNull": true,
     "observationDatePlusThreeDaysAssumed": false,
     "normalFridayReleaseAssumed": false
@@ -979,6 +983,8 @@
   "interpretation": {
     "officialPageDateMentionIsNotReleaseProof": true,
     "documentedStatusRequiresActualReleaseDateEvidence": true,
+    "exactHistoricalIntradayTimeNotRequiredByMethodology": true,
+    "conservativeEndOfDayConventionAppliedAtThisStage": false,
     "noHistoricalTimestampFabricated": true,
     "currentPassPurpose": "Identify which 2025 CFTC observations have official-page evidence requiring deeper release-date verification. This pass does not assign AvailableAt."
   },
@@ -994,5 +1000,5 @@
     "officialHesiModified": false,
     "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "For records with official CFTC page evidence, establish the actual historical release date from official evidence before assigning any AvailableAt timestamp."
+  "nextResearchQuestion": "For records with official CFTC page evidence, establish the documented historical release date from official evidence before applying the conservative end-of-day UTC AvailableAt convention."
 }

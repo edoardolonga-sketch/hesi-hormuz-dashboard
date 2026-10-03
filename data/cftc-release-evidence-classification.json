@@ -1,18 +1,23 @@
 {
-  "schemaVersion": "1.0",
-  "status": "CFTC_RELEASE_SCHEDULES_CLASSIFIED_ACTUAL_RELEASE_NOT_ESTABLISHED_NOT_ADMITTED",
-  "classificationTimestamp": "2026-10-03T18:06:17.154Z",
+  "schemaVersion": "1.1",
+  "status": "CFTC_RELEASE_SCHEDULES_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATES_NOT_ADMITTED",
+  "classificationTimestamp": "2026-10-03T18:33:31.289Z",
   "sourceArtifact": {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "status": "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
-    "reviewTimestamp": "2026-10-03T18:06:17.101Z"
+    "reviewTimestamp": "2026-10-03T18:33:31.228Z"
   },
   "methodology": {
+    "decisionSchemaVersion": "1.1",
     "approved": true,
     "admissionAuthorized": false,
-    "officialActualReleaseEvidenceRequired": true,
-    "scheduleDateAloneEstablishesAvailableAt": false,
-    "syntheticHistoricalTimestampAllowed": false,
+    "officialReleaseDateEvidenceRequired": true,
+    "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "availableAtTimeUtc": "23:59:59.999Z",
+    "actualIntradayReleaseTimeRequired": false,
+    "availableAtRepresentsActualPublicationTimestamp": false,
+    "laterOfficialScheduleRevisionOverridesEarlierSchedule": true,
+    "syntheticHistoricalReleaseDateAllowed": false,
     "observationDatePlusThreeDaysUsed": false,
     "normalFridayScheduleUsedAsHistoricalProof": false
   },
@@ -24,15 +29,17 @@
   "evidenceTaxonomy": {
     "INITIAL_SCHEDULE": "Earlier official CFTC publication schedule.",
     "REVISED_SCHEDULE": "Later official CFTC revised publication schedule.",
-    "ACTUAL_RELEASE_EVIDENCE": "Independent official evidence sufficient to establish actual historical first availability."
+    "DOCUMENTED_RELEASE_DATE_CANDIDATE": "Release-date candidate derived from the later official CFTC schedule revision under methodology 1.1. Separate admission authorization is still required.",
+    "CONSERVATIVE_AVAILABLE_AT_CANDIDATE": "Documented release date at 23:59:59.999 UTC. This is a conservative daily research convention and not the actual CFTC publication timestamp."
   },
   "summary": {
     "recordsClassified": 7,
     "initialScheduleRows": 7,
     "revisedScheduleRows": 7,
     "scheduleRevisionsEstablished": 7,
-    "actualReleaseDatesEstablished": 0,
-    "availableAtAssigned": 0,
+    "documentedReleaseDateCandidates": 7,
+    "conservativeAvailableAtCandidates": 7,
+    "finalAvailableAtAssigned": 0,
     "observationsAdmitted": 0
   },
   "records": [
@@ -76,16 +83,20 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-10",
+        "conservativeAvailableAtCandidate": "2025-12-10T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     },
     {
       "sourceId": "cftc_cot",
@@ -127,16 +138,20 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-12",
+        "conservativeAvailableAtCandidate": "2025-12-12T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     },
     {
       "sourceId": "cftc_cot",
@@ -178,16 +193,20 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-15",
+        "conservativeAvailableAtCandidate": "2025-12-15T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     },
     {
       "sourceId": "cftc_cot",
@@ -229,16 +248,20 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-17",
+        "conservativeAvailableAtCandidate": "2025-12-17T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     },
     {
       "sourceId": "cftc_cot",
@@ -280,16 +303,20 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-19",
+        "conservativeAvailableAtCandidate": "2025-12-19T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     },
     {
       "sourceId": "cftc_cot",
@@ -331,16 +358,20 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-23",
+        "conservativeAvailableAtCandidate": "2025-12-23T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     },
     {
       "sourceId": "cftc_cot",
@@ -382,24 +413,33 @@
           "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "actualReleaseEvidence": {
-        "status": "NOT_ESTABLISHED",
-        "actualReleaseDate": null,
-        "availableAt": null,
-        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      "documentedReleaseEvidence": {
+        "status": "REVISED_OFFICIAL_SCHEDULE_CLASSIFIED",
+        "documentedReleaseDateCandidate": "2025-12-29",
+        "conservativeAvailableAtCandidate": "2025-12-29T23:59:59.999Z",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "availableAtTimeUtc": "23:59:59.999Z",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false,
+        "reason": "The later official CFTC schedule revision is classified as the documented release-date candidate under methodology 1.1. The conservative end-of-day UTC timestamp is a research candidate only and is not the actual CFTC publication timestamp."
       },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
       "admissionStatus": "NOT_AUTHORIZED",
-      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
+      "classificationStatus": "REVISED_SCHEDULE_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATE_NOT_ADMITTED"
     }
   ],
   "interpretation": {
-    "scheduleRevisionIsNotActualReleaseProof": true,
-    "revisedScheduleNotAutomaticallySelectedAsAvailableAt": true,
-    "initialScheduleNotAutomaticallySelectedAsAvailableAt": true,
-    "actualReleaseEvidenceStillRequired": true,
-    "unresolvedAvailableAtRemainsNull": true,
+    "scheduleRevisionEstablished": true,
+    "laterOfficialScheduleRevisionOverridesEarlierSchedule": true,
+    "revisedScheduleClassifiedAsDocumentedReleaseDateCandidate": true,
+    "exactHistoricalIntradayPublicationTimeRequired": false,
+    "conservativeEndOfDayUtcConventionAppliedToCandidate": true,
+    "conservativeAvailableAtIsActualPublicationTimestamp": false,
+    "candidateIsNotFinalAdmission": true,
+    "historicalAdmissionStillRequiresSeparateAuthorization": true,
+    "observationDatePlusThreeDaysNotUsed": true,
+    "normalFridayScheduleNotUsedAsHistoricalProof": true,
     "classificationDoesNotEstablishPredictiveValue": true,
     "classificationDoesNotAuthorizeCalibration": true
   },
@@ -415,5 +455,5 @@
     "officialHesiModified": false,
     "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "For each classified schedule revision, determine whether independent official CFTC evidence establishes the actual first historical availability date. Until then, AvailableAt remains null."
+  "nextResearchQuestion": "Perform a separate explicit human admission review of the seven documented CFTC release-date candidates. Until that authorization exists, the conservative AvailableAt candidates must not enter the historical store."
 }
