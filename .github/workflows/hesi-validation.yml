@@ -97,11 +97,20 @@ jobs:
       - name: Admit approved ALFRED Brent history
         run: node scripts/admit-alfred-brent-history.mjs
 
-      # Research-only diagnostic.
+      # Research-only CFTC historical extraction.
       # This does NOT admit historical CFTC observations
       # and does NOT assign synthetic historical AvailableAt values.
       - name: Probe CFTC historical availability
         run: node scripts/probe-cftc-historical.mjs
+
+      # Research-only CFTC release evidence analysis.
+      # This checks official CFTC evidence under the
+      # approved conservative AvailableAt methodology.
+      # It does NOT assign historical AvailableAt,
+      # does NOT admit observations, and does NOT
+      # modify HESI or the point-in-time dataset.
+      - name: Analyze CFTC historical release evidence
+        run: node scripts/analyze-cftc-historical-release-evidence.mjs
 
       - name: Build leakage-safe historical dataset
         run: node scripts/build-historical-dataset.mjs
@@ -126,7 +135,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/point-in-time-backtest.json data/point-in-time-coverage.json data/historical-temporal-coverage.json data/brent-historical-quarantine.json data/brent-alfred-candidates.json data/brent-alfred-methodology-review.json data/brent-alfred-admission-ready.json data/brent-alfred-availability-analysis.json data/brent-alfred-methodology-evidence.json data/brent-alfred-lag-by-year.json data/brent-alfred-weekday-pattern.json data/brent-alfred-admission-decision.json data/brent-alfred-methodology-decision.json data/brent-alfred-admission-overlap.json data/brent-alfred-availableat-policy-validation.json data/brent-alfred-point-in-time-validation.json data/historical-admission-report.json data/cftc-historical-probe.json data/hesi-computed.json
+          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/point-in-time-backtest.json data/point-in-time-coverage.json data/historical-temporal-coverage.json data/brent-historical-quarantine.json data/brent-alfred-candidates.json data/brent-alfred-methodology-review.json data/brent-alfred-admission-ready.json data/brent-alfred-availability-analysis.json data/brent-alfred-methodology-evidence.json data/brent-alfred-lag-by-year.json data/brent-alfred-weekday-pattern.json data/brent-alfred-admission-decision.json data/brent-alfred-methodology-decision.json data/brent-alfred-admission-overlap.json data/brent-alfred-availableat-policy-validation.json data/brent-alfred-point-in-time-validation.json data/historical-admission-report.json data/cftc-historical-probe.json data/cftc-historical-release-evidence.json data/hesi-computed.json
 
           if git diff --cached --quiet; then
             echo "No pipeline output changes to persist."
