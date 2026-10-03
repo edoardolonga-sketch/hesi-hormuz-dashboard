@@ -1,31 +1,39 @@
 {
   "schemaVersion": "1.0",
-  "status": "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
-  "reviewTimestamp": "2026-10-03T18:06:17.101Z",
+  "status": "CFTC_RELEASE_SCHEDULES_CLASSIFIED_ACTUAL_RELEASE_NOT_ESTABLISHED_NOT_ADMITTED",
+  "classificationTimestamp": "2026-10-03T18:06:17.154Z",
   "sourceArtifact": {
-    "schemaVersion": "2.0",
-    "status": "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
-    "analysisTimestamp": "2026-10-03T18:06:16.891Z"
+    "schemaVersion": "1.0",
+    "status": "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
+    "reviewTimestamp": "2026-10-03T18:06:17.101Z"
   },
   "methodology": {
     "approved": true,
     "admissionAuthorized": false,
-    "officialEvidenceRequired": true,
+    "officialActualReleaseEvidenceRequired": true,
+    "scheduleDateAloneEstablishesAvailableAt": false,
     "syntheticHistoricalTimestampAllowed": false,
-    "normalFridayScheduleUsedAsHistoricalProof": false,
-    "observationDatePlusThreeDaysUsed": false
+    "observationDatePlusThreeDaysUsed": false,
+    "normalFridayScheduleUsedAsHistoricalProof": false
   },
   "targetSeries": {
     "sourceId": "cftc_cot",
     "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
     "marketCode": "067651"
   },
+  "evidenceTaxonomy": {
+    "INITIAL_SCHEDULE": "Earlier official CFTC publication schedule.",
+    "REVISED_SCHEDULE": "Later official CFTC revised publication schedule.",
+    "ACTUAL_RELEASE_EVIDENCE": "Independent official evidence sufficient to establish actual historical first availability."
+  },
   "summary": {
-    "ambiguousRecordsReviewed": 7,
-    "releaseDatesAutomaticallySelected": 0,
-    "availableAtAutomaticallyProposed": 0,
-    "observationsAdmitted": 0,
-    "humanReviewRequired": 7
+    "recordsClassified": 7,
+    "initialScheduleRows": 7,
+    "revisedScheduleRows": 7,
+    "scheduleRevisionsEstablished": 7,
+    "actualReleaseDatesEstablished": 0,
+    "availableAtAssigned": 0,
+    "observationsAdmitted": 0
   },
   "records": [
     {
@@ -34,17 +42,12 @@
       "marketCode": "067651",
       "observationDate": "2025-11-10",
       "value": -11646,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-11-14"
       ],
-      "candidateReleaseDates": [
-        "2025-12-10",
-        "2025-12-12"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2025-12-12",
+      "revisedScheduleDate": "2025-12-10",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-11-10",
@@ -56,7 +59,8 @@
             "11/10/2025",
             "11/14/2025",
             "12/10/2025"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-11-10",
@@ -68,22 +72,20 @@
             "11/10/2025",
             "11/14/2025",
             "12/12/2025"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     },
     {
       "sourceId": "cftc_cot",
@@ -91,17 +93,12 @@
       "marketCode": "067651",
       "observationDate": "2025-11-18",
       "value": -12671,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-11-21"
       ],
-      "candidateReleaseDates": [
-        "2025-12-12",
-        "2025-12-16"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2025-12-16",
+      "revisedScheduleDate": "2025-12-12",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-11-18",
@@ -113,7 +110,8 @@
             "11/18/2025",
             "11/21/2025",
             "12/12/2025"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-11-18",
@@ -125,22 +123,20 @@
             "11/18/2025",
             "11/21/2025",
             "12/16/2025"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     },
     {
       "sourceId": "cftc_cot",
@@ -148,17 +144,12 @@
       "marketCode": "067651",
       "observationDate": "2025-11-25",
       "value": -37010,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-12-01"
       ],
-      "candidateReleaseDates": [
-        "2025-12-15",
-        "2025-12-19"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2025-12-19",
+      "revisedScheduleDate": "2025-12-15",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-11-25",
@@ -170,7 +161,8 @@
             "11/25/2025",
             "12/01/2025",
             "12/15/2025"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-11-25",
@@ -182,22 +174,20 @@
             "11/25/2025",
             "12/01/2025",
             "12/19/2025"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     },
     {
       "sourceId": "cftc_cot",
@@ -205,17 +195,12 @@
       "marketCode": "067651",
       "observationDate": "2025-12-02",
       "value": -34768,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-12-05"
       ],
-      "candidateReleaseDates": [
-        "2025-12-17",
-        "2025-12-23"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2025-12-23",
+      "revisedScheduleDate": "2025-12-17",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-12-02",
@@ -227,7 +212,8 @@
             "12/02/2025",
             "12/05/2025",
             "12/17/2025"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-12-02",
@@ -239,22 +225,20 @@
             "12/02/2025",
             "12/05/2025",
             "12/23/2025"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     },
     {
       "sourceId": "cftc_cot",
@@ -262,17 +246,12 @@
       "marketCode": "067651",
       "observationDate": "2025-12-09",
       "value": 6878,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-12-12"
       ],
-      "candidateReleaseDates": [
-        "2025-12-19",
-        "2025-12-30"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2025-12-30",
+      "revisedScheduleDate": "2025-12-19",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-12-09",
@@ -284,7 +263,8 @@
             "12/09/2025",
             "12/12/2025",
             "12/19/2025"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-12-09",
@@ -296,22 +276,20 @@
             "12/09/2025",
             "12/12/2025",
             "12/30/2025"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     },
     {
       "sourceId": "cftc_cot",
@@ -319,17 +297,12 @@
       "marketCode": "067651",
       "observationDate": "2025-12-16",
       "value": 74,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-12-19"
       ],
-      "candidateReleaseDates": [
-        "2025-12-23",
-        "2026-01-06"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2026-01-06",
+      "revisedScheduleDate": "2025-12-23",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-12-16",
@@ -341,7 +314,8 @@
             "12/16/2025",
             "12/19/2025",
             "12/23/2025"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-12-16",
@@ -353,22 +327,20 @@
             "12/16/2025",
             "12/19/2025",
             "01/06/2026"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     },
     {
       "sourceId": "cftc_cot",
@@ -376,17 +348,12 @@
       "marketCode": "067651",
       "observationDate": "2025-12-23",
       "value": 11360,
-      "priorResolutionStatus": "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE",
-      "evidenceType": "OFFICIAL_CFTC_TABLE",
-      "officialSource": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalSpecialAnnouncements/index.htm",
       "originalPublishDates": [
         "2025-12-29"
       ],
-      "candidateReleaseDates": [
-        "2025-12-29",
-        "2026-01-09"
-      ],
-      "candidateReleaseDateCount": 2,
+      "initialScheduleDate": "2026-01-09",
+      "revisedScheduleDate": "2025-12-29",
+      "scheduleRevisionEstablished": true,
       "evidenceRows": [
         {
           "reportDate": "2025-12-23",
@@ -398,7 +365,8 @@
             "12/23/2025",
             "12/29/2025",
             "12/29/2025++"
-          ]
+          ],
+          "evidenceClassification": "REVISED_SCHEDULE"
         },
         {
           "reportDate": "2025-12-23",
@@ -410,33 +378,30 @@
             "12/23/2025",
             "12/29/2025",
             "01/09/2026"
-          ]
+          ],
+          "evidenceClassification": "INITIAL_SCHEDULE"
         }
       ],
-      "reviewState": "HUMAN_REVIEW_REQUIRED",
-      "actualReleaseDateEstablished": false,
+      "actualReleaseEvidence": {
+        "status": "NOT_ESTABLISHED",
+        "actualReleaseDate": null,
+        "availableAt": null,
+        "reason": "Official evidence establishes successive publication schedules, but this classification step does not establish the actual first historical availability of the report."
+      },
       "selectedReleaseDate": null,
       "proposedAvailableAt": null,
-      "availableAtStatus": "NOT_ESTABLISHED",
       "admissionStatus": "NOT_AUTHORIZED",
-      "automaticResolutionAllowed": false,
-      "automaticSelectionRuleUsed": false,
-      "earliestCandidateAutomaticallySelected": false,
-      "latestCandidateAutomaticallySelected": false,
-      "normalFridayScheduleUsed": false,
-      "observationDatePlusThreeDaysUsed": false,
-      "reviewQuestion": "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "classificationStatus": "SCHEDULE_REVISION_CLASSIFIED_ACTUAL_RELEASE_UNRESOLVED"
     }
   ],
   "interpretation": {
-    "ambiguityPreserved": true,
-    "multipleOfficialRowsDoNotAutomaticallyEstablishActualReleaseDate": true,
-    "earliestCandidateNotAutomaticallyPreferred": true,
-    "latestCandidateNotAutomaticallyPreferred": true,
-    "humanOrStrongerOfficialEvidenceRequired": true,
+    "scheduleRevisionIsNotActualReleaseProof": true,
+    "revisedScheduleNotAutomaticallySelectedAsAvailableAt": true,
+    "initialScheduleNotAutomaticallySelectedAsAvailableAt": true,
+    "actualReleaseEvidenceStillRequired": true,
     "unresolvedAvailableAtRemainsNull": true,
-    "reviewDoesNotEstablishPredictiveValue": true,
-    "reviewDoesNotAuthorizeCalibration": true
+    "classificationDoesNotEstablishPredictiveValue": true,
+    "classificationDoesNotAuthorizeCalibration": true
   },
   "safeguards": {
     "historicalStoreModified": false,
@@ -450,5 +415,5 @@
     "officialHesiModified": false,
     "dashboardOfficialHesiModified": false
   },
-  "nextResearchQuestion": "For each ambiguous observation, determine whether stronger official CFTC evidence identifies one candidate as the actual historical release date. Until then, AvailableAt remains null."
+  "nextResearchQuestion": "For each classified schedule revision, determine whether independent official CFTC evidence establishes the actual first historical availability date. Until then, AvailableAt remains null."
 }
