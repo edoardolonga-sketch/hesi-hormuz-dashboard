@@ -16,8 +16,10 @@ const OUTPUT_FILE = new URL(
 );
 
 const EXPECTED_SOURCE_ID = "cftc_cot";
+
 const EXPECTED_SERIES_ID =
   "CFTC_WTI_PHYSICAL_MANAGED_MONEY";
+
 const EXPECTED_MARKET_CODE = "067651";
 
 /*
@@ -298,9 +300,16 @@ async function main() {
 
   /*
    * Validate human methodological decision.
+   *
+   * Methodology schema 1.1 uses the conservative
+   * documented-release-date end-of-day UTC convention.
+   *
+   * This evidence-analysis stage still does NOT assign
+   * AvailableAt. It only identifies evidence requiring
+   * deeper review.
    */
   assert(
-    methodology.schemaVersion === "1.0",
+    methodology.schemaVersion === "1.1",
     "Unexpected CFTC methodology schema version."
   );
 
@@ -330,6 +339,38 @@ async function main() {
       ?.documentedRelease
       ?.releaseDateEvidenceRequired === true,
     "Documented CFTC release-date evidence is not required by methodology."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtConvention ===
+      "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "Unexpected documented-release AvailableAt convention."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtTimeUtc ===
+      "23:59:59.999Z",
+    "Unexpected conservative AvailableAt time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.actualIntradayReleaseTimeRequired ===
+      false,
+    "Methodology unexpectedly requires exact historical intraday release time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    "Conservative AvailableAt must not be represented as the actual CFTC publication timestamp."
   );
 
   assert(
@@ -556,6 +597,9 @@ async function main() {
     analysisTimestamp,
 
     methodology: {
+      decisionSchemaVersion:
+        methodology.schemaVersion,
+
       decisionRecorded:
         true,
 
@@ -567,6 +611,15 @@ async function main() {
 
       documentedReleaseEvidenceRequired:
         true,
+
+      availableAtConvention:
+        "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+
+      actualIntradayReleaseTimeRequired:
+        false,
+
+      conservativeAvailableAtIsActualPublicationTimestamp:
+        false,
 
       undocumentedAvailableAtRemainsNull:
         true,
@@ -648,6 +701,12 @@ async function main() {
       documentedStatusRequiresActualReleaseDateEvidence:
         true,
 
+      exactHistoricalIntradayTimeNotRequiredByMethodology:
+        true,
+
+      conservativeEndOfDayConventionAppliedAtThisStage:
+        false,
+
       noHistoricalTimestampFabricated:
         true,
 
@@ -688,7 +747,7 @@ async function main() {
     },
 
     nextResearchQuestion:
-      "For records with official CFTC page evidence, establish the actual historical release date from official evidence before assigning any AvailableAt timestamp."
+      "For records with official CFTC page evidence, establish the documented historical release date from official evidence before applying the conservative end-of-day UTC AvailableAt convention."
   };
 
   await writeFile(
