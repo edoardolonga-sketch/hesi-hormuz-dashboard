@@ -1,10 +1,12 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "status": "TEMPORAL_COVERAGE_ANALYZED_NOT_CALIBRATED",
-  "analysisTimestamp": "2026-10-03T18:33:31.677Z",
+  "analysisTimestamp": "2026-10-03T18:40:01.863Z",
   "sourceDataset": "historical-dataset.json",
   "safeguards": {
     "leakageProtection": "ENABLED",
+    "fixedHistoricalObservationCountRequired": false,
+    "fixedBrentObservationCountRequired": false,
     "datasetModified": false,
     "calibrationPerformed": false,
     "modelWeightsModified": false,
@@ -13,12 +15,18 @@
   "summary": {
     "totalHistoricalObservations": 3942,
     "brentObservations": 3939,
+    "nonBrentObservations": 3,
     "earliestBrentObservationDate": "2011-04-06",
     "latestBrentObservationDate": "2026-09-29",
     "earliestBrentAvailableAt": "2011-04-13T23:59:59.999Z",
     "latestBrentAvailableAt": "2026-10-01T06:34:38.177Z",
     "uniqueBrentKeys": 3939,
     "yearsCovered": 16
+  },
+  "observationsBySource": {
+    "brent_market": 3939,
+    "eia_wpsr": 2,
+    "cftc_cot": 1
   },
   "availabilityLagDays": {
     "minimum": 0.999999988425926,
@@ -55,6 +63,8 @@
   },
   "interpretationLimits": [
     "This artifact describes temporal coverage only.",
+    "Historical observation counts are data-driven and are not frozen to a previous dataset size.",
+    "The presence of additional approved historical sources does not invalidate the Brent temporal-coverage analysis.",
     "It does not determine whether the historical sample is sufficient for calibration.",
     "Calendar gaps are not automatically data-quality failures because Brent observations are not expected on every calendar day.",
     "AvailableAt lag is measured from 00:00 UTC on observationDate to the stored AvailableAt timestamp.",
