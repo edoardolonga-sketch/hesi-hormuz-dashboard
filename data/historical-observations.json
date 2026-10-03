@@ -70918,6 +70918,20 @@
       "value": 113.96,
       "unit": "usd_per_barrel",
       "frequency": "daily"
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2026-09-29",
+      "availableAt": "2026-10-03T06:33:49.414Z",
+      "value": 79592,
+      "managedMoneyLong": 209028,
+      "managedMoneyShort": 129436,
+      "managedMoneySpreading": 302987,
+      "managedMoneyNet": 79592,
+      "unit": "contracts",
+      "frequency": "weekly"
     }
   ],
   "notes": [

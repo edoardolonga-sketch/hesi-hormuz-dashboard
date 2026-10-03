@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "executionTimestamp": "2026-10-02T18:35:47.464Z",
+  "executionTimestamp": "2026-10-03T06:33:53.412Z",
   "asOf": "2026-09-29",
   "status": "EXPERIMENTAL_NOT_PROMOTED",
   "availableAtProtection": "ENABLED",
@@ -12,12 +12,12 @@
       "unit": "usd_per_barrel"
     },
     "cftc": {
-      "observationDate": "2026-09-22",
-      "availableAt": "2026-09-27T14:29:33.117Z",
-      "managedMoneyLong": 223190,
-      "managedMoneyShort": 121362,
-      "managedMoneySpreading": 276269,
-      "managedMoneyNet": 101828,
+      "observationDate": "2026-09-29",
+      "availableAt": "2026-10-03T06:33:49.414Z",
+      "managedMoneyLong": 209028,
+      "managedMoneyShort": 129436,
+      "managedMoneySpreading": 302987,
+      "managedMoneyNet": 79592,
       "unit": "contracts"
     },
     "physicalEvents": {
@@ -27,9 +27,9 @@
   },
   "components": {
     "brentStress": 63.96,
-    "cftcPositioningStress": 75.457
+    "cftcPositioningStress": 69.898
   },
-  "marketStressExperimental": 67.4091,
+  "marketStressExperimental": 65.7414,
   "physicalStress": {
     "status": "NOT_COMPUTABLE_NO_VALIDATED_EVENTS",
     "validatedEventCount": 0,

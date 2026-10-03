@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.4",
   "status": "CFTC_HISTORICAL_VALUES_PREPARED_AVAILABLE_AT_PENDING_NOT_ADMITTED",
-  "executionTimestamp": "2026-10-02T18:35:46.186Z",
+  "executionTimestamp": "2026-10-03T06:33:52.384Z",
   "targetSeries": {
     "sourceId": "cftc_cot",
     "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
