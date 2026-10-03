@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.0",
   "status": "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
-  "reviewTimestamp": "2026-10-03T17:55:41.932Z",
+  "reviewTimestamp": "2026-10-03T18:04:04.489Z",
   "sourceArtifact": {
     "schemaVersion": "2.0",
     "status": "CFTC_STRUCTURED_RELEASE_EVIDENCE_RESOLVED_NOT_ADMITTED",
-    "analysisTimestamp": "2026-10-03T17:55:41.724Z"
+    "analysisTimestamp": "2026-10-03T18:04:04.291Z"
   },
   "methodology": {
     "approved": true,
