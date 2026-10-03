@@ -106,16 +106,20 @@ jobs:
         run: node scripts/analyze-cftc-historical-release-evidence.mjs
 
       # Parse structured official CFTC release evidence.
-      # This can create candidate AvailableAt timestamps,
-      # but it does NOT authorize historical admission.
+      # Candidate timestamps do not authorize admission.
       - name: Resolve documented CFTC release candidates
         run: node scripts/resolve-cftc-documented-releases.mjs
 
-      # Preserve and prepare ambiguous CFTC release evidence
-      # for human review. No date is automatically selected
-      # and AvailableAt remains null for ambiguous records.
+      # Preserve ambiguous evidence for human review.
+      # No release date or AvailableAt is automatically selected.
       - name: Review ambiguous CFTC release candidates
         run: node scripts/review-cftc-ambiguous-releases.mjs
+
+      # Distinguish the initial CFTC schedule from its later
+      # revised schedule. A schedule date is not treated as
+      # proof of actual historical first availability.
+      - name: Classify CFTC release schedule evidence
+        run: node scripts/classify-cftc-release-evidence.mjs
 
       - name: Build leakage-safe historical dataset
         run: node scripts/build-historical-dataset.mjs
@@ -140,7 +144,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/point-in-time-backtest.json data/point-in-time-coverage.json data/historical-temporal-coverage.json data/brent-historical-quarantine.json data/brent-alfred-candidates.json data/brent-alfred-methodology-review.json data/brent-alfred-admission-ready.json data/brent-alfred-availability-analysis.json data/brent-alfred-methodology-evidence.json data/brent-alfred-lag-by-year.json data/brent-alfred-weekday-pattern.json data/brent-alfred-admission-decision.json data/brent-alfred-methodology-decision.json data/brent-alfred-admission-overlap.json data/brent-alfred-availableat-policy-validation.json data/brent-alfred-point-in-time-validation.json data/historical-admission-report.json data/cftc-historical-probe.json data/cftc-historical-release-evidence.json data/cftc-documented-releases.json data/cftc-ambiguous-release-review.json data/hesi-computed.json
+          git add data/latest-observations.json data/historical-observations.json data/historical-dataset.json data/point-in-time-backtest.json data/point-in-time-coverage.json data/historical-temporal-coverage.json data/brent-historical-quarantine.json data/brent-alfred-candidates.json data/brent-alfred-methodology-review.json data/brent-alfred-admission-ready.json data/brent-alfred-availability-analysis.json data/brent-alfred-methodology-evidence.json data/brent-alfred-lag-by-year.json data/brent-alfred-weekday-pattern.json data/brent-alfred-admission-decision.json data/brent-alfred-methodology-decision.json data/brent-alfred-admission-overlap.json data/brent-alfred-availableat-policy-validation.json data/brent-alfred-point-in-time-validation.json data/historical-admission-report.json data/cftc-historical-probe.json data/cftc-historical-release-evidence.json data/cftc-documented-releases.json data/cftc-ambiguous-release-review.json data/cftc-release-evidence-classification.json data/hesi-computed.json
 
           if git diff --cached --quiet; then
             echo "No pipeline output changes to persist."
