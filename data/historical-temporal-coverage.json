@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.1",
   "status": "TEMPORAL_COVERAGE_ANALYZED_NOT_CALIBRATED",
-  "analysisTimestamp": "2026-10-03T18:40:01.863Z",
+  "analysisTimestamp": "2026-10-03T18:42:41.538Z",
   "sourceDataset": "historical-dataset.json",
   "safeguards": {
     "leakageProtection": "ENABLED",
