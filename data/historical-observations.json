@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "status": "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT",
+  "status": "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY",
   "availableAtPolicy": "Historical observations may be used for calibration or backtesting only when their AvailableAt timestamp is known and is not later than the simulated execution timestamp. Never reconstruct historical knowledge using information that became available later.",
   "observations": [
     {
@@ -66892,6 +66892,25 @@
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
     },
     {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-10",
+      "availableAt": "2025-12-10T23:59:59.999Z",
+      "value": -11646,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-10",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
+    },
+    {
       "sourceId": "brent_market",
       "seriesId": "DCOILBRENTEU",
       "observationDate": "2025-11-11",
@@ -67000,6 +67019,25 @@
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
     },
     {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-18",
+      "availableAt": "2025-12-12T23:59:59.999Z",
+      "value": -12671,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-12",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
+    },
+    {
       "sourceId": "brent_market",
       "seriesId": "DCOILBRENTEU",
       "observationDate": "2025-11-19",
@@ -67088,6 +67126,25 @@
         "interpretation": "ALFRED initial-release observation with historical real-time metadata."
       },
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-11-25",
+      "availableAt": "2025-12-15T23:59:59.999Z",
+      "value": -37010,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-15",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
     },
     {
       "sourceId": "brent_market",
@@ -67180,6 +67237,25 @@
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
     },
     {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-02",
+      "availableAt": "2025-12-17T23:59:59.999Z",
+      "value": -34768,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-17",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
+    },
+    {
       "sourceId": "brent_market",
       "seriesId": "DCOILBRENTEU",
       "observationDate": "2025-12-03",
@@ -67268,6 +67344,25 @@
         "interpretation": "ALFRED initial-release observation with historical real-time metadata."
       },
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-09",
+      "availableAt": "2025-12-19T23:59:59.999Z",
+      "value": 6878,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-19",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
     },
     {
       "sourceId": "brent_market",
@@ -67360,6 +67455,25 @@
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
     },
     {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-16",
+      "availableAt": "2025-12-23T23:59:59.999Z",
+      "value": 74,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-23",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
+    },
+    {
       "sourceId": "brent_market",
       "seriesId": "DCOILBRENTEU",
       "observationDate": "2025-12-17",
@@ -67448,6 +67562,25 @@
         "interpretation": "ALFRED initial-release observation with historical real-time metadata."
       },
       "availableAtMethod": "ALFRED_INITIAL_RELEASE_REALTIME_START_END_OF_DAY_UTC"
+    },
+    {
+      "sourceId": "cftc_cot",
+      "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+      "marketCode": "067651",
+      "observationDate": "2025-12-23",
+      "availableAt": "2025-12-29T23:59:59.999Z",
+      "value": 11360,
+      "unit": "contracts",
+      "frequency": "weekly",
+      "availableAtEvidence": {
+        "evidenceType": "OFFICIAL_CFTC_REVISED_RELEASE_SCHEDULE",
+        "documentedReleaseDate": "2025-12-29",
+        "methodologySchemaVersion": "1.1",
+        "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+        "actualIntradayReleaseTimeRequired": false,
+        "availableAtRepresentsActualPublicationTimestamp": false
+      },
+      "availableAtMethod": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC"
     },
     {
       "sourceId": "brent_market",
@@ -70955,6 +71088,27 @@
     "overlapPolicy": "Existing observations are preserved when their value matches the approved ALFRED candidate. No overwrite or replacement of existing observations or AvailableAt timestamps is allowed.",
     "idempotent": true,
     "calibrationAuthorized": false,
+    "officialHesiAuthorized": false
+  },
+  "cftcHistoricalAdmission": {
+    "decisionRecorded": true,
+    "admissionAuthorized": true,
+    "authorizedObservations": 7,
+    "newlyAdmittedThisRun": 7,
+    "existingCandidatesPreservedThisRun": 0,
+    "allAuthorizedCandidatesPresent": true,
+    "valueConflicts": 0,
+    "existingObservationsOverwritten": 0,
+    "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "availableAtTimeUtc": "23:59:59.999Z",
+    "availableAtRepresentsActualPublicationTimestamp": false,
+    "actualIntradayReleaseTimeRequired": false,
+    "overlapPolicy": "Existing observations are preserved when their value matches the explicitly authorized CFTC candidate. No existing observation or AvailableAt timestamp is overwritten.",
+    "idempotent": true,
+    "calibrationAuthorized": false,
+    "modelWeightChangesAuthorized": false,
+    "thresholdChangesAuthorized": false,
+    "forecastTrainingAuthorized": false,
     "officialHesiAuthorized": false
   }
 }
