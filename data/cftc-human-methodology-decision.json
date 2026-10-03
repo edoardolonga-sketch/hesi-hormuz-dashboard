@@ -1,35 +1,43 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.1",
   "decisionType": "CFTC_HISTORICAL_AVAILABLE_AT_METHODOLOGY",
   "decisionRecorded": true,
   "approved": true,
   "decidedBy": "Human methodological review",
   "decidedAt": "2026-10-03",
-  "rationale": "Approved for conservative research use. Historical CFTC observations may receive an AvailableAt timestamp only when the actual release date is supported by official CFTC evidence. For documented releases, AvailableAt is based on the documented release date and the standard COT publication time of 15:30 America/New_York, converted to UTC with timezone-aware conversion. Documented exceptions, delays, holiday schedules, shutdown-related releases, or other official release information override the normal schedule. When an actual historical release date cannot be established with sufficient official evidence, AvailableAt remains null. The normal Tuesday-to-Friday reporting cadence must not be used to fabricate historical release timestamps. This methodological approval does not authorize historical admission.",
+  "rationale": "Approved for conservative daily research use. Historical CFTC observations may receive an AvailableAt timestamp only when the release date is supported by official CFTC evidence. Exact historical intraday publication time is not required for the daily point-in-time research dataset. When an official CFTC release date is established, AvailableAt is conservatively assigned to the end of that documented release date in UTC: 23:59:59.999Z. This intentionally delays model eligibility until the following UTC day and must not be interpreted as the actual CFTC publication timestamp. Documented exceptions, delays, holiday schedules, shutdown-related releases, revised official publication schedules, or other official CFTC release information override earlier schedules. When a historical release date cannot be established with sufficient official evidence, AvailableAt remains null. The normal Tuesday-to-Friday reporting cadence must never be used to fabricate historical release dates. This methodological approval does not authorize historical admission.",
   "policy": {
     "documentedRelease": {
       "eligibleForAvailableAt": true,
       "releaseDateEvidenceRequired": true,
       "requiredEvidenceType": "OFFICIAL_CFTC",
-      "publicationTimeLocal": "15:30:00",
-      "publicationTimezone": "America/New_York",
-      "utcConversion": "TIMEZONE_AWARE",
-      "documentedExceptionsOverrideNormalSchedule": true
+      "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+      "availableAtTimeUtc": "23:59:59.999Z",
+      "actualIntradayReleaseTimeRequired": false,
+      "availableAtRepresentsActualPublicationTimestamp": false,
+      "modelEligibility": "AFTER_END_OF_DOCUMENTED_RELEASE_DATE_UTC",
+      "documentedExceptionsOverrideNormalSchedule": true,
+      "laterOfficialScheduleRevisionOverridesEarlierSchedule": true
     },
     "undocumentedRelease": {
       "eligibleForAvailableAt": false,
       "availableAt": null,
       "observationDatePlusThreeDaysAssumed": false,
       "normalFridayReleaseAssumed": false,
-      "syntheticHistoricalTimestampAllowed": false
+      "syntheticHistoricalReleaseDateAllowed": false
     }
   },
   "acknowledgements": {
     "reportDateIsNotReleaseDate": true,
     "historicalReleaseDatesAreNotCompletelyAvailable": true,
     "normalReleaseScheduleDoesNotProveActualHistoricalRelease": true,
+    "officialDocumentedReleaseDateMayBeUsedForDailyPointInTimeResearch": true,
+    "conservativeEndOfDayUtcIsAMethodologicalConvention": true,
+    "conservativeEndOfDayUtcIsNotClaimedAsActualCftcPublicationTime": true,
+    "dailyConventionIntentionallySacrificesIntradayPrecision": true,
     "holidayAndExceptionalDelaysMayOccur": true,
     "shutdownRelatedDelaysMayOccur": true,
+    "laterOfficialScheduleRevisionsMaySupersedeEarlierSchedules": true,
     "undocumentedHistoricalAvailableAtRemainsNull": true,
     "cftcPositioningIsOneInputAmongMultipleHesiInformationSources": true,
     "methodologicalApprovalDoesNotEstablishPredictiveValue": true
