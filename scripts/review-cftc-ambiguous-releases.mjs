@@ -30,6 +30,12 @@ const EXPECTED_INPUT_STATUS =
 const EXPECTED_AMBIGUOUS_STATUS =
   "AMBIGUOUS_STRUCTURED_OFFICIAL_EVIDENCE";
 
+const EXPECTED_AVAILABLE_AT_CONVENTION =
+  "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC";
+
+const EXPECTED_AVAILABLE_AT_TIME_UTC =
+  "23:59:59.999Z";
+
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
@@ -118,7 +124,7 @@ function validateMatchedEvidence(
     assert(
       typeof evidence.rowText ===
         "string" &&
-        evidence.rowText.length > 0,
+      evidence.rowText.length > 0,
       `Missing official row text on ${record.observationDate}.`
     );
 
@@ -228,7 +234,7 @@ function buildReviewRecord(
     reviewState:
       "HUMAN_REVIEW_REQUIRED",
 
-    actualReleaseDateEstablished:
+    documentedReleaseDateEstablished:
       false,
 
     selectedReleaseDate:
@@ -239,6 +245,18 @@ function buildReviewRecord(
 
     availableAtStatus:
       "NOT_ESTABLISHED",
+
+    availableAtConvention:
+      EXPECTED_AVAILABLE_AT_CONVENTION,
+
+    availableAtTimeUtc:
+      EXPECTED_AVAILABLE_AT_TIME_UTC,
+
+    availableAtRepresentsActualPublicationTimestamp:
+      false,
+
+    actualIntradayReleaseTimeRequired:
+      false,
 
     admissionStatus:
       "NOT_AUTHORIZED",
@@ -262,7 +280,7 @@ function buildReviewRecord(
       false,
 
     reviewQuestion:
-      "Which candidate release date, if any, is supported as the actual publication date by stronger official CFTC evidence?"
+      "Which candidate release date, if any, is sufficiently supported by official CFTC evidence as the documented historical release date? If established, methodology 1.1 permits only the conservative end-of-day UTC AvailableAt convention; this is not the actual publication timestamp."
   };
 }
 
@@ -283,11 +301,23 @@ async function main() {
     );
 
   /*
-   * Methodology gate.
+   * Methodology gate — schema 1.1.
+   *
+   * Exact historical intraday publication time is
+   * not required.
+   *
+   * A sufficiently documented official CFTC release
+   * date may receive the conservative daily
+   * AvailableAt:
+   *
+   * YYYY-MM-DDT23:59:59.999Z
+   *
+   * This is NOT claimed to be the actual publication
+   * timestamp and does NOT authorize admission.
    */
   assert(
     methodology.schemaVersion ===
-      "1.0",
+      "1.1",
     "Unexpected CFTC methodology schema version."
   );
 
@@ -318,9 +348,81 @@ async function main() {
   assert(
     methodology.policy
       ?.documentedRelease
+      ?.eligibleForAvailableAt ===
+      true,
+    "Documented CFTC releases must be eligible for AvailableAt under methodology."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
       ?.releaseDateEvidenceRequired ===
       true,
     "Official release-date evidence must remain required."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.requiredEvidenceType ===
+      "OFFICIAL_CFTC",
+    "Unexpected required CFTC evidence type."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtConvention ===
+      EXPECTED_AVAILABLE_AT_CONVENTION,
+    "Unexpected CFTC AvailableAt convention."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtTimeUtc ===
+      EXPECTED_AVAILABLE_AT_TIME_UTC,
+    "Unexpected conservative CFTC AvailableAt time."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.actualIntradayReleaseTimeRequired ===
+      false,
+    "Exact historical intraday CFTC publication time must not be required."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    "Conservative AvailableAt must not be represented as the actual publication timestamp."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.documentedExceptionsOverrideNormalSchedule ===
+      true,
+    "Documented CFTC exceptions must override the normal schedule."
+  );
+
+  assert(
+    methodology.policy
+      ?.documentedRelease
+      ?.laterOfficialScheduleRevisionOverridesEarlierSchedule ===
+      true,
+    "Later official CFTC schedule revisions must override earlier schedules."
+  );
+
+  assert(
+    methodology.policy
+      ?.undocumentedRelease
+      ?.eligibleForAvailableAt ===
+      false,
+    "Undocumented CFTC releases must not be eligible for AvailableAt."
   );
 
   assert(
@@ -350,9 +452,9 @@ async function main() {
   assert(
     methodology.policy
       ?.undocumentedRelease
-      ?.syntheticHistoricalTimestampAllowed ===
+      ?.syntheticHistoricalReleaseDateAllowed ===
       false,
-    "Synthetic historical timestamps must remain forbidden."
+    "Synthetic historical release dates must remain forbidden."
   );
 
   /*
@@ -360,7 +462,7 @@ async function main() {
    */
   assert(
     input.schemaVersion ===
-      "2.0",
+      "2.1",
     "Unexpected CFTC documented-release schema."
   );
 
@@ -372,9 +474,44 @@ async function main() {
 
   assert(
     input.methodology
+      ?.decisionSchemaVersion ===
+      "1.1",
+    "Input was not produced under CFTC methodology 1.1."
+  );
+
+  assert(
+    input.methodology
       ?.admissionAuthorized ===
       false,
     "Input unexpectedly authorizes historical CFTC admission."
+  );
+
+  assert(
+    input.methodology
+      ?.availableAtConvention ===
+      EXPECTED_AVAILABLE_AT_CONVENTION,
+    "Input uses an unexpected AvailableAt convention."
+  );
+
+  assert(
+    input.methodology
+      ?.availableAtTimeUtc ===
+      EXPECTED_AVAILABLE_AT_TIME_UTC,
+    "Input uses an unexpected conservative AvailableAt time."
+  );
+
+  assert(
+    input.methodology
+      ?.actualIntradayReleaseTimeRequired ===
+      false,
+    "Input unexpectedly requires exact intraday publication time."
+  );
+
+  assert(
+    input.methodology
+      ?.availableAtRepresentsActualPublicationTimestamp ===
+      false,
+    "Input incorrectly represents conservative AvailableAt as actual publication time."
   );
 
   assert(
@@ -402,8 +539,8 @@ async function main() {
    * Current research checkpoint:
    * exactly seven ambiguous records.
    *
-   * If upstream evidence changes, fail safely
-   * and require explicit review.
+   * If upstream official evidence changes,
+   * fail safely and require explicit review.
    */
   assert(
     input.ambiguousCandidates.length ===
@@ -480,9 +617,16 @@ async function main() {
 
     assert(
       record.evidence
-        ?.actualReleaseDateEstablished ===
+        ?.documentedReleaseDateEstablished ===
         false,
       `Ambiguous record incorrectly claims established release date: ${record.observationDate}.`
+    );
+
+    assert(
+      record.evidence
+        ?.conservativeAvailableAtConventionApplicable ===
+        false,
+      `Ambiguous record unexpectedly applies AvailableAt before release-date resolution: ${record.observationDate}.`
     );
   }
 
@@ -494,26 +638,31 @@ async function main() {
   /*
    * Safety invariant:
    * this script prepares evidence for review only.
+   *
+   * It does NOT:
+   * - select a release date,
+   * - assign AvailableAt,
+   * - authorize historical admission.
    */
   const selectedReleaseDates =
     reviewRecords.filter(
       (record) =>
         record.selectedReleaseDate !==
-        null
+          null
     );
 
   const proposedAvailableAt =
     reviewRecords.filter(
       (record) =>
         record.proposedAvailableAt !==
-        null
+          null
     );
 
   const authorizedRecords =
     reviewRecords.filter(
       (record) =>
         record.admissionStatus !==
-        "NOT_AUTHORIZED"
+          "NOT_AUTHORIZED"
     );
 
   assert(
@@ -536,7 +685,7 @@ async function main() {
 
   const output = {
     schemaVersion:
-      "1.0",
+      "1.1",
 
     status:
       "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
@@ -555,6 +704,9 @@ async function main() {
     },
 
     methodology: {
+      decisionSchemaVersion:
+        methodology.schemaVersion,
+
       approved:
         true,
 
@@ -564,7 +716,25 @@ async function main() {
       officialEvidenceRequired:
         true,
 
-      syntheticHistoricalTimestampAllowed:
+      availableAtConvention:
+        EXPECTED_AVAILABLE_AT_CONVENTION,
+
+      availableAtTimeUtc:
+        EXPECTED_AVAILABLE_AT_TIME_UTC,
+
+      actualIntradayReleaseTimeRequired:
+        false,
+
+      availableAtRepresentsActualPublicationTimestamp:
+        false,
+
+      documentedExceptionsOverrideNormalSchedule:
+        true,
+
+      laterOfficialScheduleRevisionOverridesEarlierSchedule:
+        true,
+
+      syntheticHistoricalReleaseDateAllowed:
         false,
 
       normalFridayScheduleUsedAsHistoricalProof:
@@ -609,7 +779,7 @@ async function main() {
       ambiguityPreserved:
         true,
 
-      multipleOfficialRowsDoNotAutomaticallyEstablishActualReleaseDate:
+      multipleOfficialRowsDoNotAutomaticallyEstablishDocumentedReleaseDate:
         true,
 
       earliestCandidateNotAutomaticallyPreferred:
@@ -620,6 +790,15 @@ async function main() {
 
       humanOrStrongerOfficialEvidenceRequired:
         true,
+
+      exactHistoricalIntradayPublicationTimeRequired:
+        false,
+
+      conservativeEndOfDayUtcAppliesOnlyAfterReleaseDateEstablished:
+        true,
+
+      conservativeAvailableAtIsActualPublicationTimestamp:
+        false,
 
       unresolvedAvailableAtRemainsNull:
         true,
@@ -664,7 +843,7 @@ async function main() {
     },
 
     nextResearchQuestion:
-      "For each ambiguous observation, determine whether stronger official CFTC evidence identifies one candidate as the actual historical release date. Until then, AvailableAt remains null."
+      "For each ambiguous observation, determine which candidate release date, if any, is sufficiently supported by official CFTC evidence. If a documented release date is established, methodology 1.1 permits conservative end-of-day UTC AvailableAt; this convention is not the actual CFTC publication timestamp. Historical admission remains separately unauthorized."
   };
 
   await writeFile(
@@ -695,6 +874,14 @@ async function main() {
 
   console.log(
     "AvailableAt automatically proposed: 0"
+  );
+
+  console.log(
+    "AvailableAt convention after documented release-date resolution: END-OF-DAY UTC"
+  );
+
+  console.log(
+    "AvailableAt represents actual publication timestamp: NO"
   );
 
   console.log(
