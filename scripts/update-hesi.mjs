@@ -367,9 +367,18 @@ async function main() {
     );
   }
 
+  /*
+   * The historical store may advance through
+   * independently approved admission stages.
+   *
+   * CFTC admission does not revoke or replace the
+   * previously approved ALFRED Brent admission.
+   */
+
   const allowedHistoricalStatuses = new Set([
     "HISTORICAL_STORE_INITIALIZED",
-    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT",
+    "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
   ]);
 
   if (
@@ -383,18 +392,16 @@ async function main() {
   }
 
   /*
-   * If ALFRED Brent history has been admitted,
-   * require the complete approved idempotent
-   * admission metadata.
-   *
-   * The validator must not assume that every
-   * pipeline run is the first historical
-   * admission.
+   * Validate ALFRED Brent admission metadata whenever
+   * the historical store has reached either the ALFRED
+   * stage or the later CFTC stage.
    */
 
   if (
     historical.status ===
-    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+      "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT" ||
+    historical.status ===
+      "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
   ) {
     const admission =
       historical.alfredBrentAdmission;
@@ -427,7 +434,7 @@ async function main() {
     }
 
     /*
-     * Every prepared candidate must be
+     * Every prepared ALFRED candidate must be
      * accounted for exactly once:
      *
      * - newly admitted, or
@@ -441,6 +448,81 @@ async function main() {
     ) {
       throw new Error(
         "ALFRED admission accounting consistency check failed."
+      );
+    }
+  }
+
+  /*
+   * Validate CFTC historical admission metadata only
+   * after the explicitly authorized CFTC admission
+   * stage has been executed.
+   *
+   * AvailableAt is the documented revised official
+   * release date at conservative end-of-day UTC.
+   *
+   * It is NOT claimed to be the actual CFTC
+   * intraday publication timestamp.
+   */
+
+  if (
+    historical.status ===
+    "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
+  ) {
+    const admission =
+      historical.cftcHistoricalAdmission;
+
+    if (
+      admission?.decisionRecorded !== true ||
+      admission?.admissionAuthorized !== true ||
+      admission?.authorizedObservations !== 7 ||
+      !Number.isInteger(
+        admission?.newlyAdmittedThisRun
+      ) ||
+      admission.newlyAdmittedThisRun < 0 ||
+      !Number.isInteger(
+        admission?.existingCandidatesPreservedThisRun
+      ) ||
+      admission.existingCandidatesPreservedThisRun < 0 ||
+      admission?.allAuthorizedCandidatesPresent !== true ||
+      admission?.valueConflicts !== 0 ||
+      admission?.existingObservationsOverwritten !== 0 ||
+      admission?.availableAtConvention !==
+        "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC" ||
+      admission?.availableAtTimeUtc !==
+        "23:59:59.999Z" ||
+      admission
+        ?.availableAtRepresentsActualPublicationTimestamp !==
+        false ||
+      admission
+        ?.actualIntradayReleaseTimeRequired !==
+        false ||
+      admission?.idempotent !== true ||
+      admission?.calibrationAuthorized !== false ||
+      admission?.modelWeightChangesAuthorized !== false ||
+      admission?.thresholdChangesAuthorized !== false ||
+      admission?.forecastTrainingAuthorized !== false ||
+      admission?.officialHesiAuthorized !== false
+    ) {
+      throw new Error(
+        "Invalid approved CFTC historical admission metadata."
+      );
+    }
+
+    /*
+     * Every explicitly authorized CFTC candidate must
+     * be accounted for exactly once:
+     *
+     * - newly admitted, or
+     * - already present and preserved.
+     */
+
+    if (
+      admission.newlyAdmittedThisRun +
+        admission.existingCandidatesPreservedThisRun !==
+      admission.authorizedObservations
+    ) {
+      throw new Error(
+        "CFTC admission accounting consistency check failed."
       );
     }
   }
@@ -552,7 +634,9 @@ async function main() {
 
   if (
     historical.status ===
-    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+      "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT" ||
+    historical.status ===
+      "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
   ) {
     const admission =
       historical.alfredBrentAdmission;
@@ -570,6 +654,58 @@ async function main() {
     ) {
       throw new Error(
         `Historical Brent coverage is smaller than the approved ALFRED candidate set: ${historicalBrentCount} < ${admission.preparedCandidates}`
+      );
+    }
+  }
+
+  /*
+   * Additional CFTC historical admission consistency.
+   *
+   * Require all seven explicitly authorized historical
+   * observations to remain present.
+   *
+   * Do not freeze the total CFTC observation count:
+   * later leakage-safe CFTC observations may coexist.
+   */
+
+  if (
+    historical.status ===
+    "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
+  ) {
+    const authorizedCftcDates = new Set([
+      "2025-11-10",
+      "2025-11-18",
+      "2025-11-25",
+      "2025-12-02",
+      "2025-12-09",
+      "2025-12-16",
+      "2025-12-23"
+    ]);
+
+    const admittedAuthorizedDates =
+      new Set(
+        historical.observations
+          .filter(
+            (observation) =>
+              observation.sourceId === "cftc_cot" &&
+              observation.seriesId ===
+                "CFTC_WTI_PHYSICAL_MANAGED_MONEY" &&
+              authorizedCftcDates.has(
+                observation.observationDate
+              )
+          )
+          .map(
+            (observation) =>
+              observation.observationDate
+          )
+      );
+
+    if (
+      admittedAuthorizedDates.size !==
+      authorizedCftcDates.size
+    ) {
+      throw new Error(
+        `Historical CFTC authorized coverage is incomplete: ${admittedAuthorizedDates.size} < ${authorizedCftcDates.size}`
       );
     }
   }
@@ -904,7 +1040,9 @@ async function main() {
 
   if (
     historical.status ===
-    "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT"
+      "HISTORICAL_STORE_WITH_APPROVED_ALFRED_BRENT" ||
+    historical.status ===
+      "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
   ) {
     console.log(
       `ALFRED Brent newly admitted this run: ${historical.alfredBrentAdmission.newlyAdmittedThisRun}`
@@ -916,6 +1054,23 @@ async function main() {
 
     console.log(
       "ALFRED historical admission validation: ENABLED"
+    );
+  }
+
+  if (
+    historical.status ===
+    "HISTORICAL_STORE_WITH_APPROVED_CFTC_HISTORY"
+  ) {
+    console.log(
+      `CFTC historical newly admitted this run: ${historical.cftcHistoricalAdmission.newlyAdmittedThisRun}`
+    );
+
+    console.log(
+      `CFTC existing candidates preserved this run: ${historical.cftcHistoricalAdmission.existingCandidatesPreservedThisRun}`
+    );
+
+    console.log(
+      "CFTC historical admission validation: ENABLED"
     );
   }
 
