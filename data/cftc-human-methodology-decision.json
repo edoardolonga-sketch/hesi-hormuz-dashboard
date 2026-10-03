@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0",
+  "decisionType": "CFTC_HISTORICAL_AVAILABLE_AT_METHODOLOGY",
+  "decisionRecorded": true,
+  "approved": true,
+  "decidedBy": "Human methodological review",
+  "decidedAt": "2026-10-03",
+  "rationale": "Approved for conservative research use. Historical CFTC observations may receive an AvailableAt timestamp only when the actual release date is supported by official CFTC evidence. For documented releases, AvailableAt is based on the documented release date and the standard COT publication time of 15:30 America/New_York, converted to UTC with timezone-aware conversion. Documented exceptions, delays, holiday schedules, shutdown-related releases, or other official release information override the normal schedule. When an actual historical release date cannot be established with sufficient official evidence, AvailableAt remains null. The normal Tuesday-to-Friday reporting cadence must not be used to fabricate historical release timestamps. This methodological approval does not authorize historical admission.",
+  "policy": {
+    "documentedRelease": {
+      "eligibleForAvailableAt": true,
+      "releaseDateEvidenceRequired": true,
+      "requiredEvidenceType": "OFFICIAL_CFTC",
+      "publicationTimeLocal": "15:30:00",
+      "publicationTimezone": "America/New_York",
+      "utcConversion": "TIMEZONE_AWARE",
+      "documentedExceptionsOverrideNormalSchedule": true
+    },
+    "undocumentedRelease": {
+      "eligibleForAvailableAt": false,
+      "availableAt": null,
+      "observationDatePlusThreeDaysAssumed": false,
+      "normalFridayReleaseAssumed": false,
+      "syntheticHistoricalTimestampAllowed": false
+    }
+  },
+  "acknowledgements": {
+    "reportDateIsNotReleaseDate": true,
+    "historicalReleaseDatesAreNotCompletelyAvailable": true,
+    "normalReleaseScheduleDoesNotProveActualHistoricalRelease": true,
+    "holidayAndExceptionalDelaysMayOccur": true,
+    "shutdownRelatedDelaysMayOccur": true,
+    "undocumentedHistoricalAvailableAtRemainsNull": true,
+    "cftcPositioningIsOneInputAmongMultipleHesiInformationSources": true,
+    "methodologicalApprovalDoesNotEstablishPredictiveValue": true
+  },
+  "admissionAuthorized": false,
+  "historicalStoreModified": false,
+  "historicalDatasetModified": false,
+  "pointInTimeDatasetModified": false,
+  "calibrationDatasetModified": false,
+  "calibrationPerformed": false,
+  "modelWeightsModified": false,
+  "thresholdsModified": false,
+  "forecastModelTrained": false,
+  "officialHesiModified": false,
+  "dashboardOfficialHesiModified": false
+}
