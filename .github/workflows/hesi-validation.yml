@@ -116,10 +116,16 @@ jobs:
         run: node scripts/review-cftc-ambiguous-releases.mjs
 
       # Distinguish the initial CFTC schedule from its later
-      # revised schedule. A schedule date is not treated as
-      # proof of actual historical first availability.
+      # revised official schedule.
       - name: Classify CFTC release schedule evidence
         run: node scripts/classify-cftc-release-evidence.mjs
+
+      # Admit only the seven explicitly authorized CFTC
+      # historical observations. AvailableAt uses the
+      # documented revised release date with the conservative
+      # end-of-day UTC convention approved for daily research.
+      - name: Admit approved CFTC historical observations
+        run: node scripts/admit-cftc-historical.mjs
 
       - name: Build leakage-safe historical dataset
         run: node scripts/build-historical-dataset.mjs
