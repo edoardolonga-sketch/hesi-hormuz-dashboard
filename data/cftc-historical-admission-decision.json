@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0",
+  "decisionType": "CFTC_HISTORICAL_ADMISSION_DECISION",
+  "decisionRecorded": true,
+  "approved": true,
+  "decidedBy": "Human methodological review",
+  "decidedAt": "2026-10-03",
+
+  "scope": {
+    "sourceId": "cftc_cot",
+    "seriesId": "CFTC_WTI_PHYSICAL_MANAGED_MONEY",
+    "marketCode": "067651",
+    "observationsCovered": 7,
+    "admissionBasis": "OFFICIAL_CFTC_DOCUMENTED_RELEASE_DATE_CANDIDATES"
+  },
+
+  "methodologyRequired": {
+    "schemaVersion": "1.1",
+    "availableAtConvention": "DOCUMENTED_RELEASE_DATE_CONSERVATIVE_END_OF_DAY_UTC",
+    "availableAtTimeUtc": "23:59:59.999Z",
+    "actualIntradayReleaseTimeRequired": false,
+    "availableAtRepresentsActualPublicationTimestamp": false,
+    "laterOfficialScheduleRevisionOverridesEarlierSchedule": true
+  },
+
+  "authorization": {
+    "historicalAdmissionAuthorized": true,
+    "authorizedObservationCount": 7,
+    "useRevisedOfficialScheduleDate": true,
+    "useConservativeEndOfDayUtcAvailableAt": true,
+    "syntheticReleaseDatesAllowed": false,
+    "observationDatePlusThreeDaysAllowed": false,
+    "normalFridayScheduleAllowedAsHistoricalProof": false,
+    "undocumentedReleaseDatesAllowed": false
+  },
+
+  "authorizedObservationDates": [
+    "2025-11-10",
+    "2025-11-18",
+    "2025-11-25",
+    "2025-12-02",
+    "2025-12-09",
+    "2025-12-16",
+    "2025-12-23"
+  ],
+
+  "rationale": "Admission is authorized only for the seven CFTC WTI-PHYSICAL Managed Money historical observations whose later official CFTC publication schedule dates were classified as documented release-date candidates under methodology 1.1. For daily point-in-time research, AvailableAt may be constructed as the documented revised release date at 23:59:59.999Z. This timestamp is a conservative research convention and is not claimed to be the actual CFTC intraday publication timestamp. No undocumented release date, normal Tuesday-to-Friday cadence, observation-date-plus-three-days rule, or synthetic historical release date is authorized.",
+
+  "acknowledgements": {
+    "methodologyApprovalAndAdmissionAuthorizationAreSeparate": true,
+    "onlyExplicitlyAuthorizedObservationDatesMayBeAdmitted": true,
+    "officialCftcEvidenceRequired": true,
+    "conservativeAvailableAtIsNotActualPublicationTimestamp": true,
+    "dailyPointInTimePrecisionAccepted": true,
+    "intradayPrecisionNotClaimed": true,
+    "historicalAdmissionDoesNotEstablishPredictiveValue": true,
+    "historicalAdmissionDoesNotAuthorizeCalibration": true,
+    "historicalAdmissionDoesNotAuthorizeWeightOptimization": true,
+    "historicalAdmissionDoesNotAuthorizeThresholdChanges": true,
+    "historicalAdmissionDoesNotAuthorizeForecastTraining": true,
+    "historicalAdmissionDoesNotModifyOfficialHesi": true
+  },
+
+  "executionState": {
+    "admissionExecuted": false,
+    "historicalStoreModified": false,
+    "historicalDatasetModified": false,
+    "pointInTimeDatasetModified": false,
+    "calibrationDatasetModified": false,
+    "calibrationPerformed": false,
+    "modelWeightsModified": false,
+    "thresholdsModified": false,
+    "forecastModelTrained": false,
+    "officialHesiModified": false,
+    "dashboardOfficialHesiModified": false
+  }
+}
