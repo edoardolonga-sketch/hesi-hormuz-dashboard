@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
   "status": "ANALYZED_NOT_ADMITTED",
-  "analysisTimestamp": "2026-10-03T19:02:35.860Z",
+  "analysisTimestamp": "2026-10-04T12:37:03.100Z",
   "sourceStaging": "brent-alfred-admission-ready.json",
   "sourceHistoricalStore": "historical-observations.json",
   "summary": {
     "preparedCandidates": 3939,
-    "existingHistoricalObservations": 3943,
+    "existingHistoricalObservations": 3950,
     "overlappingKeys": 3939,
     "exactOverlaps": 3937,
     "valueMatchesAvailableAtDiffers": 2,
