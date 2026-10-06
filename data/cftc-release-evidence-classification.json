@@ -1,11 +1,11 @@
 {
   "schemaVersion": "1.1",
   "status": "CFTC_RELEASE_SCHEDULES_CLASSIFIED_DOCUMENTED_RELEASE_CANDIDATES_NOT_ADMITTED",
-  "classificationTimestamp": "2026-10-05T06:38:40.562Z",
+  "classificationTimestamp": "2026-10-06T06:33:26.232Z",
   "sourceArtifact": {
     "schemaVersion": "1.1",
     "status": "CFTC_AMBIGUOUS_RELEASES_PREPARED_FOR_HUMAN_REVIEW_NOT_ADMITTED",
-    "reviewTimestamp": "2026-10-05T06:38:40.477Z"
+    "reviewTimestamp": "2026-10-06T06:33:26.176Z"
   },
   "methodology": {
     "decisionSchemaVersion": "1.1",

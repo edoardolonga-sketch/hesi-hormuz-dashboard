@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.2",
   "status": "HUMAN_METHODOLOGY_APPROVED_ADMISSION_DECISION_PENDING",
-  "createdAt": "2026-10-05T06:38:38.868Z",
+  "createdAt": "2026-10-06T06:33:24.498Z",
   "sourceDecisionGate": "brent-alfred-admission-decision.json",
   "sourceHumanDecision": "brent-alfred-human-methodology-decision.json",
   "evidenceSnapshot": {

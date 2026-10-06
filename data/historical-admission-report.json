@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.1",
   "status": "NO_HISTORICAL_OBSERVATIONS_ADMITTED",
-  "validationTimestamp": "2026-10-05T06:38:38.293Z",
+  "validationTimestamp": "2026-10-06T06:33:23.798Z",
   "sourceDatasets": [
     "brent-historical-quarantine.json",
     "brent-alfred-candidates.json"
